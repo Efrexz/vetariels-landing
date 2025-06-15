@@ -1,0 +1,191 @@
+---
+import WhatsAppIcon from "@assets/icons/whatsapp.svg";
+import BurguerMenuIcon from "@assets/icons/burguerMenu.svg";
+import HomeIcon from "@assets/icons/home.svg";
+import TagIcon from "@assets/icons/tag.svg";
+import UsersIcon from "@assets/icons/users.svg";
+import LocationIcon from "@assets/icons/location.svg";
+import StarIcon from "@assets/icons/star.svg";
+
+const navigationItems = [
+  {
+    href: "#hero",
+    label: "Inicio",
+    icon: HomeIcon,
+    ariaLabel: "Ir a la sección de inicio",
+  },
+  {
+    href: "#promotions",
+    label: "Promociones",
+    icon: TagIcon,
+    ariaLabel: "Ver nuestras promociones y ofertas especiales",
+  },
+  {
+    href: "#doctors",
+    label: "Nuestros Doctores",
+    icon: UsersIcon,
+    ariaLabel: "Conocer a nuestro equipo de veterinarios",
+  },
+  {
+    href: "#locations",
+    label: "Ubicaciones",
+    icon: LocationIcon,
+    ariaLabel: "Ver nuestras ubicaciones y horarios",
+  },
+  {
+    href: "#testimonials",
+    label: "Reseñas",
+    icon: StarIcon,
+    ariaLabel: "Leer testimonios de nuestros clientes",
+  },
+];
+
+//Estilos compartidos para enlaces de navegación
+const navLinkBaseStyles =
+  "transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2";
+const desktopNavLinkStyles = `${navLinkBaseStyles} text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium`;
+const mobileNavLinkStyles = `${navLinkBaseStyles} block px-3 py-2 text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-md`;
+
+const whatsappMessage = encodeURIComponent(
+  "¡Hola! Me gustaría agendar una cita para mi mascota."
+);
+const whatsappUrl = `https://wa.me/+51917104426?text=${whatsappMessage}`;
+---
+
+<header>
+  <nav
+    class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-lg"
+    role="navigation"
+    aria-label="Navegación principal"
+  >
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Logo -->
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <a
+              href="#hero"
+              class="flex items-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg"
+              aria-label="Ir al inicio"
+            >
+              <div
+                class="bg-blue-600 text-white p-2 rounded-lg mr-3"
+                aria-hidden="true"
+              >
+                VA
+              </div>
+              <h1 class="text-xl font-bold text-gray-900">
+                VetAriels
+                <span class="sr-only"> - Clínica Veterinaria</span>
+              </h1>
+            </a>
+          </div>
+        </div>
+
+        <!-- Desktop navigation -->
+        <div class="hidden md:block">
+          <ul class="ml-10 flex items-baseline space-x-8" role="menubar">
+            {
+              navigationItems.map((item) => {
+                return (
+                  <li role="none">
+                    <a
+                      href={item.href}
+                      class={desktopNavLinkStyles}
+                      aria-label={item.ariaLabel}
+                      role="menuitem"
+                    >
+                      <span class="flex items-center">{item.label}</span>
+                    </a>
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </div>
+
+        <!-- WhatsApp Contact Button -->
+        <div class="hidden md:block">
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 flex items-center focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+            aria-label="Contactanos por WhatsApp para agendar una cita"
+          >
+            <WhatsAppIcon class="w-5 h-5 mr-1" aria-hidden="true" />
+            Contáctanos
+          </a>
+        </div>
+
+        <!-- Mobile menu button -->
+        <div class="md:hidden">
+          <button
+            id="mobile-menu-button"
+            class="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600 transition-colors duration-300"
+            aria-controls="mobile-menu"
+            aria-expanded="false"
+            aria-label="Abrir menú principal"
+          >
+            <BurguerMenuIcon class="w-6 h-6" />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="md:hidden hidden" id="mobile-menu">
+      <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t shadow-lg">
+        <ul role="menu" aria-label="Menú de navegación móvil">
+          {
+            navigationItems.map((item) => {
+              const IconComponent = item.icon;
+              return (
+                <li role="none">
+                  <a
+                    href={item.href}
+                    class={mobileNavLinkStyles}
+                    aria-label={item.ariaLabel}
+                    role="menuitem"
+                  >
+                    <span class="flex items-center">
+                      <IconComponent class="w-4 h-4 mr-2" aria-hidden="true" />
+                      {item.label}
+                    </span>
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+
+        <div class="pt-4 border-t">
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="block w-full bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-3 rounded-lg transition-all duration-300 text-center focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+            aria-label="Contactanos por WhatsApp para agendar una cita"
+          >
+            <span class="flex items-center justify-center">
+              <WhatsAppIcon class="w-5 h-5 mr-2" aria-hidden="true" />
+              Contactar por WhatsApp
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const menuButton = document.getElementById("mobile-menu-button");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  menuButton.addEventListener("click", () => {
+    mobileMenu.classList.toggle("hidden");
+    // Actualizamos el atributo aria para accesibilidad y el aria-expanded para indicar si esta expandido o no
+    const isExpanded = !mobileMenu.classList.contains("hidden");
+    menuButton.setAttribute("aria-expanded", String(isExpanded));
+  });
+</script>
