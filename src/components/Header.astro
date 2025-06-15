@@ -65,16 +65,16 @@ const whatsappUrl = `https://wa.me/+51917104426?text=${whatsappMessage}`;
           <div class="flex-shrink-0">
             <a
               href="#hero"
-              class="flex items-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg"
+              class="flex items-center rounded-lg"
               aria-label="Ir al inicio"
             >
               <div
-                class="bg-blue-600 text-white p-2 rounded-lg mr-3"
+                class="bg-teal-600 text-white p-2 rounded-lg mr-3"
                 aria-hidden="true"
               >
                 VA
               </div>
-              <h1 class="text-xl font-bold text-gray-900">
+              <h1 class="text-2xl font-bold text-gray-900">
                 VetAriels
                 <span class="sr-only"> - Clínica Veterinaria</span>
               </h1>
@@ -83,7 +83,7 @@ const whatsappUrl = `https://wa.me/+51917104426?text=${whatsappMessage}`;
         </div>
 
         <!-- Desktop navigation -->
-        <div class="hidden md:block">
+        <div class="hidden lg:block">
           <ul class="ml-10 flex items-baseline space-x-8" role="menubar">
             {
               navigationItems.map((item) => {
@@ -105,7 +105,7 @@ const whatsappUrl = `https://wa.me/+51917104426?text=${whatsappMessage}`;
         </div>
 
         <!-- WhatsApp Contact Button -->
-        <div class="hidden md:block">
+        <div class="hidden lg:block">
           <a
             href={whatsappUrl}
             target="_blank"
@@ -119,10 +119,10 @@ const whatsappUrl = `https://wa.me/+51917104426?text=${whatsappMessage}`;
         </div>
 
         <!-- Mobile menu button -->
-        <div class="md:hidden">
+        <div class="lg:hidden">
           <button
             id="mobile-menu-button"
-            class="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600 transition-colors duration-300"
+            class="text-gray-700"
             aria-controls="mobile-menu"
             aria-expanded="false"
             aria-label="Abrir menú principal"
@@ -134,7 +134,7 @@ const whatsappUrl = `https://wa.me/+51917104426?text=${whatsappMessage}`;
     </div>
 
     <!-- Mobile menu -->
-    <div class="md:hidden hidden" id="mobile-menu">
+    <div class="lg:hidden hidden" id="mobile-menu">
       <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t shadow-lg">
         <ul role="menu" aria-label="Menú de navegación móvil">
           {
