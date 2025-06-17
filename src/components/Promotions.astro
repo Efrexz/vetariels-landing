@@ -4,64 +4,64 @@ import PromotionCard from "./PromotionCard.astro";
 const promociones = [
   {
     id: "vacunacion",
-    descuento: "30%",
+    discount: "30%",
     colorBadge: "bg-red-500",
-    titulo: "Paquete de Vacunación",
-    servicios: [
+    title: "Paquete de Vacunación",
+    services: [
       "Serie completa de vacunas",
       "Examen de salud general",
       "Prevención de parásitos",
       "Consulta nutricional",
     ],
-    fechaVencimiento: "31 de Diciembre, 2025",
-    fechaISO: "2025-12-31",
+    expirationDate: "31 de Diciembre, 2025",
+    dateISO: "2025-12-31",
   },
   {
     id: "cuidado-dental",
-    descuento: "25%",
+    discount: "25%",
     colorBadge: "bg-green-500",
-    titulo: "Especial Cuidado Dental",
-    servicios: [
+    title: "Especial Cuidado Dental",
+    services: [
       "Limpieza dental profesional",
       "Radiografías dentales",
       "Evaluación de salud oral",
       "Instrucciones de cuidado en casa",
     ],
-    fechaVencimiento: "15 de Julio, 2025",
-    fechaISO: "2025-07-15",
+    expirationDate: "15 de Julio, 2025",
+    dateISO: "2025-07-15",
   },
   {
     id: "nueva-mascota",
-    descuento: "40%",
+    discount: "40%",
     colorBadge: "bg-blue-500",
-    titulo: "Bienvenida Nueva Mascota",
-    servicios: [
+    title: "Bienvenida Nueva Mascota",
+    services: [
       "Primera consulta gratuita",
       "Vacunas básicas",
       "Desparasitaciones iniciales",
       "Kit de cuidados básicos",
     ],
-    fechaVencimiento: "28 de Julio, 2025",
-    fechaISO: "2025-07-28",
+    expirationDate: "28 de Julio, 2025",
+    dateISO: "2025-07-28",
   },
   {
     id: "mascota-senior",
-    descuento: "20%",
+    discount: "20%",
     colorBadge: "bg-purple-500",
-    titulo: "Cuidado Mascota Senior",
-    servicios: [
+    title: "Cuidado Mascota Senior",
+    services: [
       "Análisis de sangre completo",
       "Evaluación de salud articular",
       "Exámenes de vista y oído",
       "Plan nutricional personalizado",
     ],
-    fechaVencimiento: "31 de Julio, 2025",
-    fechaISO: "2025-07-31",
+    expirationDate: "31 de Julio, 2025",
+    dateISO: "2025-07-31",
   },
 ];
 ---
 
-<section class="py-16 bg-gradient-to-r from-teal-50 to-teal-50">
+<section class="py-16 bg-gradient-to-r from-teal-50 to-teal-50" id="promotions">
   <div class="max-w-7xl mx-auto overflow-hidden">
     <div class="px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-12">
@@ -76,17 +76,18 @@ const promociones = [
 
     <div class="overflow-x-auto pb-6 px-4 sm:px-6 lg:px-8">
       <div class="flex space-x-6">
+        {/*  Fragment que soluciona el bug de renderizado de Astro */}
         <Fragment>
           {
             promociones.map((promo) => (
               <PromotionCard
                 id={promo.id}
-                descuento={promo.descuento}
+                discount={promo.discount}
                 colorBadge={promo.colorBadge}
-                titulo={promo.titulo}
-                servicios={promo.servicios}
-                fechaVencimiento={promo.fechaVencimiento}
-                fechaISO={promo.fechaISO}
+                title={promo.title}
+                services={promo.services}
+                expirationDate={promo.expirationDate}
+                dateISO={promo.dateISO}
               />
             ))
           }

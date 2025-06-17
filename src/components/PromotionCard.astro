@@ -1,78 +1,51 @@
 ---
 import LightningIcon from "@assets/icons/lightning.svg";
 
-const {
-  id,
-  descuento,
-  colorBadge,
-  titulo,
-  servicios,
-  fechaVencimiento,
-  fechaISO,
-} = Astro.props;
+const { id, discount, colorBadge, title, services, expirationDate, dateISO } =
+  Astro.props;
 ---
 
 <article
   class="bg-white rounded-2xl shadow-lg p-8 w-80 flex-shrink-0 border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
-  aria-labelledby={`promo-title-${id}`}
 >
   <div class="text-center">
     <div
       class={`${colorBadge} text-white text-3xl font-bold rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}
-      role="img"
-      aria-label={`Descuento del ${descuento}`}
     >
-      <span aria-hidden="true">{descuento}</span>
+      {discount}
     </div>
 
-    <!-- Main title -->
-    <h2
+    <h3
       class="text-xl font-semibold text-teal-700 mb-4 transition-colors duration-300"
     >
-      {titulo}
-    </h2>
+      {title}
+    </h3>
 
-    <!-- List of services -->
-    <section aria-labelledby={`promo-title-${id}`}>
-      <h3 class="sr-only">Servicios incluidos en esta promoción</h3>
-      <ul class="space-y-2 mb-6 text-gray-600 text-left" role="list">
-        {
-          servicios.map((servicio) => (
-            <li class="flex items-start group-hover:text-gray-700 transition-colors duration-300">
-              <span
-                class="text-teal-500 mr-3 mt-1 flex-shrink-0 font-bold"
-                aria-hidden="true"
-              >
-                ✓
-              </span>
-              <span class="text-sm leading-relaxed" itemprop="name">
-                {servicio}
-              </span>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
+    <ul class="space-y-2 mb-6 text-gray-600 text-left">
+      {
+        services.map((service) => (
+          <li class="flex items-start group-hover:text-gray-700 transition-colors duration-300">
+            <span class="text-teal-500 mr-3 mt-1 flex-shrink-0 font-bold">
+              ✓
+            </span>
+            <span class="text-sm leading-relaxed">{service}</span>
+          </li>
+        ))
+      }
+    </ul>
 
-    <!-- Expiration information -->
     <div class="text-sm text-gray-500 mb-6 italic">
-      <span class="font-medium" aria-label="Fecha de vencimiento">Vence:</span>
-      <time datetime={fechaISO} class="ml-1">
-        {fechaVencimiento}
-      </time>
+      <span class="font-medium">Vence:</span>
+      <time datetime={dateISO} class="ml-1">{expirationDate}</time>
     </div>
 
-    <!-- Action button -->
     <button
       type="button"
       class="w-full bg-teal-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-teal-700 focus:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transform hover:scale-105 active:scale-95 transition-all duration-200 promocion-btn shadow-md hover:shadow-lg"
     >
       <span class="flex items-center justify-center">
-        <LightningIcon class="w-5 h-5 mr-2" aria-hidden="true" />
+        <LightningIcon class="w-5 h-5 mr-2" />
         Reclamar Promoción
-      </span>
-      <span class="sr-only">
-        Reclamar promoción: {titulo}, válida hasta {fechaVencimiento}
       </span>
     </button>
   </div>

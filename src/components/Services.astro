@@ -1,0 +1,99 @@
+---
+import ServiceCard from "./ServiceCard.astro";
+
+const servicesData = [
+  {
+    id: 1,
+    icon: "💉",
+    title: "Vacunación",
+    description:
+      "Programas completos de vacunación para proteger a tu mascota contra enfermedades prevenibles. Seguimos los protocolos más recientes para una protección óptima.",
+    includes:
+      "Vacunas esenciales, vacunas según estilo de vida, prueba de títulos",
+  },
+  {
+    id: 2,
+    icon: "🏥",
+    title: "Cirugía",
+    description:
+      "Instalaciones quirúrgicas de última generación para procedimientos rutinarios y de emergencia. Nuestros cirujanos brindan un tratamiento seguro y eficaz.",
+    includes:
+      "Esterilización/castración, cirugía de tejidos blandos, cirugía ortopédica",
+  },
+  {
+    id: 3,
+    icon: "🛁",
+    title: "Grooming",
+    description:
+      "Servicios profesionales de grooming para mantener a tu mascota limpia y con el mejor aspecto. Desde baños básicos hasta estilizado completo.",
+    includes: "Baño, corte de uñas, limpieza de oídos, estilizado",
+  },
+  {
+    id: 4,
+    icon: "🦷",
+    title: "Cuidado Dental",
+    description:
+      "Servicios dentales integrales que incluyen limpieza, extracciones y mantenimiento de la salud oral para prevenir enfermedades y molestias.",
+    includes: "Limpieza, radiografías, extracciones, cirugía oral",
+  },
+  {
+    id: 5,
+    icon: "🚨",
+    title: "Emergencias",
+    description:
+      "Atención de emergencias disponible 24/7 para situaciones médicas urgentes. Nuestro equipo de emergencia siempre está listo para ayudarte cuando más lo necesitas.",
+    includes: "24/7, atención por traumas, monitoreo crítico",
+    label: "Disponible",
+  },
+  {
+    id: 6,
+    icon: "🔬",
+    title: "Diagnóstico",
+    description:
+      "Equipos de diagnóstico avanzados que incluyen radiografías digitales, ecografías y análisis de laboratorio para un diagnóstico preciso y planificación efectiva del tratamiento.",
+    includes: "Radiografías, ecografía, análisis de sangre, análisis de orina",
+  },
+];
+---
+
+<section
+  id="services"
+  class="py-16 bg-white"
+  aria-labelledby="services-heading"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header class="text-center mb-12">
+      <h2
+        id="services-heading"
+        class="text-3xl md:text-4xl font-bold text-teal-700 mb-4"
+      >
+        Nuestros servicios
+      </h2>
+      <p class="text-xl text-gray-600">
+        Atención veterinaria integral para todas las etapas de la vida de tu
+        mascota
+      </p>
+    </header>
+
+    {/* Grid de servicios */}
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      role="list"
+      aria-label="Servicios veterinarios disponibles"
+    >
+      {
+        servicesData.map((service) => (
+          <div role="listitem">
+            <ServiceCard
+              icon={service.icon}
+              title={service.title}
+              description={service.description}
+              includes={service.includes}
+              label={service.label}
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

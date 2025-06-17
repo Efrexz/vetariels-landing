@@ -21,6 +21,12 @@ const navigationItems = [
     ariaLabel: "Ver nuestras promociones y ofertas especiales",
   },
   {
+    href: "#services",
+    label: "Servicios",
+    icon: TagIcon,
+    ariaLabel: "Ver servicios veterinarios ofrecidos",
+  },
+  {
     href: "#doctors",
     label: "Nuestros Doctores",
     icon: UsersIcon,
@@ -41,10 +47,8 @@ const navigationItems = [
 ];
 
 //Estilos compartidos para enlaces de navegación
-const navLinkBaseStyles =
-  "transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2";
-const desktopNavLinkStyles = `${navLinkBaseStyles} text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium`;
-const mobileNavLinkStyles = `${navLinkBaseStyles} block px-3 py-2 text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-md`;
+const desktopNavLinkStyles = `text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium`;
+const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-600 hover:text-teal-600 hover:bg-gray-50 rounded-md`;
 
 const whatsappMessage = encodeURIComponent(
   "¡Hola! Me gustaría agendar una cita para mi mascota."
