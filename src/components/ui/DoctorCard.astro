@@ -1,0 +1,60 @@
+---
+import LocationIcon from "@assets/icons/location.svg";
+import ClockIcon from "@assets/icons/clock.svg";
+
+const { name, specialty, experience, imageUrl, location, schedule } =
+  Astro.props;
+---
+
+<article
+  class="bg-white rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 groupduration-300 p-8 text-center flex flex-col items-center"
+  aria-labelledby={`doctor-${name.replace(/\s+/g, "-").toLowerCase()}`}
+>
+  <figure class="mb-6">
+    {
+      imageUrl ? (
+        <img
+          src={imageUrl}
+          alt={`Foto profesional del Dr(a). ${name}`}
+          class="w-32 h-32 rounded-full object-cover bg-gray-200"
+        />
+      ) : (
+        <div
+          class="w-32 h-32 rounded-full bg-gray-200"
+          role="img"
+          aria-label={`Foto no disponible del Dr(a). ${name}`}
+        />
+      )
+    }
+    <figcaption class="sr-only">Foto del doctor</figcaption>
+  </figure>
+
+  <section class="text-center">
+    <h3
+      id={`doctor-${name.replace(/\s+/g, "-").toLowerCase()}`}
+      class="text-xl font-semibold text-gray-800"
+    >
+      {name}
+    </h3>
+    <p class="font-medium text-blue-600 mt-1">{specialty}</p>
+    <p class="text-sm text-gray-500 mt-2">{experience} años de experiencia</p>
+  </section>
+
+  <hr class="w-full border-t border-gray-200 my-6" />
+
+  <section
+    class="space-y-4 text-left w-full"
+    aria-label="Información del medico"
+  >
+    <address class="not-italic space-y-4">
+      <div class="flex items-center text-gray-700">
+        <LocationIcon class="w-5 h-5 mr-3 text-gray-400 flex-shrink-0" />
+        <span class="text-sm">{location}</span>
+      </div>
+      <div class="flex items-center text-gray-700">
+        <ClockIcon class="w-5 h-5 mr-3 text-gray-400 flex-shrink-0" />
+        <span class="text-sm">{schedule}</span>
+      </div>
+    </address>
+  </section>
+</article>
