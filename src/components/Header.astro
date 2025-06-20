@@ -53,7 +53,7 @@ const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-600
 const whatsappMessage = encodeURIComponent(
   "¡Hola! Me gustaría agendar una cita para mi mascota."
 );
-const whatsappUrl = `https://wa.me/+51917104426?text=${whatsappMessage}`;
+const whatsappUrl = `https://wa.me/+51986985047?text=${whatsappMessage}`;
 ---
 
 <header>
@@ -185,11 +185,32 @@ const whatsappUrl = `https://wa.me/+51917104426?text=${whatsappMessage}`;
 <script>
   const menuButton = document.getElementById("mobile-menu-button");
   const mobileMenu = document.getElementById("mobile-menu");
+  const mobileMenuLinks = document.querySelectorAll("#mobile-menu a");
+
+  function closeMenu() {
+    mobileMenu.classList.add("hidden");
+    menuButton.setAttribute("aria-expanded", "false");
+  }
+
+  function openMenu() {
+    mobileMenu.classList.remove("hidden");
+    menuButton.setAttribute("aria-expanded", "true");
+  }
 
   menuButton.addEventListener("click", () => {
-    mobileMenu.classList.toggle("hidden");
-    // Actualizamos el atributo aria para accesibilidad y el aria-expanded para indicar si esta expandido o no
-    const isExpanded = !mobileMenu.classList.contains("hidden");
-    menuButton.setAttribute("aria-expanded", String(isExpanded));
+    const isExpanded = menuButton.getAttribute("aria-expanded") === "true";
+    if (isExpanded) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  // Cerrar el menú al hacer clic en un enlace del menú móvil
+  mobileMenuLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      // Cuando se hace clic en un enlace, cerramos el menú.
+      closeMenu();
+    });
   });
 </script>
