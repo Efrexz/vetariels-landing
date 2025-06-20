@@ -1,0 +1,69 @@
+---
+import InstagramIcon from "@assets/icons/socialMedia/instagram.svg?raw";
+import FacebookIcon from "@assets/icons/socialMedia/facebook.svg?raw";
+import TikTokIcon from "@assets/icons/socialMedia/tiktok.svg?raw";
+
+const socialLinks = [
+  {
+    platform: "Instagram",
+    href: "https://www.instagram.com/arielsclinichospital?igsh=MThxN3d1dmNoNmFqNw%3D%3D&utm_source=qr",
+    icon: InstagramIcon,
+    // Unique, brand-aligned styles for each button
+    classes:
+      "bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500 hover:shadow-pink-500/30",
+  },
+  {
+    platform: "Facebook",
+    href: "https://www.facebook.com/arielsclinichv?mibextid=ibOpuV",
+    icon: FacebookIcon,
+    classes: "bg-blue-600 hover:bg-blue-700 hover:shadow-blue-600/30",
+  },
+  {
+    platform: "TikTok",
+    href: "https://www.tiktok.com/@arielsclinichospital?_t=8khrdEF2zZt&_r=1",
+    icon: TikTokIcon,
+    classes: "bg-gray-900 hover:shadow-gray-900/40",
+  },
+];
+
+// estilos base para los botones
+const baseButtonStyles = `
+  flex items-center justify-center gap-3 w-full sm:w-auto
+  text-white font-semibold 
+  px-6 py-3 rounded-xl 
+  transform transition-all duration-300 
+  hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-offset-2
+`;
+---
+
+<section id="social-follow" class="bg-white py-16 sm:py-24">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-3xl font-bold tracking-tight text-teal-700 sm:text-4xl">
+      Síguenos en redes sociales
+    </h2>
+
+    <p class="mt-4 text-lg leading-8 text-slate-600 max-w-2xl mx-auto">
+      Mantente al día con nuestros últimos consejos, noticias y los momentos más
+      adorables de nuestras mascotas.
+    </p>
+
+    <div
+      class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
+    >
+      {
+        socialLinks.map((link) => (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class:list={[baseButtonStyles, link.classes]}
+            aria-label={`Síguenos en ${link.platform}`}
+          >
+            <div class="w-6 h-6" set:html={link.icon} />
+            <span>{link.platform}</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
