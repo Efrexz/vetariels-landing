@@ -13,6 +13,32 @@ import "../styles/global.css";
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>VetAriel - Servicios Veterinarios Profesionales</title>
+
+    <!-- === INICIO: SCRIPT SCHEMA ORGANIZATION (JSON-LD) === -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: "VetAriel",
+        // "url": "[URL COMPLETA DE TU SITIO WEB, ej: https://www.vetariel.pe]",
+        // "logo": "[URL COMPLETA DE TU LOGO, ej: https://www.vetariel.pe/logo-principal.png]",
+        contactPoint: {
+          "@type": "ContactPoint",
+          telephone: "+51954599221", // Tu número de teléfono principal o de la central
+          contactType: "customer service",
+          areaServed: "PE", // Código ISO del país: Perú
+          availableLanguage: ["es-PE"], // Español de Perú
+        },
+        sameAs: [
+          // Añade aquí los enlaces a tus perfiles de redes sociales
+          "https://www.facebook.com/arielsclinichv?mibextid=ibOpuV",
+          "https://www.instagram.com/arielsclinichospital?igsh=MThxN3d1dmNoNmFqNw%3D%3D&utm_source=qr",
+          "https://www.tiktok.com/@arielsclinichospital?_t=8khrdEF2zZt&_r=1",
+        ],
+      })}
+    />
+    <!-- === FIN: SCRIPT SCHEMA ORGANIZATION === -->
   </head>
   <body class="font-sans antialiased">
     <slot />

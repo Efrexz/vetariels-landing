@@ -1,0 +1,128 @@
+---
+import LocationIcon from "@assets/icons/location.svg";
+import PhoneIcon from "@assets/icons/phone.svg";
+import ClockIcon from "@assets/icons/clock.svg";
+import WhatsappIcon from "@assets/icons/whatsapp.svg";
+
+const { name, address, phone, hours, whatsapp, imageUrl } = Astro.props;
+const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
+---
+
+<article
+  class="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-1 border border-gray-200"
+  role="region"
+  aria-labelledby={locationId}
+  itemscope
+  itemtype="https://schema.org/VeterinaryCare"
+>
+  {
+    imageUrl && (
+      <div class="relative">
+        <img
+          src={imageUrl}
+          alt={`Vista exterior de la veterinaria ${name}`}
+          class="w-full h-48 object-cover"
+          itemprop="image"
+          loading="lazy"
+        />
+      </div>
+    )
+  }
+
+  <div class="p-7">
+    <header class="mb-6">
+      <h2
+        id={locationId}
+        class="text-xl font-bold text-teal-600"
+        itemprop="name"
+      >
+        {name}
+      </h2>
+    </header>
+
+    <section aria-label="Información de contacto y horarios">
+      <h3 class="sr-only">Detalles de contacto</h3>
+
+      <address
+        class="space-y-4 text-gray-700 not-italic"
+        itemprop="address"
+        itemscope
+        itemtype="https://schema.org/PostalAddress"
+      >
+        <div class="flex items-start">
+          <LocationIcon
+            class="text-red-500 mr-3 w-5 h-5 mt-0.5 flex-shrink-0"
+            aria-hidden="true"
+          />
+          <span class="text-md">
+            <span itemprop="streetAddress">{address.street}</span>
+            <!-- Estos datos son para Google y no se muestran, pero son VITALES para el SEO Local -->
+            <meta itemprop="addressLocality" content={address.locality} />
+            <meta itemprop="addressRegion" content={address.region} />
+            <meta itemprop="postalCode" content={address.postalCode} />
+            <meta itemprop="addressCountry" content={address.country} />
+          </span>
+        </div>
+
+        <div class="flex items-start">
+          <PhoneIcon
+            class="text-green-500 mr-3 w-5 h-5 mt-0.5 flex-shrink-0"
+            aria-hidden="true"
+          />
+          <a
+            href={`tel:${phone}`}
+            class="text-md hover:text-teal-600 transition-colors"
+            itemprop="telephone"
+          >
+            <span class="sr-only">Teléfono: </span>
+            {phone}
+          </a>
+        </div>
+
+        <div class="flex items-start">
+          <ClockIcon
+            class="text-gray-500 mr-3 w-5 h-5 mt-0.5 flex-shrink-0"
+            aria-hidden="true"
+          />
+          <div class="text-md" itemprop="openingHours">
+            <div>
+              <span class="font-semibold">Lunes a Viernes:</span>
+              <time>{hours.weekdays}</time>
+            </div>
+            <div>
+              <span class="font-semibold">Sábado y Domingo:</span>
+              <time>{hours.weekends}</time>
+            </div>
+          </div>
+        </div>
+      </address>
+    </section>
+
+    <footer class="mt-8">
+      <div
+        class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
+      >
+        <a
+          href={`https://wa.me/${whatsapp}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex-1 bg-green-500 text-white py-3 px-6 rounded-xl font-bold hover:bg-green-600 transition-colors duration-300 flex items-center justify-center shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+          aria-label={`Contactar veterinaria ${name} por WhatsApp`}
+        >
+          <WhatsappIcon class="w-5 h-5 mr-2" aria-hidden="true" />
+          <span>WhatsApp</span>
+        </a>
+
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address.street + ", " + address.locality)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex-1 bg-gray-200 text-gray-800 py-3 px-6 rounded-xl font-bold hover:bg-gray-300 transition-colors duration-300 flex items-center justify-center shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+          itemprop="hasMap"
+        >
+          <span>Cómo llegar</span>
+        </a>
+      </div>
+    </footer>
+  </div>
+</article>

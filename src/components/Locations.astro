@@ -1,0 +1,110 @@
+---
+import LocationCard from "@components/ui/LocationCard.astro";
+
+const locations = [
+  {
+    id: 1,
+    name: "San Martín De Porres",
+    address: {
+      street: "Av. Los Próceres 115, con Av. José Granda",
+      locality: "San Martín de Porres",
+      region: "Lima",
+      postalCode: "15107",
+      country: "PE",
+    },
+    phone: "+51 986 985 047",
+    hours: {
+      weekdays: "8:00 AM - 8:00 PM",
+      weekends: "9:00 AM - 6:00 PM",
+    },
+    coordinates: { lat: 40.7128, lng: -74.006 },
+  },
+  {
+    id: 2,
+    name: "San Miguel",
+    address: {
+      street: "Av. Brígida Silva De Ochoa 272 II etapa, Urb. Pando",
+      locality: "San Miguel",
+      region: "Lima",
+      postalCode: "15086",
+      country: "PE",
+    },
+    phone: "+51 954 599 221",
+    hours: {
+      weekdays: "24/7",
+      weekends: "24/7",
+    },
+    coordinates: { lat: 40.7589, lng: -73.9851 },
+  },
+  {
+    id: 3,
+    name: "Los Olivos",
+    address: {
+      street: "Av. Alfredo Mendiola 5521",
+      locality: "Los Olivos",
+      region: "Lima",
+      postalCode: "15301",
+      country: "PE",
+    },
+    phone: "+51 917104426",
+    imageUrl:
+      "https://meridianvetre.com/wp-content/uploads/2019/07/medvet-exterior.png",
+    hours: {
+      weekdays: "7:00 AM - 7:00 PM",
+      weekends: "8:00 AM - 5:00 PM",
+    },
+    coordinates: { lat: 40.7505, lng: -73.9934 },
+  },
+];
+---
+
+<section id="locations" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-teal-700 tracking-tight">
+        Nuestras Ubicaciones
+      </h2>
+      <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+        Encuéntranos fácilmente en toda la ciudad. Estamos listos para cuidar de
+        tus mascotas.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+      <div
+        class="bg-gray-50 rounded-3xl p-8 flex flex-col items-center justify-center min-h-[400px] shadow-lg border border-gray-100"
+      >
+        <div class="text-center">
+          <div class="text-7xl mb-6 animate-pulse">🗺️</div>
+          <h3 class="text-2xl font-bold text-teal-700 mb-3">
+            Mapa Interactivo
+          </h3>
+          <p class="text-gray-500 text-lg max-w-sm mx-auto">
+            Un mapa dinámico mostrará todas nuestras clínicas para una mejor
+            orientación.
+          </p>
+          <button
+            class="mt-8 bg-teal-600 text-white py-3 px-8 rounded-full font-semibold hover:bg-teal-700 transition-colors duration-300 shadow-md"
+          >
+            Ver en el Mapa
+          </button>
+        </div>
+      </div>
+
+      <div class="space-y-8">
+        {
+          locations.map((location) => (
+            <LocationCard
+              name={`VetAriel - Sede ${location.name}`}
+              address={location.address}
+              phone={location.phone}
+              hours={location.hours}
+              whatsapp={location.phone.replace(/\s+/g, "")}
+              imageUrl={location.imageUrl}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
