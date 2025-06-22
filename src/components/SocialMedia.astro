@@ -1,7 +1,7 @@
 ---
-import InstagramIcon from "@assets/icons/socialMedia/instagram.svg?raw";
-import FacebookIcon from "@assets/icons/socialMedia/facebook.svg?raw";
-import TikTokIcon from "@assets/icons/socialMedia/tiktok.svg?raw";
+import InstagramIcon from "@assets/icons/socialMedia/instagram.svg";
+import FacebookIcon from "@assets/icons/socialMedia/facebook.svg";
+import TikTokIcon from "@assets/icons/socialMedia/tiktok.svg";
 
 const socialLinks = [
   {
@@ -59,7 +59,7 @@ const baseButtonStyles = `
             class:list={[baseButtonStyles, link.classes]}
             aria-label={`Síguenos en ${link.platform}`}
           >
-            <div class="w-6 h-6" set:html={link.icon} />
+            <link.icon class="w-6 h-6" aria-hidden="true" />
             <span>{link.platform}</span>
           </a>
         ))
