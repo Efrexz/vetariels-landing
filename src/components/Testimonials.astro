@@ -95,12 +95,64 @@ const averageRating = (
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {
-        testimonialsData.map((testimonial) => (
-          <TestimonialCard {...testimonial} />
-        ))
-      }
+    <div id="testimonials-container" class="relative">
+      <div
+        id="testimonials-wrapper"
+        class="max-h-[26rem] md:max-h-[22rem] overflow-hidden transition-all duration-700 ease-in-out"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {
+            testimonialsData.map((testimonial) => (
+              <TestimonialCard {...testimonial} />
+            ))
+          }
+        </div>
+      </div>
+      <!-- div que contiene el efecto de "fade" y el botón "Ver más". -->
+      <div
+        id="fade-and-button-container"
+        class="transition-opacity duration-300"
+      >
+        <!-- `from-gray-50` es el color de fondo, `via-gray-50/90` es semitransparente -->
+        <!-- `to-transparent` es totalmente transparente. -->
+        <div
+          class="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-gray-50 via-gray-50/90 to-transparent pointer-events-none"
+        >
+        </div>
+
+        <!-- boton de ver mas -->
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2">
+          <button
+            id="show-more-btn"
+            type="button"
+            class="bg-teal-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-transform hover:scale-105"
+          >
+            Ver más reseñas
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  const wrapper = document.getElementById("testimonials-wrapper");
+  const fadeAndButton = document.getElementById("fade-and-button-container");
+  const button = document.getElementById("show-more-btn");
+
+  // Cuando se haga clic, se ejecutará la función.
+  button.addEventListener("click", () => {
+    // Eliminamos la restricción de altura del contenedor de reseñas.
+    wrapper.style.maxHeight = "none";
+
+    // Ocultamos el degradado y el botón.
+    // Lo hacemos cambiando su opacidad a 0. La transición CSS se encarga de la animación.
+    fadeAndButton.style.opacity = "0";
+
+    // Para evitar que el botón (aunque invisible) pueda ser clickeado,
+    // lo desactivamos después de la animación de opacidad.
+    setTimeout(() => {
+      fadeAndButton.style.pointerEvents = "none";
+    }, 300);
+  });
+</script>
