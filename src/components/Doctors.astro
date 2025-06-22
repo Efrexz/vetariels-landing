@@ -65,6 +65,7 @@ const doctors = [
     </header>
 
     <div
+      id="doctors-grid"
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
       role="list"
       aria-label="Lista de veterinarios"
@@ -72,7 +73,6 @@ const doctors = [
       {
         doctors.map((doctor) => (
           <DoctorCard
-            key={doctor.id}
             name={doctor.name}
             specialty={doctor.specialty}
             experience={doctor.experience}
@@ -85,3 +85,36 @@ const doctors = [
     </div>
   </div>
 </section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const cards = document.querySelectorAll("#doctors-grid .doctor-card-item");
+
+    // Si no hay elementos, no hacemos nada
+    if (cards.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            const targetElement = entry.target as HTMLElement;
+
+            // quitamos las clases del estado inicial.
+            targetElement.classList.remove("opacity-0", "translate-y-8");
+
+            targetElement.style.transitionDelay = `${index * 200}ms`;
+
+            observer.unobserve(targetElement);
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+      }
+    );
+
+    cards.forEach((card) => {
+      observer.observe(card);
+    });
+  });
+</script>
