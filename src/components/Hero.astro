@@ -11,12 +11,16 @@
         <div>
           <h1
             id="hero-heading"
+            data-hero-element="content"
             class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight"
           >
             Medicina veterinaria
             <span class="text-teal-600">con propósito</span>
           </h1>
-          <p class="mt-6 text-xl text-gray-600 leading-relaxed">
+          <p
+            data-hero-element="content"
+            class="mt-6 text-xl text-gray-600 leading-relaxed"
+          >
             Servicios integrales en medicina preventiva, diagnóstico y cirugía.
             Profesionalismo y cuidado en cada consulta.
           </p>
@@ -26,9 +30,10 @@
         <nav
           class="flex flex-col sm:flex-row gap-4"
           role="navigation"
-          aria-label="Acciones principales"
+          aria-label="Botones de acción"
         >
           <a
+            data-hero-element="content"
             href="#promotions"
             class="bg-teal-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-teal-700 transition-colors text-center"
             aria-describedby="promo-description"
@@ -40,6 +45,7 @@
           >
 
           <a
+            data-hero-element="content"
             href="#locations"
             class="border-2 border-teal-600 text-teal-600 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-teal-50 transition-colors text-center"
             aria-describedby="location-description"
@@ -59,15 +65,15 @@
           <h2 id="stats-heading" class="sr-only">
             Nuestras estadísticas y experiencia
           </h2>
-          <div class="text-center">
+          <div data-hero-element="content" class="text-center">
             <div class="text-3xl font-bold text-teal-600">15+</div>
             <div class="text-sm text-gray-600">Años de experiencia</div>
           </div>
-          <div class="text-center">
+          <div data-hero-element="content" class="text-center">
             <div class="text-3xl font-bold text-teal-600">10k+</div>
             <div class="text-sm text-gray-600">Mascotas atendidas</div>
           </div>
-          <div class="text-center">
+          <div data-hero-element="content" class="text-center">
             <div class="text-3xl font-bold text-teal-600">24/7</div>
             <div class="text-sm text-gray-600">Atención de Emergencia</div>
           </div>
@@ -76,7 +82,10 @@
 
       <!-- Image -->
       <aside class="relative hidden lg:block" role="img">
-        <div class="aspect-square rounded-3xl overflow-hidden shadow-2xl">
+        <div
+          data-hero-element="image-wrapper"
+          class="aspect-square rounded-3xl overflow-hidden shadow-2xl"
+        >
           <img
             src="https://images.pexels.com/photos/4148825/pexels-photo-4148825.jpeg?auto=compress&cs=tinysrgb&w=800"
             alt="Veterinario profesional atendiendo mascotas felices"
@@ -89,6 +98,7 @@
 
         <!-- Floating elements -->
         <div
+          data-hero-element="adornment"
           class="absolute -top-6 -right-6 bg-white p-4 rounded-2xl shadow-lg"
           role="img"
           aria-label="Ícono de hospital veterinario"
@@ -96,6 +106,7 @@
           <div class="text-2xl" aria-hidden="true">🏥</div>
         </div>
         <div
+          data-hero-element="adornment"
           class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-lg"
           aria-label="Ícono de un corazon"
         >
@@ -105,3 +116,75 @@
     </div>
   </div>
 </section>
+
+<!-- 1. DEFINIMOS LOS ESTADOS INICIALES Y LAS TRANSICIONES -->
+<style>
+  /* Contenido de la izquierda (título, párrafo, botones, stats) */
+  [data-hero-element="content"] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
+  }
+
+  /* Contenedor de la imagen principal */
+  [data-hero-element="image-wrapper"] {
+    opacity: 0;
+    transform: scale(0.95);
+    transition:
+      opacity 0.8s ease-in-out,
+      transform 0.8s ease-in-out;
+  }
+
+  /* Adornos flotantes */
+  [data-hero-element="adornment"] {
+    opacity: 0;
+    transform: scale(0.5);
+    transition:
+      opacity 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+      transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  /* 2. DEFINIMOS EL ESTADO FINAL (VISIBLE) */
+  [data-hero-element].is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Seleccionamos los diferentes grupos de elementos
+    const contentElements = document.querySelectorAll(
+      '[data-hero-element="content"]'
+    );
+    const imageWrapper = document.querySelector(
+      '[data-hero-element="image-wrapper"]'
+    );
+    const adornments = document.querySelectorAll(
+      '[data-hero-element="adornment"]'
+    );
+
+    // Función para animar un elemento
+    const animateElement = (element, delay = 0) => {
+      if (!element) return;
+      setTimeout(() => {
+        element.classList.add("is-visible");
+      }, delay);
+    };
+
+    // Coreografía de la animación
+    // 1. Animar el contenido de la izquierda en cascada
+    contentElements.forEach((el, index) => {
+      animateElement(el, 100 + index * 150); // 100ms, 250ms, 400ms, 550ms
+    });
+
+    // 2. Animar la imagen principal un poco después de que empiece el texto
+    animateElement(imageWrapper, 300);
+
+    // 3. Animar los adornos al final, con un efecto de "pop"
+    animateElement(adornments[0], 700); // El hospital
+    animateElement(adornments[1], 800); // El corazón
+  });
+</script>
