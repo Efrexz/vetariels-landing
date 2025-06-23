@@ -9,7 +9,7 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
 ---
 
 <article
-  class="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-1 border border-gray-200"
+  class="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-400 transform border border-gray-200"
   role="region"
   aria-labelledby={locationId}
   itemscope
@@ -114,7 +114,7 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
         </a>
 
         <a
-          href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address.street + ", " + address.locality)}`}
+          href={`https://www.google.com/maps/dir/?api=1&origin=Current+Location&destination=${encodeURIComponent(address.street + ", " + address.locality)}`}
           target="_blank"
           rel="noopener noreferrer"
           class="flex-1 bg-gray-200 text-gray-800 py-3 px-6 rounded-xl font-bold hover:bg-gray-300 transition-colors duration-300 flex items-center justify-center shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
