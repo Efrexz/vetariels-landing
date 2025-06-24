@@ -11,7 +11,7 @@
       id="newsletter-card"
       class="bg-white rounded-3xl shadow-xl p-8 md:p-12 transition-shadow duration-300 hover:shadow-2xl"
     >
-      <!-- Message When you subscribe -->
+      <!-- Mensaje de éxito -->
       <div id="success-message" class="hidden">
         <div class="text-green-500 text-6xl mb-4" aria-hidden="true">✓</div>
         <h3 class="text-2xl font-bold text-slate-800 mb-2">
@@ -29,13 +29,32 @@
           Mantente al Día con Consejos para tu Mascota
         </h2>
         <p class="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
-          Suscríbete a nuestro boletín y recibe promociones, consejos de cuidado
-          y noticias de salud directamente en tu correo.
+          Elige cómo prefieres recibir nuestras promociones, consejos de cuidado
+          y noticias de salud.
         </p>
 
         <form id="newsletter-form" class="max-w-md mx-auto">
+          <!-- Botones para seleccionar el método de contacto -->
+          <div id="method-selector" class="flex justify-center gap-2 mb-6">
+            <button
+              type="button"
+              id="btn-email"
+              class="px-6 py-2 rounded-full font-semibold transition-colors duration-200"
+            >
+              Correo Electrónico
+            </button>
+            <button
+              type="button"
+              id="btn-phone"
+              class="px-6 py-2 rounded-full font-semibold transition-colors duration-200"
+            >
+              Teléfono (SMS/WA)
+            </button>
+          </div>
+
           <div class="flex flex-col gap-4">
             <input
+              id="contact-input"
               type="email"
               placeholder="Ingresa tu correo electrónico"
               class="flex-1 px-6 py-4 border border-slate-300 rounded-full focus:outline-none focus:ring-1 focus:ring-teal-400 focus:border-transparent text-md text-slate-700"
@@ -52,7 +71,6 @@
         </form>
       </div>
 
-      <!-- list of benefits -->
       <ul
         class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-slate-500"
       >
@@ -70,27 +88,92 @@
 </section>
 
 <script is:inline>
-  // Script para manejar la suscripción de forma interactiva
   document.addEventListener("DOMContentLoaded", () => {
+    // Seleccionamos todos los elementos que necesitamos
     const formContainer = document.getElementById("form-container");
     const successMessage = document.getElementById("success-message");
     const newsletterForm = document.getElementById("newsletter-form");
+    const btnEmail = document.getElementById("btn-email");
+    const btnPhone = document.getElementById("btn-phone");
+    const inputField = document.getElementById("contact-input");
 
-    // Chequeo si el usuario esta subscrito (usando localStorage)
+    // Variable para saber qué método está seleccionado
+    let currentMethod = "email";
+
+    // Función para actualizar la UI del formulario según el método elegido
+    function updateFormUI(method) {
+      currentMethod = method; // Guardamos el método actual
+      if (method === "email") {
+        // Actualizamos el campo de entrada para email
+        inputField.type = "email";
+        inputField.placeholder = "Ingresa tu correo electrónico";
+        inputField.setAttribute(
+          "aria-label",
+          "Correo electrónico para suscripción"
+        );
+        // Actualizamos los estilos de los botones
+        btnEmail.classList.add("bg-teal-600", "text-white");
+        btnEmail.classList.remove(
+          "bg-white",
+          "text-teal-600",
+          "border",
+          "border-teal-600"
+        );
+        btnPhone.classList.add(
+          "bg-white",
+          "text-teal-600",
+          "border",
+          "border-teal-600"
+        );
+        btnPhone.classList.remove("bg-teal-600", "text-white");
+      } else {
+        // Si el método es 'phone'
+        // Actualizamos el campo de entrada para teléfono
+        inputField.type = "tel";
+        inputField.placeholder = "Ingresa tu número de teléfono";
+        inputField.setAttribute("aria-label", "Teléfono para suscripción");
+        // Actualizamos los estilos de los botones
+        btnPhone.classList.add("bg-teal-600", "text-white");
+        btnPhone.classList.remove(
+          "bg-white",
+          "text-teal-600",
+          "border",
+          "border-teal-600"
+        );
+        btnEmail.classList.add(
+          "bg-white",
+          "text-teal-600",
+          "border",
+          "border-teal-600"
+        );
+        btnEmail.classList.remove("bg-teal-600", "text-white");
+      }
+      inputField.value = ""; // Limpiamos el campo al cambiar de método
+    }
+
+    // Añadimos los eventos de clic a los botones
+    btnEmail.addEventListener("click", () => updateFormUI("email"));
+    btnPhone.addEventListener("click", () => updateFormUI("phone"));
+
+    // Inicializamos el formulario en el estado de "email"
+    updateFormUI("email");
+
+    // Lógica de suscripción
     if (localStorage.getItem("isSubscribedToNewsletter") === "true") {
       formContainer.classList.add("hidden");
       successMessage.classList.remove("hidden");
     }
 
-    //Si no esta subscrito, mostramos el formulario
     newsletterForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      // Ocultamos el formulario y mostramos el mensaje de éxito
+      const contactValue = inputField.value;
+      console.log(
+        `Suscripción solicitada por ${currentMethod}: ${contactValue}`
+      );
+
       formContainer.classList.add("hidden");
       successMessage.classList.remove("hidden");
-
-      //Luego lo guardamos en localStorage por si recarga la pagina xd
       localStorage.setItem("isSubscribedToNewsletter", "true");
     });
   });
