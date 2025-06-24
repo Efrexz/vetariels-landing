@@ -9,7 +9,7 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
 ---
 
 <article
-  class="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-400 transform border border-gray-200"
+  class="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-400 transform border border-gray-200 h-full flex flex-col"
   role="region"
   aria-labelledby={locationId}
   itemscope
@@ -29,8 +29,8 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
     )
   }
 
-  <div class="p-7">
-    <header class="mb-6">
+  <div class="p-6 flex-grow flex flex-col">
+    <header class="mb-4">
       <h2
         id={locationId}
         class="text-xl font-bold text-teal-600"
@@ -40,7 +40,7 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
       </h2>
     </header>
 
-    <section aria-label="Información de contacto y horarios">
+    <section class="flex-grow" aria-label="Información de contacto y horarios">
       <h3 class="sr-only">Detalles de contacto</h3>
 
       <address
@@ -86,21 +86,17 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
           />
           <div class="text-md" itemprop="openingHours">
             <div>
-              <span class="font-semibold">Lunes a Viernes:</span>
+              <span class="font-semibold">Lunes a Domingo:</span>
               <time>{hours.weekdays}</time>
-            </div>
-            <div>
-              <span class="font-semibold">Sábado y Domingo:</span>
-              <time>{hours.weekends}</time>
             </div>
           </div>
         </div>
       </address>
     </section>
 
-    <footer class="mt-8">
+    <footer class="mt-6">
       <div
-        class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
+        class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3"
       >
         <a
           href={`https://wa.me/${whatsapp}`}

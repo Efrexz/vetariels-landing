@@ -15,8 +15,10 @@ const locations = [
       country: "PE",
     },
     phone: "+51 986 985 047",
+    imageUrl:
+      "https://meridianvetre.com/wp-content/uploads/2019/07/medvet-exterior.png",
     hours: {
-      weekdays: "8:00 AM - 8:00 PM",
+      weekdays: "8:00 AM - 10:00 PM",
       weekends: "9:00 AM - 6:00 PM",
     },
     coordinates: { lat: -12.02041546665544, lng: -77.0865150516204 },
@@ -32,6 +34,8 @@ const locations = [
       country: "PE",
     },
     phone: "+51 954 599 221",
+    imageUrl:
+      "https://meridianvetre.com/wp-content/uploads/2019/07/medvet-exterior.png",
     hours: {
       weekdays: "24/7",
       weekends: "24/7",
@@ -52,7 +56,7 @@ const locations = [
     imageUrl:
       "https://meridianvetre.com/wp-content/uploads/2019/07/medvet-exterior.png",
     hours: {
-      weekdays: "7:00 AM - 7:00 PM",
+      weekdays: "8:00 AM - 9:00 PM",
       weekends: "8:00 AM - 5:00 PM",
     },
     coordinates: { lat: -12.008495867831654, lng: -77.0710509284642 },
@@ -62,7 +66,7 @@ const locations = [
 
 <section id="locations" class="py-20 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16">
+    <div class="text-center mb-12">
       <h2 class="text-3xl md:text-4xl font-bold text-teal-700 tracking-tight">
         Nuestras Ubicaciones
       </h2>
@@ -72,35 +76,36 @@ const locations = [
       </p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
-      <div
-        id="map-container"
-        class="rounded-3xl shadow-lg border border-gray-100 min-h-[500px] h-full w-full bg-gray-200"
-      >
-        <!-- El mapa de Google se renderizará aquí -->
-      </div>
+    <div
+      id="map-container"
+      class="rounded-3xl shadow-lg border border-gray-100 w-full h-96 md:h-[500px] bg-gray-200 mb-16"
+    >
+      {/* El mapa se renderizará aquí */}
+    </div>
 
-      <div class="space-y-8">
-        {
-          locations.map((location) => (
-            // Añadimos un data-attribute para identificar cada tarjeta y su lat/lng
-            <div
-              data-location-id={location.id}
-              data-lat={location.coordinates.lat}
-              data-lng={location.coordinates.lng}
-              class="location-card-wrapper cursor-pointer"
-            >
-              <LocationCard
-                name={`VetAriel - Sede ${location.name}`}
-                address={location.address}
-                phone={location.phone}
-                hours={location.hours}
-                whatsapp={location.phone.replace(/\s+/g, "")}
-              />
-            </div>
-          ))
-        }
-      </div>
+    <!-- 2. Las Tarjetas van Después, en una cuadrícula horizontal -->
+    <!-- `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` hace que sea responsive -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {
+        locations.map((location) => (
+          // El wrapper de cada tarjeta sigue siendo el mismo
+          <div
+            data-location-id={location.id}
+            data-lat={location.coordinates.lat}
+            data-lng={location.coordinates.lng}
+            class="location-card-wrapper cursor-pointer"
+          >
+            <LocationCard
+              name={`${location.name}`}
+              address={location.address}
+              phone={location.phone}
+              hours={location.hours}
+              whatsapp={location.phone.replace(/\s+/g, "")}
+              imageUrl={location.imageUrl}
+            />
+          </div>
+        ))
+      }
     </div>
   </div>
 </section>
@@ -124,16 +129,6 @@ const locations = [
 </style>
 
 <script is:inline define:vars={{ apiKey, locations }}>
-  // Función global para manejar errores de la API
-  window.gm_authFailure = function () {
-    console.error("Error de autenticación de Google Maps...");
-    const mapContainer = document.getElementById("map-container");
-    if (mapContainer) {
-      mapContainer.innerHTML =
-        '<div style="padding: 2rem; text-align: center;">Hubo un problema al cargar el mapa.</div>';
-    }
-  };
-
   window.initMap = function () {
     try {
       const mapContainer = document.getElementById("map-container");
