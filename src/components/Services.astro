@@ -1,10 +1,16 @@
 ---
+import ClinicIcon from "@assets/icons/clinic.png";
+import HeartIcon from "@assets/icons/health.png";
+import DogSpaIcon from "@assets/icons/dogSpa.png";
+import EmergencyIcon from "@assets/icons/emergency.png";
+import VeterinarianIcon from "@assets/icons/veterinarian.png";
 import ServiceCard from "@components/ui/ServiceCard.astro";
+import ToothIcon from "@assets/icons/tooth.png";
 
 const servicesData = [
   {
     id: 1,
-    icon: "💉",
+    icon: HeartIcon,
     title: "Vacunación",
     description:
       "Programas completos de vacunación para proteger a tu mascota contra enfermedades prevenibles. Seguimos los protocolos más recientes para una protección óptima.",
@@ -13,7 +19,7 @@ const servicesData = [
   },
   {
     id: 2,
-    icon: "🏥",
+    icon: ClinicIcon,
     title: "Cirugía",
     description:
       "Instalaciones quirúrgicas de última generación para procedimientos rutinarios y de emergencia. Nuestros cirujanos brindan un tratamiento seguro y eficaz.",
@@ -22,7 +28,7 @@ const servicesData = [
   },
   {
     id: 3,
-    icon: "🛁",
+    icon: DogSpaIcon,
     title: "Grooming",
     description:
       "Servicios profesionales de grooming para mantener a tu mascota limpia y con el mejor aspecto. Desde baños básicos hasta estilizado completo.",
@@ -30,7 +36,7 @@ const servicesData = [
   },
   {
     id: 4,
-    icon: "🦷",
+    icon: ToothIcon,
     title: "Cuidado Dental",
     description:
       "Servicios dentales integrales que incluyen limpieza, extracciones y mantenimiento de la salud oral para prevenir enfermedades y molestias.",
@@ -38,7 +44,7 @@ const servicesData = [
   },
   {
     id: 5,
-    icon: "🚨",
+    icon: EmergencyIcon,
     title: "Emergencias",
     description:
       "Atención de emergencias disponible 24/7 para situaciones médicas urgentes. Nuestro equipo de emergencia siempre está listo para ayudarte cuando más lo necesitas.",
@@ -47,7 +53,7 @@ const servicesData = [
   },
   {
     id: 6,
-    icon: "🔬",
+    icon: VeterinarianIcon,
     title: "Diagnóstico",
     description:
       "Equipos de diagnóstico avanzados que incluyen radiografías digitales, ecografías y análisis de laboratorio para un diagnóstico preciso y planificación efectiva del tratamiento.",

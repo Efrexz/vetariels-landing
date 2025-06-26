@@ -1,3 +1,10 @@
+---
+import { Image } from "astro:assets";
+
+import ClinicIcon from "@assets/icons/clinic.png";
+import HeartIcon from "@assets/icons/health.png";
+---
+
 <section
   class="relative bg-gradient-to-br from-[#f0fdfa] to-[#eff6ff] py-20 lg:py-32"
   role="banner"
@@ -103,21 +110,21 @@
           role="img"
           aria-label="Ícono de hospital veterinario"
         >
-          <div class="text-2xl" aria-hidden="true">🏥</div>
+          <Image src={ClinicIcon} alt="veterinaryIcon" class="w-8 h-8" />
         </div>
         <div
           data-hero-element="adornment"
           class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-lg"
           aria-label="Ícono de un corazon"
         >
-          <div class="text-2xl" aria-hidden="true">❤️</div>
+          <Image src={HeartIcon} alt="heartIcon" class="w-8 h-8" />
         </div>
       </aside>
     </div>
   </div>
 </section>
 
-<!-- 1. DEFINIMOS LOS ESTADOS INICIALES Y LAS TRANSICIONES -->
+<!--  DEFINIMOS LOS ESTADOS INICIALES Y LAS TRANSICIONES -->
 <style>
   /* Contenido de la izquierda (título, párrafo, botones, stats) */
   [data-hero-element="content"] {
@@ -146,7 +153,7 @@
       transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
-  /* 2. DEFINIMOS EL ESTADO FINAL (VISIBLE) */
+  /*  DEFINIMOS EL ESTADO FINAL (VISIBLE) */
   [data-hero-element].is-visible {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -175,15 +182,15 @@
     };
 
     // Coreografía de la animación
-    // 1. Animar el contenido de la izquierda en cascada
+    //  Animar el contenido de la izquierda en cascada
     contentElements.forEach((el, index) => {
       animateElement(el, 100 + index * 150); // 100ms, 250ms, 400ms, 550ms
     });
 
-    // 2. Animar la imagen principal un poco después de que empiece el texto
+    //  Animar la imagen principal un poco después de que empiece el texto
     animateElement(imageWrapper, 300);
 
-    // 3. Animar los adornos al final, con un efecto de "pop"
+    //  Animar los adornos al final, con un efecto de "pop"
     animateElement(adornments[0], 700); // El hospital
     animateElement(adornments[1], 800); // El corazón
   });

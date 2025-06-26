@@ -1,12 +1,21 @@
 ---
+import { Image } from "astro:assets";
+import ClinicIcon from "@assets/icons/clinic.png";
+import HeartIcon from "@assets/icons/health.png";
 const { icon, title, description, includes } = Astro.props;
+
+const isSizeSmall = icon === HeartIcon || icon === ClinicIcon;
 ---
 
 <article
-  class="bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 hover:transform hover:scale-105 h-80 flex flex-col"
+  class="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-shadow duration-300 hover:transform hover:scale-105 h-80 flex flex-col"
 >
-  <div class="text-4xl mb-2" role="img" aria-label={`${title} icono`}>
-    {icon}
+  <div class="mb-1" role="img" aria-label={`${title} icono`}>
+    <Image
+      src={icon}
+      alt={`${title} icono`}
+      class={`${isSizeSmall ? "w-12 h-12" : "w-16 h-16"}`}
+    />
   </div>
 
   <header>
