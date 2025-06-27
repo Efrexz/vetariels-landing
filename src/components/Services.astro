@@ -13,26 +13,27 @@ const servicesData = [
     icon: HeartIcon,
     title: "Vacunación",
     description:
-      "Programas completos de vacunación para proteger a tu mascota contra enfermedades prevenibles. Seguimos los protocolos más recientes para una protección óptima.",
+      "Ofrecemos esquemas completos de vacunación para proteger a tu mascota contra enfermedades prevenibles. Aplicamos protocolos actualizados para garantizar su salud y bienestar.",
     includes:
-      "Vacunas esenciales, vacunas según estilo de vida, prueba de títulos",
+      "Vacunas esenciales, vacunas según estilo de vida, recordatorios de refuerzo",
   },
   {
     id: 2,
     icon: ClinicIcon,
     title: "Cirugía",
     description:
-      "Instalaciones quirúrgicas de última generación para procedimientos rutinarios y de emergencia. Nuestros cirujanos brindan un tratamiento seguro y eficaz.",
+      "Contamos con quirófano equipado con tecnología avanzada para cirugías rutinarias y de emergencia. Nuestro equipo médico garantiza procedimientos seguros y eficientes.",
     includes:
-      "Esterilización/castración, cirugía de tejidos blandos, cirugía ortopédica",
+      "Esterilización y castración, cirugía de tejidos blandos, cirugía ortopédica, monitoreo anestésico, cuidados postoperatorios",
   },
   {
     id: 3,
     icon: DogSpaIcon,
     title: "Grooming",
     description:
-      "Servicios profesionales de grooming para mantener a tu mascota limpia y con el mejor aspecto. Desde baños básicos hasta estilizado completo.",
-    includes: "Baño, corte de uñas, limpieza de oídos, estilizado",
+      "Servicios profesionales de grooming para mantener a tu mascota limpia y con un aspecto impecable. Desde baños básicos hasta estilizado según raza y tipo de pelaje.",
+    includes:
+      "Baño, corte de uñas, limpieza de oídos, cepillado, estilizado según raza",
   },
   {
     id: 4,
@@ -47,17 +48,18 @@ const servicesData = [
     icon: EmergencyIcon,
     title: "Emergencias",
     description:
-      "Atención de emergencias disponible 24/7 para situaciones médicas urgentes. Nuestro equipo de emergencia siempre está listo para ayudarte cuando más lo necesitas.",
-    includes: "24/7, atención por traumas, monitoreo crítico",
-    label: "Disponible",
+      "Atención veterinaria de emergencias disponible 24/7 para situaciones críticas. Nuestro equipo está preparado para actuar con rapidez y precisión cuando más lo necesitas.",
+    includes:
+      "Atención inmediata, traumas, intoxicaciones, monitoreo intensivo, soporte vital",
   },
   {
     id: 6,
     icon: VeterinarianIcon,
     title: "Diagnóstico",
     description:
-      "Equipos de diagnóstico avanzados que incluyen radiografías digitales, ecografías y análisis de laboratorio para un diagnóstico preciso y planificación efectiva del tratamiento.",
-    includes: "Radiografías, ecografía, análisis de sangre, análisis de orina",
+      "Realizamos una evaluación integral para detectar problemas de salud de forma temprana. Nuestro enfoque diagnóstico permite tomar decisiones clínicas precisas.",
+    includes:
+      "Radiografías, ecografías, análisis de sangre, análisis de orina, pruebas rápidas",
   },
 ];
 ---
@@ -95,7 +97,6 @@ const servicesData = [
               title={service.title}
               description={service.description}
               includes={service.includes}
-              label={service.label}
             />
           </div>
         ))

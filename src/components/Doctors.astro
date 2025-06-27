@@ -1,5 +1,7 @@
 ---
 import DoctorCard from "@components/ui/DoctorCard.astro";
+import ArrowLeft from "@assets/icons/arrowLeft.svg";
+import ArrowRight from "@assets/icons/arrowRight.svg";
 
 const doctors = [
   {
@@ -42,13 +44,63 @@ const doctors = [
     location: "San Martín de Porres",
     schedule: "Miércoles a Domingo de 10 a.m. a 4 p.m.",
   },
+  {
+    id: "diego-romero",
+    name: "Dr. Diego Romero",
+    imageUrl:
+      "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    specialty: "Medicina Felina",
+    experience: 10,
+    location: "San Martín de Porres",
+    schedule: "Miércoles a Domingo de 10 a.m. a 4 p.m.",
+  },
+  {
+    id: "diego-romero",
+    name: "Dr. Diego Romero",
+    imageUrl:
+      "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    specialty: "Medicina Felina",
+    experience: 10,
+    location: "San Martín de Porres",
+    schedule: "Miércoles a Domingo de 10 a.m. a 4 p.m.",
+  },
+  {
+    id: "diego-romero",
+    name: "Dr. Diego Romero",
+    imageUrl:
+      "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    specialty: "Medicina Felina",
+    experience: 10,
+    location: "San Martín de Porres",
+    schedule: "Miércoles a Domingo de 10 a.m. a 4 p.m.",
+  },
+  {
+    id: "diego-romero",
+    name: "Dr. Diego Romero",
+    imageUrl:
+      "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    specialty: "Medicina Felina",
+    experience: 10,
+    location: "San Martín de Porres",
+    schedule: "Miércoles a Domingo de 10 a.m. a 4 p.m.",
+  },
+  {
+    id: "diego-romero",
+    name: "Dr. Diego Romero",
+    imageUrl:
+      "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    specialty: "Medicina Felina",
+    experience: 10,
+    location: "San Martín de Porres",
+    schedule: "Miércoles a Domingo de 10 a.m. a 4 p.m.",
+  },
 ];
 ---
 
 <section
   id="doctors"
   aria-labelledby="doctors-title"
-  class="bg-gradient-to-r from-[#f0fdfa] to-[#eff6ff] py-16 sm:py-24"
+  class="bg-gradient-to-r from-[#f0fdfa] to-[#eff6ff] py-16 sm:py-24 opacity-0 translate-y-8 transition-all duration-700 ease-out"
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <header class="text-center mb-12">
@@ -62,59 +114,117 @@ const doctors = [
         Nuestro equipo está comprometido con brindar atención experta y cercana
         a tus mascotas.
       </p>
-    </header>
 
-    <div
-      id="doctors-grid"
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
-      role="list"
-      aria-label="Lista de veterinarios"
-    >
-      {
-        doctors.map((doctor) => (
-          <DoctorCard
-            name={doctor.name}
-            specialty={doctor.specialty}
-            experience={doctor.experience}
-            location={doctor.location}
-            schedule={doctor.schedule}
-            imageUrl={doctor.imageUrl}
-          />
-        ))
-      }
-    </div>
+      <div class="embla relative mt-10">
+        <div class="embla__viewport overflow-hidden">
+          <div class="embla__container flex">
+            {
+              doctors.map((doctor) => (
+                <div class="embla__slide flex-[0_0_90%] sm:flex-[0_0_50%] lg:flex-[0_0_25%] pl-4">
+                  {/* Cada tarjeta también tiene su estado inicial */}
+                  <div class="doctor-slide-content opacity-0 translate-y-4 transition-all duration-500 ease-out">
+                    <DoctorCard
+                      name={doctor.name}
+                      specialty={doctor.specialty}
+                      experience={doctor.experience}
+                      location={doctor.location}
+                      schedule={doctor.schedule}
+                      imageUrl={doctor.imageUrl}
+                    />
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <button
+          class="embla__prev absolute top-1/2 -translate-y-1/2 left-[-1rem] md:left-[-2rem] bg-white rounded-full p-2 shadow-lg disabled:opacity-30"
+        >
+          <ArrowLeft class="w-6 h-6 text-teal-600" />
+        </button>
+        <button
+          class="embla__next absolute top-1/2 -translate-y-1/2 right-[-1rem] md:right-[-2rem] bg-white rounded-full p-2 shadow-lg disabled:opacity-30"
+        >
+          <ArrowRight class="w-6 h-6 text-teal-600" />
+        </button>
+      </div>
+    </header>
   </div>
 </section>
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const cards = document.querySelectorAll("#doctors-grid .doctor-card-item");
+<style is:global>
+  .embla__viewport {
+    -webkit-overflow-scrolling: touch;
+  }
+</style>
 
-    // Si no hay elementos, no hacemos nada
-    if (cards.length === 0) return;
+<script>
+  import EmblaCarousel from "embla-carousel";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const doctorsSection = document.getElementById("doctors");
+    if (!doctorsSection) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry, index) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const targetElement = entry.target as HTMLElement;
+            entry.target.classList.remove("opacity-0", "translate-y-8");
 
-            // quitamos las clases del estado inicial.
-            targetElement.classList.remove("opacity-0", "translate-y-8");
+            const slides = entry.target.querySelectorAll(
+              ".doctor-slide-content"
+            );
+            slides.forEach((slide, index) => {
+              setTimeout(() => {
+                // Quitamos las clases de cada tarjeta individualmente
+                slide.classList.remove("opacity-0", "translate-y-4");
+              }, 150 * index); // Retraso escalonado
+            });
 
-            targetElement.style.transitionDelay = `${index * 200}ms`;
-
-            observer.unobserve(targetElement);
+            observer.unobserve(entry.target);
           }
         });
       },
-      {
-        threshold: 0.2,
-      }
+      { threshold: 0.4 }
     );
 
-    cards.forEach((card) => {
-      observer.observe(card);
-    });
+    observer.observe(doctorsSection);
+
+    const emblaNode = document.querySelector(".embla");
+
+    //Esto lo hacemos para asegurarnos de que emblaNode no sea null y no lance error el tpyescript
+    if (emblaNode) {
+      const viewportNode = emblaNode.querySelector(
+        ".embla__viewport"
+      ) as HTMLElement;
+      const prevBtn = emblaNode.querySelector(
+        ".embla__prev"
+      ) as HTMLButtonElement;
+      const nextBtn = emblaNode.querySelector(
+        ".embla__next"
+      ) as HTMLButtonElement;
+
+      if (viewportNode && prevBtn && nextBtn) {
+        const emblaApi = EmblaCarousel(viewportNode, {
+          loop: false,
+          align: "start",
+        });
+
+        // actualizar el estado de los botones
+        const updateButtons = () => {
+          // Ahora no dará error porque sabe que los botones son HTMLButtonElement.
+          prevBtn.disabled = !emblaApi.canScrollPrev();
+          nextBtn.disabled = !emblaApi.canScrollNext();
+        };
+
+        prevBtn.addEventListener("click", () => emblaApi.scrollPrev(), false);
+        nextBtn.addEventListener("click", () => emblaApi.scrollNext(), false);
+
+        // Actualizamos los botones al inicio y en cada cambio
+        emblaApi.on("select", updateButtons);
+        emblaApi.on("init", updateButtons);
+      }
+    }
   });
 </script>
