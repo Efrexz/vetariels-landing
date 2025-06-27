@@ -1,5 +1,7 @@
 ---
 import PromotionCard from "@components/ui/PromotionCard.astro";
+import ArrowLeftIcon from "@assets/icons/arrowLeft.svg";
+import ArrowRightIcon from "@assets/icons/arrowRight.svg";
 
 const promociones = [
   {
@@ -62,7 +64,7 @@ const promociones = [
 ---
 
 <section
-  class="py-16 bg-gradient-to-br from-[#f0fdfa] to-[#eff6ff]"
+  class="py-16 bg-gradient-to-br from-[#f0fdfa] to-[#eff6ff] opacity-0 translate-y-8 transition-all duration-700 ease-out"
   id="promotions"
 >
   <div class="max-w-7xl mx-auto overflow-hidden">
@@ -77,57 +79,102 @@ const promociones = [
       </div>
     </div>
 
-    <div
-      id="promotions-carousel"
-      class="overflow-x-auto pb-6 px-4 sm:px-6 lg:px-8"
-    >
-      <div class="flex space-x-6">
-        {/*  Fragment que soluciona el bug de renderizado de Astro */}
-        <Fragment>
+    <div class="embla relative px-4 sm:px-6 lg:px-8">
+      <div class="embla__viewport -mx-4 overflow-hidden">
+        <div class="embla__container flex">
           {
             promociones.map((promo) => (
-              <PromotionCard
-                id={promo.id}
-                discount={promo.discount}
-                colorBadge={promo.colorBadge}
-                title={promo.title}
-                services={promo.services}
-                expirationDate={promo.expirationDate}
-                dateISO={promo.dateISO}
-              />
+              <div class="embla__slide flex-[0_0_85%] sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] pl-4">
+                <PromotionCard
+                  id={promo.id}
+                  discount={promo.discount}
+                  colorBadge={promo.colorBadge}
+                  title={promo.title}
+                  services={promo.services}
+                  expirationDate={promo.expirationDate}
+                  dateISO={promo.dateISO}
+                />
+              </div>
             ))
           }
-        </Fragment>
+        </div>
       </div>
+
+      <button
+        class="embla__prev absolute top-1/2 -translate-y-1/2 left-[-0.5rem] md:left-[-1rem] bg-white rounded-full p-2 shadow-lg disabled:opacity-30"
+      >
+        <ArrowLeftIcon class="w-6 h-6 text-teal-600" />
+      </button>
+      <button
+        class="embla__next absolute top-1/2 -translate-y-1/2 right-[-0.5rem] md:right-[-1rem] bg-white rounded-full p-2 shadow-lg disabled:opacity-30"
+      >
+        <ArrowRightIcon class="w-6 h-6 text-teal-600" />
+      </button>
     </div>
   </div>
 </section>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const cards = document.querySelectorAll(
-      "#promotions-carousel .promotion-card-item"
-    );
+  //Igual que en la seccion de doctores, alli deje los comentarios explicando el proceso
+  import EmblaCarousel from "embla-carousel";
 
-    if (cards.length === 0) return;
+  document.addEventListener("DOMContentLoaded", () => {
+    const promotionSection = document.getElementById("promotions");
+    if (!promotionSection) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const targetElement = entry.target as HTMLElement;
-            targetElement.classList.remove("opacity-0", "translate-y-8");
-            observer.unobserve(targetElement);
+            entry.target.classList.remove("opacity-0", "translate-y-8");
+
+            const slides = entry.target.querySelectorAll(
+              ".promotion-slide-content"
+            );
+            slides.forEach((slide, index) => {
+              setTimeout(() => {
+                slide.classList.remove("opacity-0", "translate-y-4");
+              }, 150 * index);
+            });
+
+            observer.unobserve(entry.target);
           }
         });
       },
-      {
-        threshold: 0.2,
-      }
+      { threshold: 0.4 }
     );
 
-    cards.forEach((card) => {
-      observer.observe(card);
-    });
+    observer.observe(promotionSection);
+
+    const emblaNode = promotionSection.querySelector(".embla");
+    if (emblaNode) {
+      const viewportNode = emblaNode.querySelector(
+        ".embla__viewport"
+      ) as HTMLElement;
+      const prevBtn = emblaNode.querySelector(
+        ".embla__prev"
+      ) as HTMLButtonElement;
+      const nextBtn = emblaNode.querySelector(
+        ".embla__next"
+      ) as HTMLButtonElement;
+
+      if (viewportNode && prevBtn && nextBtn) {
+        const emblaApi = EmblaCarousel(viewportNode, {
+          loop: false,
+          align: "start",
+        });
+
+        function updateButtons() {
+          prevBtn.disabled = !emblaApi.canScrollPrev();
+          nextBtn.disabled = !emblaApi.canScrollNext();
+        }
+
+        prevBtn.addEventListener("click", () => emblaApi.scrollPrev(), false);
+        nextBtn.addEventListener("click", () => emblaApi.scrollNext(), false);
+
+        emblaApi.on("select", updateButtons);
+        emblaApi.on("init", updateButtons);
+      }
+    }
   });
 </script>

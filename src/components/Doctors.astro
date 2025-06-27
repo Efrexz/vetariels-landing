@@ -153,12 +153,6 @@ const doctors = [
   </div>
 </section>
 
-<style is:global>
-  .embla__viewport {
-    -webkit-overflow-scrolling: touch;
-  }
-</style>
-
 <script>
   import EmblaCarousel from "embla-carousel";
 
@@ -191,7 +185,8 @@ const doctors = [
 
     observer.observe(doctorsSection);
 
-    const emblaNode = document.querySelector(".embla");
+    //Solucion al error que no se ejecutaba los botones de doctores, teniamos que ser mas especificos porque si no tomaba el boton de promociones
+    const emblaNode = doctorsSection.querySelector(".embla");
 
     //Esto lo hacemos para asegurarnos de que emblaNode no sea null y no lance error el tpyescript
     if (emblaNode) {
