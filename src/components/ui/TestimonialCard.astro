@@ -1,53 +1,68 @@
 ---
 import StarIcon from "@assets/icons/star.svg";
+import ExternalLinkIcon from "@assets/icons/externalLink.svg";
 
-const { authorName, authorImage, rating, quote, petInfo } = Astro.props;
+const { authorName, rating, quote, petInfo, reviewUrl } = Astro.props;
 
 // Obtenemos las estrellas según la calificación
 const stars = Array(rating).fill(0); // [0, 0, 0, 0, 0]
+
+const initial = authorName.charAt(0).toUpperCase();
 ---
 
-<figure
-  class="bg-white rounded-2xl p-8 shadow-lg h-full flex flex-col"
-  itemscope
-  itemtype="https://schema.org/Review"
+<a
+  href={reviewUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="block h-full transition-transform duration-300 hover:scale-105 group"
+  aria-label={`Leer la reseña de ${authorName} en Google Maps`}
 >
-  <div
-    itemprop="reviewRating"
+  <figure
+    class="bg-white rounded-2xl p-8 shadow-lg h-full flex flex-col"
     itemscope
-    itemtype="https://schema.org/Rating"
-    class="hidden"
+    itemtype="https://schema.org/Review"
   >
-    <meta itemprop="ratingValue" content={rating.toString()} />
-    <meta itemprop="bestRating" content="5" />
-  </div>
-
-  <blockquote class="text-gray-600 italic mb-6 flex-grow">
-    <p itemprop="reviewBody">"{quote}"</p>
-  </blockquote>
-
-  <figcaption class="flex items-center">
-    <img
-      src={authorImage}
-      alt={`Foto de ${authorName}`}
-      class="w-14 h-14 rounded-full object-cover mr-4"
-      loading="lazy"
-    />
-    <div itemprop="author" itemscope itemtype="https://schema.org/Person">
-      <h4 class="font-bold text-gray-900" itemprop="name">{authorName}</h4>
-
-      <div
-        class="flex items-center text-yellow-400 mt-1"
-        aria-label={`Calificación: ${rating} de 5 estrellas`}
-      >
-        {
-          stars.map(() => (
-            <StarIcon class="w-5 h-5 flex-shrink-0" aria-hidden="true" />
-          ))
-        }
-        <span class="sr-only">{rating} de 5 estrellas</span>
-      </div>
-      <p class="text-sm text-gray-500 mt-1">{petInfo}</p>
+    <div
+      class="absolute top-4 right-4 text-gray-300 group-hover:text-teal-500 transition-colors duration-300"
+    >
+      <ExternalLinkIcon class="w-5 h-5" />
     </div>
-  </figcaption>
-</figure>
+    <div
+      itemprop="reviewRating"
+      itemscope
+      itemtype="https://schema.org/Rating"
+      class="hidden"
+    >
+      <meta itemprop="ratingValue" content={rating.toString()} />
+      <meta itemprop="bestRating" content="5" />
+    </div>
+
+    <blockquote class="text-gray-600 italic mb-6 flex-grow">
+      <p itemprop="reviewBody">"{quote}"</p>
+    </blockquote>
+
+    <figcaption class="flex items-center">
+      <div
+        class="w-14 h-14 rounded-full bg-teal-500 text-white flex items-center justify-center text-xl font-bold mr-4"
+      >
+        <span>{initial}</span>
+      </div>
+      <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+        <h4 class="font-bold text-gray-900" itemprop="name">{authorName}</h4>
+
+        <div
+          class="flex items-center text-yellow-400 mt-1"
+          aria-label={`Calificación: ${rating} de 5 estrellas`}
+        >
+          {
+            stars.map(() => (
+              <StarIcon class="w-5 h-5 flex-shrink-0" aria-hidden="true" />
+            ))
+          }
+          <span class="sr-only">{rating} de 5 estrellas</span>
+        </div>
+        <p class="text-sm text-gray-500 mt-1">{petInfo}</p>
+      </div>
+    </figcaption>
+  </figure>
+</a>

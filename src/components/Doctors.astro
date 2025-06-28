@@ -2,99 +2,7 @@
 import DoctorCard from "@components/ui/DoctorCard.astro";
 import ArrowLeft from "@assets/icons/arrowLeft.svg";
 import ArrowRight from "@assets/icons/arrowRight.svg";
-
-const doctors = [
-  {
-    id: "lucia-alvarado",
-    name: "Dra. Lucía Alvarado",
-    imageUrl:
-      "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    specialty: "Dermatología Veterinaria",
-    experience: 12,
-    location: "San Martín de Porres",
-    schedule: "Lunes a Viernes de 8 a.m. a 6 p.m.",
-  },
-  {
-    id: "rafael-colmenares",
-    name: "Dr. Rafael Colmenares",
-    imageUrl:
-      "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    specialty: "Cuidados Críticos",
-    experience: 8,
-    location: "San Miguel",
-    schedule: "Martes a Sábado de 9 a.m. a 5 p.m.",
-  },
-  {
-    id: "alejandra-del-rio",
-    name: "Dra. Alejandra Del Río",
-    imageUrl:
-      "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    specialty: "Cirugía y Ortopedia",
-    experience: 15,
-    location: "Los Olivos",
-    schedule: "Martes a Sábado de 9 a.m. a 5 p.m.",
-  },
-  {
-    id: "diego-romero",
-    name: "Dr. Diego Romero",
-    imageUrl:
-      "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    specialty: "Medicina Felina",
-    experience: 10,
-    location: "San Martín de Porres",
-    schedule: "Miércoles a Domingo de 10 a.m. a 4 p.m.",
-  },
-  {
-    id: "diego-romero",
-    name: "Dr. Diego Romero",
-    imageUrl:
-      "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    specialty: "Medicina Felina",
-    experience: 10,
-    location: "San Martín de Porres",
-    schedule: "Miércoles a Domingo de 10 a.m. a 4 p.m.",
-  },
-  {
-    id: "diego-romero",
-    name: "Dr. Diego Romero",
-    imageUrl:
-      "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    specialty: "Medicina Felina",
-    experience: 10,
-    location: "San Martín de Porres",
-    schedule: "Miércoles a Domingo de 10 a.m. a 4 p.m.",
-  },
-  {
-    id: "diego-romero",
-    name: "Dr. Diego Romero",
-    imageUrl:
-      "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    specialty: "Medicina Felina",
-    experience: 10,
-    location: "San Martín de Porres",
-    schedule: "Miércoles a Domingo de 10 a.m. a 4 p.m.",
-  },
-  {
-    id: "diego-romero",
-    name: "Dr. Diego Romero",
-    imageUrl:
-      "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    specialty: "Medicina Felina",
-    experience: 10,
-    location: "San Martín de Porres",
-    schedule: "Miércoles a Domingo de 10 a.m. a 4 p.m.",
-  },
-  {
-    id: "diego-romero",
-    name: "Dr. Diego Romero",
-    imageUrl:
-      "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    specialty: "Medicina Felina",
-    experience: 10,
-    location: "San Martín de Porres",
-    schedule: "Miércoles a Domingo de 10 a.m. a 4 p.m.",
-  },
-];
+import doctors from "@data/doctors";
 ---
 
 <section
@@ -128,7 +36,6 @@ const doctors = [
                       specialty={doctor.specialty}
                       experience={doctor.experience}
                       location={doctor.location}
-                      schedule={doctor.schedule}
                       imageUrl={doctor.imageUrl}
                     />
                   </div>
