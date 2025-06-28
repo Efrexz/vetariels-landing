@@ -1,14 +1,5 @@
-export interface Promotion {
-  id: string;
-  discount: string;
-  colorBadge: string;
-  title: string;
-  services: string[];
-  expirationDate: string;
-  dateISO: string;
-}
 
-const promotions: Promotion[] = [
+const promotions = [
   {
     id: "vacunacion",
     discount: "30%",

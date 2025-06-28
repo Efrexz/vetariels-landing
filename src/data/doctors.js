@@ -1,20 +1,11 @@
-export interface Doctor {
-  id: string;
-  name: string;
-  imageUrl: string;
-  specialty: string;
-  location: string;
-}
-
-
-const doctors : Doctor[] = [
+const doctors = [
   {
-    id: "lucia-alvarado",
-    name: "Dra. Lucía Alvarado",
+    id: "katherine-gonzalez",
+    name: "Dra. Katherine González",
     imageUrl:
       "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    specialty: "Medicina Integral",
-    location: "San Martín de Porres",
+    specialty: "Gastroenterología y nutrición",
+    location: "San Miguel",
   },
   {
     id: "rafael-colmenares",
@@ -25,14 +16,6 @@ const doctors : Doctor[] = [
     location: "San Miguel",
   },
   {
-    id: "alejandra-del-rio",
-    name: "Dra. Alejandra Del Río",
-    imageUrl:
-      "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    specialty: "Cirugía y Ortopedia",
-    location: "Los Olivos",
-  },
-  {
     id: "joe-aliaga",
     name: "Dr. Joe Aliaga",
     imageUrl:
@@ -41,12 +24,20 @@ const doctors : Doctor[] = [
     location: "San Miguel",
   },
   {
-    id: "katherine-gonzalez",
-    name: "Dra. Katherine González",
+    id: "lucia-alvarado",
+    name: "Dra. Lucía Alvarado",
     imageUrl:
-      "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    specialty: "Gastroenterología y nutrición",
-    location: "San Miguel",
+      "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    specialty: "Medicina Integral",
+    location: "San Martín de Porres",
+  },
+  {
+    id: "alejandra-del-rio",
+    name: "Dra. Alejandra Del Río",
+    imageUrl:
+      "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    specialty: "Cirugía y Ortopedia",
+    location: "Los Olivos",
   },
   {
     id: "diego-romero",
