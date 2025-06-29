@@ -48,11 +48,11 @@ const doctors = [
     location: "San Martín de Porres",
   },
   {
-    id: "diego-romero",
-    name: "Dr. Diego Romero",
+    id: "helen-catay",
+    name: "Dra. Helen Catay",
     imageUrl:
-      "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    specialty: "Medicina Felina",
+      "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    specialty: "Cirugía de tejidos Blandos",
     location: "San Martín de Porres",
   },
 ];

@@ -47,7 +47,7 @@ const locations = [
       postalCode: "15301",
       country: "PE",
     },
-    phone: "+51 917104426",
+    phone: "+51 932 719 342",
     imageUrl:
       "https://meridianvetre.com/wp-content/uploads/2019/07/medvet-exterior.png",
     hours: {

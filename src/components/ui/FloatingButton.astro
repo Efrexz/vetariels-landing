@@ -1,0 +1,74 @@
+---
+import WhatsAppIcon from "@assets/icons/whatsapp.svg";
+import LocationIcon from "@assets/icons/location.svg";
+
+const sedes = [
+  {
+    nombre: "Sede San Martín De Porres",
+    whatsappNumber: "+51986985047",
+    message:
+      "¡Hola! Me gustaría agendar una cita para la sede de San Martin de Porres.",
+  },
+  {
+    nombre: "Sede San Miguel",
+    whatsappNumber: "+51954599221",
+    message: "¡Hola! Me gustaría agendar una cita para la sede de San Miguel.",
+  },
+  {
+    nombre: "Sede Los Olivos",
+    whatsappNumber: "+51932719342",
+    message: "¡Hola! Me gustaría agendar una cita para la sede de Los Olivos.",
+  },
+];
+
+// Generamos la URL de WhatsApp para cada sede
+function generateWhatsappUrl(sede) {
+  const encodedMessage = encodeURIComponent(sede.message);
+  return `https://wa.me/${sede.whatsappNumber}?text=${encodedMessage}`;
+}
+---
+
+<div id="floating-whatsapp-container" class="fixed bottom-5 right-5 z-50">
+  <!-- Menú de sedes -->
+  <div
+    id="whatsapp-options"
+    class="hidden absolute bottom-20 right-0 w-64 bg-slate-100 rounded-lg shadow-2xl transition-all duration-300 ease-in-out transform origin-bottom-right overflow-hidden"
+  >
+    <div class="w-full h-1.5 bg-teal-500"></div>
+
+    <div class="p-4">
+      <p class="font-semibold text-teal-800 text-center mb-3">
+        Elige una sede para contactar
+      </p>
+      <ul class="space-y-1">
+        {
+          sedes.map((sede) => (
+            <li>
+              <a
+                href={generateWhatsappUrl(sede)}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center py-3 px-1 text-sm font-medium text-gray-700 rounded-md hover:bg-slate-200 transition-colors border-b border-gray-300"
+                aria-label={`Contactar con la sede de ${sede.nombre} por WhatsApp`}
+              >
+                <LocationIcon class="w-5 h-5 mr-3 text-teal-600" />
+                <span>{sede.nombre}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <!-- Botón flotante -->
+  <button
+    id="whatsapp-fab"
+    class="bg-green-500 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-transform duration-200 hover:scale-110"
+    aria-label="Abrir opciones de contacto de WhatsApp"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    <WhatsAppIcon class="w-8 h-8" />
+  </button>
+</div>
