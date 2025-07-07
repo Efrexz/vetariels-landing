@@ -2,40 +2,71 @@
 import { Image } from "astro:assets";
 import ClinicIcon from "@assets/icons/clinic.png";
 import HeartIcon from "@assets/icons/health.png";
-const { icon, title, description, includes } = Astro.props;
+const {
+  icon,
+  title,
+  description,
+  includes,
+  isFeatured = false,
+  imageUrl,
+} = Astro.props;
 
 const isSizeSmall = icon === HeartIcon || icon === ClinicIcon;
 ---
 
-<article
-  class="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-shadow duration-300 hover:transform hover:scale-105 h-80 flex flex-col"
->
-  <div class="mb-1" role="img" aria-label={`${title} icono`}>
-    <Image
-      src={icon}
-      alt={`${title} icono`}
-      class={`${isSizeSmall ? "w-11 h-11" : "w-16 h-16"}`}
-    />
-  </div>
+{
+  isFeatured ? (
+    <article class="relative w-80 h-80 md:w-96 md:h-96 rounded-full overflow-hidden shadow-xl group text-white ring-4 ring-offset-2 ring-offset-white ring-teal-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-teal-500/40 ">
+      <img
+        src={imageUrl}
+        alt={`Imagen de ${title}`}
+        class="absolute inset-0 w-full h-full object-cover transition-all duration-500 ease-in-out group-hover:scale-110 group-hover:brightness-50"
+      />
 
-  <header>
-    <h3 class="text-xl font-semibold text-teal-700 mb-2">
-      {title}
-    </h3>
-  </header>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 
-  <div class="text-gray-600 mb-2">
-    <p class="leading-relaxed">
-      {description}
-    </p>
-  </div>
+      <div class="relative h-full p-8 flex flex-col justify-center items-center text-center z-10 ">
+        <div class="transform transition-transform duration-500 ease-in-out group-hover:-translate-y-4">
+          <Image
+            src={icon}
+            alt={`Icono de ${title}`}
+            class={`w-14 h-14 mb-2 mx-auto transition-transform duration-500 group-hover:rotate-12 ${isSizeSmall ? "w-10 h-10" : ""}`}
+            loading="lazy"
+          />
+          <h3 class="text-2xl font-bold text-shadow-lg ">{title}</h3>
+        </div>
 
-  <footer class="text-sm text-gray-500 mt-auto flex-shrink-0">
-    <div class="border-t border-gray-200 pt-3">
-      <span class="font-medium text-gray-700">Incluye:</span>
-      <span class="ml-1">
-        {includes}
-      </span>
-    </div>
-  </footer>
-</article>
+        <div class="transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100 max-h-0 group-hover:max-h-40 overflow-hidden">
+          <p class="mt-3 py- text-gray-200 leading-relaxed text-shadow">
+            {description}
+          </p>
+        </div>
+      </div>
+    </article>
+  ) : (
+    <article class="relative bg-gray-50 rounded-2xl h-full flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/40 overflow-hidden">
+      <div class="h-2 bg-teal-500" />
+
+      <div class="p-8 flex flex-col flex-grow">
+        <Image
+          src={icon}
+          alt={`Icono de ${title}`}
+          class={`w-16 h-16 mb-4 ${isSizeSmall ? "w-12 h-12" : ""}`}
+          loading="lazy"
+        />
+        <header class="mb-4">
+          <h3 class="text-xl font-semibold text-teal-700">{title}</h3>
+        </header>
+        <div class="text-gray-600 mb-6 flex-grow">
+          <p class="leading-relaxed">{description}</p>
+        </div>
+        <footer class="text-sm text-gray-500 mt-auto">
+          <div class="border-t border-gray-200 pt-3">
+            <span class="font-medium text-gray-700">Incluye:</span>
+            <span class="ml-1">{includes}</span>
+          </div>
+        </footer>
+      </div>
+    </article>
+  )
+}
