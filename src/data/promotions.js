@@ -1,9 +1,7 @@
-
 const promotions = [
   {
     id: "vacunacion",
     discount: "30%",
-    colorBadge: "bg-red-500",
     title: "Paquete de Vacunación",
     services: [
       "Serie completa de vacunas",
@@ -17,13 +15,12 @@ const promotions = [
   {
     id: "cuidado-dental",
     discount: "25%",
-    colorBadge: "bg-green-500",
     title: "Especial Cuidado Dental",
     services: [
       "Limpieza dental profesional",
       "Radiografías dentales",
       "Evaluación de salud oral",
-      "Instrucciones de cuidado en casa",
+      "Instrucciones de cuidado",
     ],
     expirationDate: "15 de Julio, 2025",
     dateISO: "2025-07-15",
@@ -31,7 +28,6 @@ const promotions = [
   {
     id: "nueva-mascota",
     discount: "40%",
-    colorBadge: "bg-blue-500",
     title: "Bienvenida Nueva Mascota",
     services: [
       "Primera consulta gratuita",
@@ -45,7 +41,6 @@ const promotions = [
   {
     id: "mascota-senior",
     discount: "20%",
-    colorBadge: "bg-purple-500",
     title: "Cuidado Mascota Senior",
     services: [
       "Análisis de sangre completo",
