@@ -1,25 +1,6 @@
 const locations = [
   {
     id: 1,
-    name: "San Martín De Porres",
-    address: {
-      street: "Av. Los Próceres 115, con Av. José Granda",
-      locality: "San Martín de Porres",
-      region: "Lima",
-      postalCode: "15107",
-      country: "PE",
-    },
-    phone: "+51 986 985 047",
-    imageUrl:
-      "https://meridianvetre.com/wp-content/uploads/2019/07/medvet-exterior.png",
-    hours: {
-      weekdays: "8:00 AM - 10:00 PM",
-      weekends: "9:00 AM - 6:00 PM",
-    },
-    coordinates: { lat: -12.02041546665544, lng: -77.0865150516204 },
-  },
-  {
-    id: 2,
     name: "San Miguel",
     address: {
       street: "Av. Brígida Silva De Ochoa 272 II etapa, Urb. Pando",
@@ -36,6 +17,25 @@ const locations = [
       weekends: "24/7",
     },
     coordinates: { lat: -12.080677018607217, lng: -77.08802492519412 },
+  },
+  {
+    id: 2,
+    name: "San Martín De Porres",
+    address: {
+      street: "Av. Los Próceres 115, con Av. José Granda",
+      locality: "San Martín de Porres",
+      region: "Lima",
+      postalCode: "15107",
+      country: "PE",
+    },
+    phone: "+51 986 985 047",
+    imageUrl:
+      "https://meridianvetre.com/wp-content/uploads/2019/07/medvet-exterior.png",
+    hours: {
+      weekdays: "8:00 AM - 10:00 PM",
+      weekends: "9:00 AM - 6:00 PM",
+    },
+    coordinates: { lat: -12.02041546665544, lng: -77.0865150516204 },
   },
   {
     id: 3,

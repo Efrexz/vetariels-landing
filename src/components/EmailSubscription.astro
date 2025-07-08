@@ -1,5 +1,5 @@
 ---
-
+import EnvelopeIcon from "@assets/icons/envelope.svg";
 ---
 
 <section
@@ -24,8 +24,13 @@
       </div>
 
       <div id="form-container">
-        <div class="text-teal-500 text-6xl mb-6" aria-hidden="true">💌</div>
-        <h2 class="text-3xl md:text-4xl font-bold text-slate-700 mb-4">
+        <div
+          class="mx-auto w-20 h-20 mb-6 flex items-center justify-center bg-teal-100 rounded-full text-teal-500"
+          aria-hidden="true"
+        >
+          <EnvelopeIcon class="w-11 h-11" />
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-teal-700 mb-4">
           Mantente al Día con Consejos para tu Mascota
         </h2>
         <p class="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
@@ -34,55 +39,59 @@
         </p>
 
         <form id="newsletter-form" class="max-w-md mx-auto">
-          <!-- Botones para seleccionar el método de contacto -->
-          <div id="method-selector" class="flex justify-center gap-2 mb-6">
+          <div
+            class="bg-gray-200/70 p-1.5 rounded-full flex justify-center gap-2 mb-6 w-fit mx-auto"
+          >
             <button
               type="button"
               id="btn-email"
-              class="px-6 py-2 rounded-full font-semibold transition-colors duration-200"
+              class="px-6 py-2 rounded-full font-semibold text-sm transition-all duration-300"
+              data-active="true"
             >
               Correo Electrónico
             </button>
             <button
               type="button"
               id="btn-phone"
-              class="px-6 py-2 rounded-full font-semibold transition-colors duration-200"
+              class="px-6 py-2 rounded-full font-semibold text-sm transition-all duration-300"
+              data-active="false"
             >
-              Teléfono (WhatsApp)
+              WhatsApp
             </button>
           </div>
-
-          <div class="flex flex-col gap-4">
+          <div class="relative flex flex-col sm:flex-row gap-3">
             <input
               id="contact-input"
               type="email"
-              placeholder="Ingresa tu correo electrónico"
-              class="flex-1 px-6 py-4 border border-slate-300 rounded-full focus:outline-none focus:ring-1 focus:ring-teal-400 focus:border-transparent text-md text-slate-700"
+              placeholder="tu@correo.com"
+              class="flex-1 w-full px-6 py-4 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent text-md text-slate-700 transition"
               required
-              aria-label="Correo electrónico para suscripción"
             />
             <button
               type="submit"
-              class="bg-teal-600 hover:bg-teal-700 text-white px-8 py-4 rounded-full font-semibold text-md transform hover:scale-105 transition-all duration-300 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-600"
+              class="bg-teal-600 hover:bg-teal-700 text-white px-8 py-4 rounded-full font-bold text-base transform hover:scale-105 transition-all duration-300 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-600 sm:absolute sm:right-0 sm:inset-y-0 sm:h-full sm:py-0 sm:rounded-l-none"
             >
-              Suscribirme Ahora
+              Suscribirme
             </button>
           </div>
         </form>
       </div>
 
-      <ul
-        class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-slate-500"
-      >
-        <li class="flex items-center justify-center">
-          <span class="mr-2" aria-hidden="true">🎯</span>
-          Promociones exclusivas
-        </li>
-        <li class="flex items-center justify-center">
-          <span class="mr-2" aria-hidden="true">📚</span>
-          Consejos de cuidado
-        </li>
-      </ul>
+      <div class="mt-10 border-t border-gray-200 pt-6">
+        <ul
+          class="flex flex-col md:flex-row justify-center gap-x-10 gap-y-4 text-sm text-slate-500"
+        >
+          <li class="flex items-center justify-center gap-2">
+            <span class="text-green-500">✓</span> Promociones exclusivas
+          </li>
+          <li class="flex items-center justify-center gap-2">
+            <span class="text-green-500">✓</span> Consejos de cuidado
+          </li>
+          <li class="flex items-center justify-center gap-2">
+            <span class="text-green-500">✓</span> Sin spam, prometido
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>

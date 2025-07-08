@@ -60,15 +60,6 @@ const servicesData = [
   },
   {
     id: 3,
-    icon: DogSpaIcon,
-    title: "Spa Canino/Felino",
-    description:
-      "Servicio de spa y grooming profesional enfocado en la higiene, salud y estética de tu mascota. Realizamos baños medicados, cepillado de pelaje, limpieza de oídos y corte de uñas, todo adaptado a su raza y necesidades específicas.",
-    includes:
-      "Baño, corte de uñas, limpieza de oídos, cepillado, estilizado según raza",
-  },
-  {
-    id: 4,
     icon: ToothIcon,
     title: "Cuidado Dental",
     description:
@@ -76,13 +67,22 @@ const servicesData = [
     includes: "Profilaxis, radiografías dentales, extracciones, cirugía oral",
   },
   {
-    id: 5,
+    id: 4,
     icon: EmergencyIcon,
-    title: "Emergencias",
+    title: "Hospitalización y Monitoreo",
     description:
-      "Atención veterinaria de emergencias disponible 24/7 para situaciones críticas. Nuestro equipo está preparado para actuar con rapidez y precisión cuando más lo necesitas.",
+      "Ofrecemos un servicio de hospitalización en un ambiente seguro y controlado para mascotas que requieren cuidados continuos, recuperación postoperatoria o tratamiento intensivo.",
     includes:
-      "Atención inmediata, traumas, intoxicaciones, monitoreo intensivo, soporte vital",
+      "Monitoreo 24/7 de signos vitales, administración de medicamentos y fluidoterapia, manejo del dolor, soporte nutricional especializado, áreas de recuperación cómodas y climatizadas",
+  },
+  {
+    id: 5,
+    icon: DogSpaIcon,
+    title: "Spa Canino/Felino",
+    description:
+      "Servicio de spa y grooming profesional enfocado en la higiene, salud y estética de tu mascota. Realizamos baños medicados, cepillado de pelaje, limpieza de oídos y corte de uñas, todo adaptado a su raza y necesidades específicas.",
+    includes:
+      "Baño, corte de uñas, limpieza de oídos, cepillado, estilizado según raza",
   },
   {
     id: 6,
