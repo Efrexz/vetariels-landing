@@ -4,7 +4,7 @@ import navigationItems from "@data/navegationItems";
 import FloatingButton from "@components/ui/FloatingButton.astro";
 
 //Estilos compartidos para enlaces de navegación
-const desktopNavLinkStyles = `text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium`;
+const desktopNavLinkStyles = `relative group text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors`;
 const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-600 hover:text-teal-600 hover:bg-gray-50 rounded-md`;
 ---
 
@@ -46,7 +46,8 @@ const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-600
                       aria-label={item.ariaLabel}
                       role="menuitem"
                     >
-                      <span class="flex items-center">{item.label}</span>
+                      {item.label}
+                      <span class="absolute bottom-0 left-0 w-full h-0.5 bg-teal-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
                     </a>
                   </li>
                 );

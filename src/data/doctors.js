@@ -2,8 +2,7 @@ const doctors = [
   {
     id: "katherine-gonzalez",
     name: "Dra. Katherine González",
-    imageUrl:
-      "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    imageUrl: "/images/katherine.webp",
     specialty: "Gastroenterología y nutrición",
     location: "San Miguel",
   },
