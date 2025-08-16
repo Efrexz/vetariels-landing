@@ -9,8 +9,7 @@ const doctors = [
   {
     id: "rafael-colmenares",
     name: "Dr. Rafael Colmenares",
-    imageUrl:
-      "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    imageUrl: "/images/rafael.webp",
     specialty: "Medicina Interna y Felina",
     location: "San Miguel",
   },

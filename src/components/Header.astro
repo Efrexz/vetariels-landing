@@ -1,7 +1,9 @@
 ---
+import { Image } from "astro:assets";
 import BurguerMenuIcon from "@assets/icons/burguerMenu.svg";
 import navigationItems from "@data/navegationItems";
 import FloatingButton from "@components/ui/FloatingButton.astro";
+import XIcon from "@assets/icons/xIcon.svg";
 
 //Estilos compartidos para enlaces de navegación
 const desktopNavLinkStyles = `relative group text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors`;
@@ -24,10 +26,12 @@ const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-600
               class="flex items-center rounded-lg"
               aria-label="Ir al inicio"
             >
-              <img
+              <Image
                 src="/logoTransparente.png"
                 alt="Logo de la veterinaria"
-                class="h-14"
+                loading="eager"
+                width="120"
+                height="120"
               />
             </a>
           </div>
@@ -68,7 +72,8 @@ const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-600
             aria-expanded="false"
             aria-label="Abrir menú principal"
           >
-            <BurguerMenuIcon class="w-6 h-6" />
+            <BurguerMenuIcon id="burger-icon" class="w-6 h-6" />
+            <XIcon id="close-icon" class="w-7 h-7 hidden" />
           </button>
         </div>
       </div>
@@ -120,12 +125,19 @@ const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-600
     menuButton.setAttribute("aria-expanded", "true");
   }
 
+  function toggleIcons(isOpen) {
+    document.getElementById("burger-icon")?.classList.toggle("hidden", isOpen);
+    document.getElementById("close-icon")?.classList.toggle("hidden", !isOpen);
+  }
+
   menuButton.addEventListener("click", () => {
     const isExpanded = menuButton.getAttribute("aria-expanded") === "true";
     if (isExpanded) {
       closeMenu();
+      toggleIcons(false);
     } else {
       openMenu();
+      toggleIcons(true);
     }
   });
 
@@ -169,7 +181,7 @@ const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-600
     const container = document.getElementById("floating-whatsapp-container");
     const isExpanded = floatingButton.getAttribute("aria-expanded") === "true";
 
-    if (isExpanded && !container.contains(event.target)) {
+    if (isExpanded && container && !container.contains(event.target as Node)) {
       toggleWhatsappMenu();
     }
   });

@@ -173,17 +173,53 @@ import EnvelopeIcon from "@assets/icons/envelope.svg";
       successMessage.classList.remove("hidden");
     }
 
-    newsletterForm.addEventListener("submit", (e) => {
+    newsletterForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const contactValue = inputField.value;
-      console.log(
-        `Suscripción solicitada por ${currentMethod}: ${contactValue}`
+      const submitButton = newsletterForm.querySelector(
+        'button[type="submit"]'
       );
 
-      formContainer.classList.add("hidden");
-      successMessage.classList.remove("hidden");
-      localStorage.setItem("isSubscribedToNewsletter", "true");
+      // Deshabilitar botón para evitar envíos dobles
+      submitButton.disabled = true;
+      submitButton.textContent = "Enviando...";
+      try {
+        // 2. Usar fetch para enviar los datos a nuestra función
+        const response = await fetch("/api/subscribe", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            method: currentMethod, // "email" o "phone"
+            contact: contactValue, // el valor del input
+          }),
+        });
+
+        if (response.ok) {
+          // Si la respuesta es exitosa (status 200)
+          console.log(
+            `Suscripción enviada por ${currentMethod}: ${contactValue}`
+          );
+          formContainer.classList.add("hidden");
+          successMessage.classList.remove("hidden");
+          localStorage.setItem("isSubscribedToNewsletter", "true");
+        } else {
+          // Si la función devuelve un error
+          alert(
+            "Hubo un error al procesar tu suscripción. Inténtalo de nuevo."
+          );
+          submitButton.disabled = false;
+          submitButton.textContent = "Suscribirme";
+        }
+      } catch (error) {
+        // Si hay un error de red
+        console.error("Error de red:", error);
+        alert("No se pudo enviar la suscripción. Revisa tu conexión.");
+        submitButton.disabled = false;
+        submitButton.textContent = "Suscribirme";
+      }
     });
   });
 </script>
