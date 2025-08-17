@@ -1,5 +1,7 @@
 ---
 import EnvelopeIcon from "@assets/icons/envelope.svg";
+
+const FORMSPREE_URL = "https://formspree.io/f/myzpazje";
 ---
 
 <section
@@ -11,7 +13,7 @@ import EnvelopeIcon from "@assets/icons/envelope.svg";
       id="newsletter-card"
       class="bg-white rounded-3xl shadow-xl p-8 md:p-12 transition-shadow duration-300 hover:shadow-2xl"
     >
-      <!-- Mensaje de éxito -->
+      <!-- Mensaje de éxito
       <div id="success-message" class="hidden">
         <div class="text-green-500 text-6xl mb-4" aria-hidden="true">✓</div>
         <h3 class="text-2xl font-bold text-slate-800 mb-2">
@@ -21,7 +23,7 @@ import EnvelopeIcon from "@assets/icons/envelope.svg";
           Pronto recibirás nuestro boletín con consejos y promociones
           exclusivas.
         </p>
-      </div>
+      </div> -->
 
       <div id="form-container">
         <div
@@ -38,7 +40,12 @@ import EnvelopeIcon from "@assets/icons/envelope.svg";
           y noticias de salud.
         </p>
 
-        <form id="newsletter-form" class="max-w-md mx-auto">
+        <form
+          id="newsletter-form"
+          class="max-w-md mx-auto"
+          action={FORMSPREE_URL}
+          method="POST"
+        >
           <div
             class="bg-gray-200/70 p-1.5 rounded-full flex justify-center gap-2 mb-6 w-fit mx-auto"
           >
@@ -46,7 +53,6 @@ import EnvelopeIcon from "@assets/icons/envelope.svg";
               type="button"
               id="btn-email"
               class="px-6 py-2 rounded-full font-semibold text-sm transition-all duration-300"
-              data-active="true"
             >
               Correo Electrónico
             </button>
@@ -54,14 +60,22 @@ import EnvelopeIcon from "@assets/icons/envelope.svg";
               type="button"
               id="btn-phone"
               class="px-6 py-2 rounded-full font-semibold text-sm transition-all duration-300"
-              data-active="false"
             >
               WhatsApp
             </button>
           </div>
           <div class="relative flex flex-col sm:flex-row gap-3">
+            <!-- 2. CAMPO OCULTO: Este campo le dirá a Formspree qué método eligió el usuario -->
+            <input
+              type="hidden"
+              name="metodo_de_contacto"
+              id="metodo-contacto"
+              value="Correo Electrónico"
+            />
+
             <input
               id="contact-input"
+              name="contacto_del_usuario"
               type="email"
               placeholder="tu@correo.com"
               class="flex-1 w-full px-6 py-4 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent text-md text-slate-700 transition"
@@ -99,65 +113,37 @@ import EnvelopeIcon from "@assets/icons/envelope.svg";
 <script is:inline>
   document.addEventListener("DOMContentLoaded", () => {
     // Seleccionamos todos los elementos que necesitamos
-    const formContainer = document.getElementById("form-container");
-    const successMessage = document.getElementById("success-message");
-    const newsletterForm = document.getElementById("newsletter-form");
     const btnEmail = document.getElementById("btn-email");
     const btnPhone = document.getElementById("btn-phone");
     const inputField = document.getElementById("contact-input");
-
-    // Variable para saber qué método está seleccionado
-    let currentMethod = "email";
+    const hiddenMethodInput = document.getElementById("metodo-contacto");
 
     // Función para actualizar la UI del formulario según el método elegido
     function updateFormUI(method) {
-      currentMethod = method; // Guardamos el método actual
       if (method === "email") {
-        // Actualizamos el campo de entrada para email
         inputField.type = "email";
         inputField.placeholder = "Ingresa tu correo electrónico";
-        inputField.setAttribute(
-          "aria-label",
-          "Correo electrónico para suscripción"
-        );
+        hiddenMethodInput.value = "Correo Electrónico"; // Actualizamos el valor del campo oculto
+
         // Actualizamos los estilos de los botones
-        btnEmail.classList.add("bg-teal-600", "text-white");
-        btnEmail.classList.remove(
-          "bg-white",
-          "text-teal-600",
-          "border",
-          "border-teal-600"
-        );
-        btnPhone.classList.add(
-          "bg-white",
-          "text-teal-600",
-          "border",
-          "border-teal-600"
-        );
-        btnPhone.classList.remove("bg-teal-600", "text-white");
+        btnEmail.classList.add("bg-white", "text-slate-800", "shadow-sm");
+        btnEmail.classList.remove("text-slate-500");
+        btnPhone.classList.add("text-slate-500");
+        btnPhone.classList.remove("bg-white", "text-slate-800", "shadow-sm");
       } else {
         // Si el método es 'phone'
-        // Actualizamos el campo de entrada para teléfono
         inputField.type = "tel";
-        inputField.placeholder = "Ingresa tu número de teléfono";
-        inputField.setAttribute("aria-label", "Teléfono para suscripción");
+        inputField.placeholder = "Ingresa tu número de WhatsApp";
+        hiddenMethodInput.value = "WhatsApp"; // Actualizamos el valor del campo oculto
+
         // Actualizamos los estilos de los botones
-        btnPhone.classList.add("bg-teal-600", "text-white");
-        btnPhone.classList.remove(
-          "bg-white",
-          "text-teal-600",
-          "border",
-          "border-teal-600"
-        );
-        btnEmail.classList.add(
-          "bg-white",
-          "text-teal-600",
-          "border",
-          "border-teal-600"
-        );
-        btnEmail.classList.remove("bg-teal-600", "text-white");
+        btnPhone.classList.add("bg-white", "text-slate-800", "shadow-sm");
+        btnPhone.classList.remove("text-slate-500");
+        btnEmail.classList.add("text-slate-500");
+        btnEmail.classList.remove("bg-white", "text-slate-800", "shadow-sm");
       }
       inputField.value = ""; // Limpiamos el campo al cambiar de método
+      inputField.focus(); // Ponemos el foco en el campo para que el usuario escriba
     }
 
     // Añadimos los eventos de clic a los botones
@@ -166,60 +152,5 @@ import EnvelopeIcon from "@assets/icons/envelope.svg";
 
     // Inicializamos el formulario en el estado de "email"
     updateFormUI("email");
-
-    // Lógica de suscripción
-    if (localStorage.getItem("isSubscribedToNewsletter") === "true") {
-      formContainer.classList.add("hidden");
-      successMessage.classList.remove("hidden");
-    }
-
-    newsletterForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const contactValue = inputField.value;
-      const submitButton = newsletterForm.querySelector(
-        'button[type="submit"]'
-      );
-
-      // Deshabilitar botón para evitar envíos dobles
-      submitButton.disabled = true;
-      submitButton.textContent = "Enviando...";
-      try {
-        // 2. Usar fetch para enviar los datos a nuestra función
-        const response = await fetch("/api/subscribe", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            method: currentMethod, // "email" o "phone"
-            contact: contactValue, // el valor del input
-          }),
-        });
-
-        if (response.ok) {
-          // Si la respuesta es exitosa (status 200)
-          console.log(
-            `Suscripción enviada por ${currentMethod}: ${contactValue}`
-          );
-          formContainer.classList.add("hidden");
-          successMessage.classList.remove("hidden");
-          localStorage.setItem("isSubscribedToNewsletter", "true");
-        } else {
-          // Si la función devuelve un error
-          alert(
-            "Hubo un error al procesar tu suscripción. Inténtalo de nuevo."
-          );
-          submitButton.disabled = false;
-          submitButton.textContent = "Suscribirme";
-        }
-      } catch (error) {
-        // Si hay un error de red
-        console.error("Error de red:", error);
-        alert("No se pudo enviar la suscripción. Revisa tu conexión.");
-        submitButton.disabled = false;
-        submitButton.textContent = "Suscribirme";
-      }
-    });
   });
 </script>
