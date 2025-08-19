@@ -2,22 +2,21 @@ const doctors = [
   {
     id: "katherine-gonzalez",
     name: "Dra. Katherine González",
-    imageUrl: "/images/katherine.webp",
+    imageUrl: "/images/doctors/katherine.webp",
     specialty: "Gastroenterología y nutrición",
     location: "San Miguel",
   },
   {
     id: "rafael-colmenares",
     name: "Dr. Rafael Colmenares",
-    imageUrl: "/images/rafael.webp",
+    imageUrl: "/images/doctors/rafael.webp",
     specialty: "Medicina Interna y Felina",
     location: "San Miguel",
   },
   {
     id: "joe-aliaga",
     name: "Dr. Joe Aliaga",
-    imageUrl:
-      "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    imageUrl: "/images/doctors/joe.webp",
     specialty: "Especialista en dermatología",
     location: "San Miguel",
   },

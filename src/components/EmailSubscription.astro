@@ -126,10 +126,10 @@ const FORMSPREE_URL = "https://formspree.io/f/myzpazje";
         hiddenMethodInput.value = "Correo Electrónico"; // Actualizamos el valor del campo oculto
 
         // Actualizamos los estilos de los botones
-        btnEmail.classList.add("bg-white", "text-slate-800", "shadow-sm");
+        btnEmail.classList.add("bg-teal-600", "text-white", "shadow-sm");
         btnEmail.classList.remove("text-slate-500");
         btnPhone.classList.add("text-slate-500");
-        btnPhone.classList.remove("bg-white", "text-slate-800", "shadow-sm");
+        btnPhone.classList.remove("bg-teal-600", "text-white", "shadow-sm");
       } else {
         // Si el método es 'phone'
         inputField.type = "tel";
@@ -137,13 +137,12 @@ const FORMSPREE_URL = "https://formspree.io/f/myzpazje";
         hiddenMethodInput.value = "WhatsApp"; // Actualizamos el valor del campo oculto
 
         // Actualizamos los estilos de los botones
-        btnPhone.classList.add("bg-white", "text-slate-800", "shadow-sm");
+        btnPhone.classList.add("bg-teal-600", "text-white", "shadow-sm");
         btnPhone.classList.remove("text-slate-500");
         btnEmail.classList.add("text-slate-500");
-        btnEmail.classList.remove("bg-white", "text-slate-800", "shadow-sm");
+        btnEmail.classList.remove("bg-teal-600", "text-white", "shadow-sm");
       }
       inputField.value = ""; // Limpiamos el campo al cambiar de método
-      inputField.focus(); // Ponemos el foco en el campo para que el usuario escriba
     }
 
     // Añadimos los eventos de clic a los botones

@@ -1,0 +1,21 @@
+---
+import XIcon from "@assets/icons/xIcon.svg";
+const { modalId } = Astro.props;
+---
+
+<dialog
+  id={modalId}
+  class="p-0 rounded-lg shadow-2xl backdrop:bg-black/50 w-11/12 max-w-2xl"
+>
+  <div class="relative bg-white rounded-lg p-4 sm:p-6">
+    <slot />
+
+    <button
+      onclick=`document.getElementById('${modalId}').close()`
+      class="absolute top-2 right-2 bg-gray-100 rounded-full p-2 text-gray-600 hover:bg-red-100 hover:text-red-600 transition-colors"
+      aria-label="Cerrar ventana"
+    >
+      <XIcon class="w-5 h-5" />
+    </button>
+  </div>
+</dialog>

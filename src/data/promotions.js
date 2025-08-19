@@ -1,55 +1,154 @@
 const promotions = [
   {
-    id: "vacunacion",
-    discount: "30%",
-    title: "Paquete de Vacunación",
-    services: [
-      "Serie completa de vacunas",
-      "Examen de salud general",
-      "Prevención de parásitos",
-      "Consulta nutricional",
+    id: "esterilizacion-agosto",
+    title: "Campaña de Esterilización y Castración",
+    subtitle: "Promoción Mes de Agosto",
+    image: "/images/promotions/castracion.webp",
+    prices: [
+      {
+        category: "Felinos",
+        details: [
+          { type: "Machos", price: "65.00" },
+          { type: "Hembras", price: "85.00" },
+        ],
+      },
+      {
+        category: "Caninos",
+        details: [
+          { type: "Machos", price: "80.00" },
+          { type: "Hembras", price: "120.00" },
+        ],
+      },
     ],
-    expirationDate: "31 de Diciembre, 2025",
-    dateISO: "2025-12-31",
+    extraOffer: {
+      title: "Exámenes básicos",
+      price: "30.00",
+    },
+    conditions: [
+      "Dirigido a mascotas menores de 7 años.",
+      "Con peso menor de 15 kg.",
+    ],
+    expirationDate: "31 de Agosto, 2025",
+    dateISO: "2025-08-31",
   },
   {
-    id: "cuidado-dental",
-    discount: "25%",
-    title: "Especial Cuidado Dental",
-    services: [
-      "Limpieza dental profesional",
-      "Radiografías dentales",
-      "Evaluación de salud oral",
-      "Instrucciones de cuidado",
+    id: "profilaxis-dental-agosto",
+    title: "Profilaxis Dental",
+    subtitle: "Cuidar su salud bucal es sinónimo de amor",
+    image: "/images/promotions/profilaxis.webp",
+    prices: [
+      {
+        category: "Precio Promocional",
+        details: [{ type: "Cupos Limitados", price: "100.00" }],
+      },
     ],
-    expirationDate: "15 de Julio, 2025",
-    dateISO: "2025-07-15",
+    extraOffer: null,
+    conditions: [
+      "Dirigido a mascotas menores de 7 años.",
+      "Con peso menor de 15 kg.",
+      "Consulta con previa cita.",
+      "Examen prequirúrgico incluido.",
+      "El precio NO incluye extracción dental.",
+      "Medios de Pago: Yape, Plin y Transferencia.",
+    ],
+    expirationDate: "31 de Agosto, 2025",
+    dateISO: "2025-08-31",
   },
   {
-    id: "nueva-mascota",
-    discount: "40%",
-    title: "Bienvenida Nueva Mascota",
-    services: [
-      "Primera consulta gratuita",
-      "Vacunas básicas",
-      "Desparasitaciones iniciales",
-      "Kit de cuidados básicos",
+    id: "esterilizacion-agosto",
+    title: "Campaña de Esterilización y Castración",
+    subtitle: "Promoción Mes de Agosto",
+    image: "/images/promotions/castracion.webp",
+    prices: [
+      {
+        category: "Felinos",
+        details: [
+          { type: "Machos", price: "65.00" },
+          { type: "Hembras", price: "85.00" },
+        ],
+      },
+      {
+        category: "Caninos",
+        details: [
+          { type: "Machos", price: "80.00" },
+          { type: "Hembras", price: "120.00" },
+        ],
+      },
     ],
-    expirationDate: "28 de Julio, 2025",
-    dateISO: "2025-07-28",
+    extraOffer: {
+      title: "Exámenes básicos",
+      price: "30.00",
+    },
+    conditions: [
+      "Dirigido a mascotas menores de 7 años.",
+      "Con peso menor de 15 kg.",
+    ],
+    expirationDate: "31 de Agosto, 2025",
+    dateISO: "2025-08-31",
   },
   {
-    id: "mascota-senior",
-    discount: "20%",
-    title: "Cuidado Mascota Senior",
-    services: [
-      "Análisis de sangre completo",
-      "Evaluación de salud articular",
-      "Exámenes de vista y oído",
-      "Plan nutricional personalizado",
+    id: "esterilizacion-agosto",
+    title: "Campaña de Esterilización y Castración",
+    subtitle: "Promoción Mes de Agosto",
+    image: "/images/promotions/castracion.webp",
+    prices: [
+      {
+        category: "Felinos",
+        details: [
+          { type: "Machos", price: "65.00" },
+          { type: "Hembras", price: "85.00" },
+        ],
+      },
+      {
+        category: "Caninos",
+        details: [
+          { type: "Machos", price: "80.00" },
+          { type: "Hembras", price: "120.00" },
+        ],
+      },
     ],
-    expirationDate: "31 de Julio, 2025",
-    dateISO: "2025-07-31",
+    extraOffer: {
+      title: "Exámenes básicos",
+      price: "30.00",
+    },
+    conditions: [
+      "Dirigido a mascotas menores de 7 años.",
+      "Con peso menor de 15 kg.",
+    ],
+    expirationDate: "31 de Agosto, 2025",
+    dateISO: "2025-08-31",
+  },
+  {
+    id: "esterilizacion-agosto",
+    title: "Campaña de Esterilización y Castración",
+    subtitle: "Promoción Mes de Agosto",
+    image: "/images/promotions/castracion.webp",
+    prices: [
+      {
+        category: "Felinos",
+        details: [
+          { type: "Machos", price: "65.00" },
+          { type: "Hembras", price: "85.00" },
+        ],
+      },
+      {
+        category: "Caninos",
+        details: [
+          { type: "Machos", price: "80.00" },
+          { type: "Hembras", price: "120.00" },
+        ],
+      },
+    ],
+    extraOffer: {
+      title: "Exámenes básicos",
+      price: "30.00",
+    },
+    conditions: [
+      "Dirigido a mascotas menores de 7 años.",
+      "Con peso menor de 15 kg.",
+    ],
+    expirationDate: "31 de Agosto, 2025",
+    dateISO: "2025-08-31",
   },
 ];
 

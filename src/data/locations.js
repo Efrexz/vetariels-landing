@@ -10,8 +10,7 @@ const locations = [
       country: "PE",
     },
     phone: "+51 954 599 221",
-    imageUrl:
-      "https://meridianvetre.com/wp-content/uploads/2019/07/medvet-exterior.png",
+    imageUrl: "/images/locations/sanMiguel.webp",
     hours: {
       weekdays: "24/7",
       weekends: "24/7",
