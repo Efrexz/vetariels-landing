@@ -3,7 +3,7 @@ const doctors = [
     id: "katherine-gonzalez",
     name: "Dra. Katherine González",
     imageUrl: "/images/doctors/katherine.webp",
-    specialty: "Gastroenterología y nutrición",
+    specialty: "Gastroenterología y Nutrición",
     location: "San Miguel",
   },
   {
@@ -17,24 +17,29 @@ const doctors = [
     id: "joe-aliaga",
     name: "Dr. Joe Aliaga",
     imageUrl: "/images/doctors/joe.webp",
-    specialty: "Especialista en dermatología",
+    specialty: "Especialista En Dermatología",
     location: "San Miguel",
   },
   {
     id: "lucia-alvarado",
-    name: "Dra. Lucía Alvarado",
-    imageUrl:
-      "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    specialty: "Medicina Integral",
+    name: "Dr. Vacuna",
+    imageUrl: "/images/doctors/efrain.webp",
+    specialty: "Refuerzo Garantizado",
     location: "San Martín de Porres",
   },
   {
-    id: "alejandra-del-rio",
-    name: "Dra. Alejandra Del Río",
-    imageUrl:
-      "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    id: "stephanie-velasquez",
+    name: "Dra. Stephanie Velásquez",
+    imageUrl: "/images/doctors/stefany.webp",
     specialty: "Cirugía y Ortopedia",
-    location: "Los Olivos",
+    location: "San Miguel",
+  },
+  {
+    id: "helen-catay",
+    name: "Dra. Helen Catay",
+    imageUrl: "/images/doctors/niomara.webp",
+    specialty: "Cirugía de tejidos Blandos",
+    location: "San Martín de Porres",
   },
   {
     id: "diego-romero",
@@ -42,14 +47,6 @@ const doctors = [
     imageUrl:
       "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
     specialty: "Medicina Felina",
-    location: "San Martín de Porres",
-  },
-  {
-    id: "helen-catay",
-    name: "Dra. Helen Catay",
-    imageUrl:
-      "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    specialty: "Cirugía de tejidos Blandos",
     location: "San Martín de Porres",
   },
 ];

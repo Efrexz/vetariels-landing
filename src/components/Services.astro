@@ -30,7 +30,7 @@ import servicesData from "@data/services";
     >
       {
         servicesData.map((service) => (
-          <div role="listitem">
+          <div role="listitem" class="flex justify-center">
             <ServiceCard
               icon={service.icon}
               title={service.title}
@@ -38,6 +38,7 @@ import servicesData from "@data/services";
               includes={service.includes}
               isFeatured={service.isFeatured}
               imageUrl={service.imageUrl}
+              isSizeSmall={service.isSizeSmall}
             />
           </div>
         ))

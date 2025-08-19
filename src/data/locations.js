@@ -28,8 +28,7 @@ const locations = [
       country: "PE",
     },
     phone: "+51 986 985 047",
-    imageUrl:
-      "https://meridianvetre.com/wp-content/uploads/2019/07/medvet-exterior.png",
+    imageUrl: "/images/locations/sanMartin.webp",
     hours: {
       weekdays: "8:00 AM - 10:00 PM",
       weekends: "9:00 AM - 6:00 PM",
@@ -47,8 +46,7 @@ const locations = [
       country: "PE",
     },
     phone: "+51 932 719 342",
-    imageUrl:
-      "https://meridianvetre.com/wp-content/uploads/2019/07/medvet-exterior.png",
+    imageUrl: "/images/locations/losOlivos.webp",
     hours: {
       weekdays: "8:00 AM - 9:00 PM",
       weekends: "8:00 AM - 5:00 PM",
