@@ -80,9 +80,9 @@ const servicesData = [
     icon: DogSpaIcon,
     title: "Spa Canino/Felino",
     description:
-      "Servicio de spa y grooming profesional enfocado en la higiene, salud y estética de tu mascota. Realizamos baños medicados, cepillado de pelaje, limpieza de oídos y corte de uñas, todo adaptado a su raza y necesidades específicas.",
+      "Servicio integral de spa y grooming profesional para perros y gatos, enfocado en la higiene, salud y estética. Incluye técnicas especializadas y productos adaptados a cada raza y necesidad.",
     includes:
-      "Baño, corte de uñas, limpieza de oídos, cepillado, estilizado según raza",
+      "Baños medicados, Cepillado y deslanado (carding/striping), Estilizado y corte según raza, Corte de uñas, Limpieza de oídos, Limpieza de almohadillas, Expresión de glándulas anales, Despeje de lagrimales",
   },
   {
     id: 6,

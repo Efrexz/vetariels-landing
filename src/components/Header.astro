@@ -6,13 +6,13 @@ import FloatingButton from "@components/ui/FloatingButton.astro";
 import XIcon from "@assets/icons/xIcon.svg";
 
 //Estilos compartidos para enlaces de navegación
-const desktopNavLinkStyles = `relative group text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors`;
-const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-600 hover:text-teal-600 hover:bg-gray-50 rounded-md`;
+const desktopNavLinkStyles = `relative group text-gray-200 hover:text-orange-400 px-3 py-2 text-sm font-medium transition-colors`;
+const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-200 hover:text-orange-400 hover:bg-blue-800 rounded-md`;
 ---
 
 <header>
   <nav
-    class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-lg"
+    class="fixed top-0 left-0 right-0 z-50 bg-blue-900/95 backdrop-blur-sm shadow-lg"
     role="navigation"
     aria-label="Navegación principal"
   >
@@ -51,7 +51,7 @@ const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-600
                       role="menuitem"
                     >
                       {item.label}
-                      <span class="absolute bottom-0 left-0 w-full h-0.5 bg-teal-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
+                      <span class="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
                     </a>
                   </li>
                 );
@@ -67,7 +67,7 @@ const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-600
         <div class="lg:hidden">
           <button
             id="mobile-menu-button"
-            class="text-gray-700"
+            class="text-gray-200 hover:text-orange-400"
             aria-controls="mobile-menu"
             aria-expanded="false"
             aria-label="Abrir menú principal"
@@ -81,7 +81,9 @@ const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-600
 
     <!-- Mobile menu -->
     <div class="lg:hidden hidden" id="mobile-menu">
-      <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t shadow-lg">
+      <div
+        class="px-2 pt-2 pb-3 space-y-1 bg-blue-900 border-t border-blue-800 shadow-lg"
+      >
         <ul role="menu" aria-label="Menú de navegación móvil">
           {
             navigationItems.map((item) => {

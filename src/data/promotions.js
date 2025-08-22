@@ -47,7 +47,6 @@ const promotions = [
       "Dirigido a mascotas menores de 7 años.",
       "Con peso menor de 15 kg.",
       "Consulta con previa cita.",
-      "Examen prequirúrgico incluido.",
       "El precio NO incluye extracción dental.",
       "Medios de Pago: Yape, Plin y Transferencia.",
     ],
