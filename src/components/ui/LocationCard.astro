@@ -9,7 +9,7 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
 ---
 
 <article
-  class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-teal-500/30 transition-all duration-300 transform hover:-translate-y-1.5 h-full flex flex-col group"
+  class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 transform hover:-translate-y-1.5 h-full flex flex-col group"
   role="region"
   aria-labelledby={locationId}
   itemscope
@@ -33,7 +33,7 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
     <header class="mb-4">
       <h2
         id={locationId}
-        class="text-2xl font-bold text-teal-600"
+        class="text-2xl font-bold text-blue-900"
         itemprop="name"
       >
         {name}
@@ -46,14 +46,14 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
     >
       <h3 class="sr-only">Detalles de contacto</h3>
       <address
-        class="space-y-3 text-gray-700 not-italic"
+        class="space-y-3 text-slate-700 not-italic"
         itemprop="address"
         itemscope
         itemtype="https://schema.org/PostalAddress"
       >
         <div class="flex items-start">
           <LocationIcon
-            class="text-gray-400 mr-3 w-5 h-5 mt-0.5 flex-shrink-0"
+            class="text-slate-400 mr-3 w-5 h-5 mt-0.5 flex-shrink-0"
             aria-hidden="true"
           />
           <span class="text-md">
@@ -68,7 +68,7 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
 
         <div class="flex items-start">
           <PhoneIcon
-            class="text-gray-400 mr-3 w-5 h-5 mt-0.5 flex-shrink-0"
+            class="text-slate-400 mr-3 w-5 h-5 mt-0.5 flex-shrink-0"
             aria-hidden="true"
           />
           <div itemprop="telephone">
@@ -79,7 +79,7 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
 
         <div class="flex items-start">
           <ClockIcon
-            class="text-gray-500 mr-3 w-5 h-5 mt-0.5 flex-shrink-0"
+            class="text-slate-500 mr-3 w-5 h-5 mt-0.5 flex-shrink-0"
             aria-hidden="true"
           />
           <div class="text-md" itemprop="openingHours">
@@ -111,7 +111,7 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
           href={`https://www.google.com/maps/dir/?api=1&origin=Current+Location&destination=${encodeURIComponent(address.street + ", " + address.locality)}`}
           target="_blank"
           rel="noopener noreferrer"
-          class="flex-1 bg-teal-50 text-teal-700 py-3 px-4 rounded-lg font-bold hover:bg-teal-100 transition-colors duration-300 flex items-center justify-center shadow-md focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2 transform hover:scale-105"
+          class="flex-1 bg-teal-50 text-blue-900 py-3 px-4 rounded-lg font-bold hover:bg-blue-100 transition-colors duration-300 flex items-center justify-center shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transform hover:scale-105"
           itemprop="hasMap"
         >
           <span>Cómo llegar</span>

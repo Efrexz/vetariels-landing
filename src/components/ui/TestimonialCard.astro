@@ -23,7 +23,7 @@ const initial = authorName.charAt(0).toUpperCase();
     itemtype="https://schema.org/Review"
   >
     <div
-      class="absolute top-4 right-4 text-gray-300 group-hover:text-teal-500 transition-colors duration-300"
+      class="absolute top-4 right-4 text-slate-300 group-hover:text-orange-500 transition-colors duration-300"
     >
       <ExternalLinkIcon class="w-5 h-5" />
     </div>
@@ -37,18 +37,18 @@ const initial = authorName.charAt(0).toUpperCase();
       <meta itemprop="bestRating" content="5" />
     </div>
 
-    <blockquote class="text-gray-600 italic mb-6 flex-grow">
+    <blockquote class="text-slate-700 italic mb-6 flex-grow">
       <p itemprop="reviewBody">"{quote}"</p>
     </blockquote>
 
     <figcaption class="flex items-center">
       <div
-        class="w-14 h-14 rounded-full bg-teal-500 text-white flex items-center justify-center text-xl font-bold mr-4"
+        class="w-14 h-14 rounded-full bg-blue-900 text-white flex items-center justify-center text-xl font-bold mr-4"
       >
         <span>{initial}</span>
       </div>
       <div itemprop="author" itemscope itemtype="https://schema.org/Person">
-        <h4 class="font-bold text-gray-900" itemprop="name">{authorName}</h4>
+        <h4 class="font-bold text-blue-900" itemprop="name">{authorName}</h4>
 
         <div
           class="flex items-center text-yellow-400 mt-1"
@@ -61,7 +61,7 @@ const initial = authorName.charAt(0).toUpperCase();
           }
           <span class="sr-only">{rating} de 5 estrellas</span>
         </div>
-        <p class="text-sm text-gray-500 mt-1">{petInfo}</p>
+        <p class="text-sm text-slate-500 mt-1">{petInfo}</p>
       </div>
     </figcaption>
   </figure>
