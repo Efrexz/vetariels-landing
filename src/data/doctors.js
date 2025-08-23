@@ -21,18 +21,18 @@ const doctors = [
     location: "San Miguel",
   },
   {
-    id: "lucia-alvarado",
-    name: "Dra. Lucia Alvarado",
-    imageUrl: "/images/doctors/lucia.webp",
-    specialty: "Medicina Interna",
-    location: "San Martín de Porres",
-  },
-  {
     id: "stephanie-velasquez",
     name: "Dra. Stephanie Velásquez",
     imageUrl: "/images/doctors/stefany.webp",
     specialty: "Medicina Interna",
     location: "San Miguel",
+  },
+  {
+    id: "lucia-alvarado",
+    name: "Dra. Lucia Alvarado",
+    imageUrl: "/images/doctors/lucia.webp",
+    specialty: "Medicina Interna",
+    location: "San Martín de Porres",
   },
   {
     id: "helen-catay",

@@ -34,10 +34,10 @@ function generateWhatsappUrl(sede) {
     id="whatsapp-options"
     class="hidden absolute bottom-20 right-0 w-64 bg-slate-100 rounded-lg shadow-2xl transition-all duration-300 ease-in-out transform origin-bottom-right overflow-hidden"
   >
-    <div class="w-full h-1.5 bg-teal-500"></div>
+    <div class="w-full h-1.5 bg-blue-900"></div>
 
     <div class="p-4">
-      <p class="font-semibold text-teal-800 text-center mb-3">
+      <p class="font-semibold text-blue-900 text-center mb-3">
         Elige una sede para contactar
       </p>
       <ul class="space-y-1">
@@ -48,10 +48,10 @@ function generateWhatsappUrl(sede) {
                 href={generateWhatsappUrl(sede)}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-center py-3 px-1 text-sm font-medium text-gray-700 rounded-md hover:bg-slate-200 transition-colors border-b border-gray-300"
+                class="flex items-center py-3 px-1 text-sm font-medium text-slate-700 rounded-md hover:bg-slate-200 transition-colors border-b border-slate-200"
                 aria-label={`Contactar con la sede de ${sede.nombre} por WhatsApp`}
               >
-                <LocationIcon class="w-5 h-5 mr-3 text-teal-600" />
+                <LocationIcon class="w-5 h-5 mr-3 text-orange-500" />
                 <span>{sede.nombre}</span>
               </a>
             </li>
