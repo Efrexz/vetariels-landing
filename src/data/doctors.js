@@ -48,6 +48,13 @@ const doctors = [
     specialty: "Medicina Interna",
     location: "San Martín de Porres",
   },
+  {
+    id: "alejandra",
+    name: "Dra. Alejandra",
+    imageUrl: "/images/doctors/alejandra.webp",
+    specialty: "Medicina Interna",
+    location: "Los Olivos",
+  },
 ];
 
 export default doctors;
