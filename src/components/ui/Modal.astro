@@ -5,9 +5,9 @@ const { modalId } = Astro.props;
 
 <dialog
   id={modalId}
-  class="p-0 rounded-lg shadow-2xl backdrop:bg-black/50 w-11/12 max-w-2xl"
+  class="p-0 rounded-2xl shadow-2xl backdrop:bg-black/50 w-11/12 max-w-2xl border-gray-200 open:animate-in open:fade-in-0 open:zoom-in-95 duration-300 delay-400"
 >
-  <div class="relative bg-white rounded-lg p-4 sm:p-6">
+  <div class="relative max-h-[94vh] overflow-y-auto bg-white p-4 sm:p-6">
     <slot />
 
     <button
