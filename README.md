@@ -1,48 +1,61 @@
-# Astro Starter Kit: Basics
+# Veterinaria Ariels Clinic - Landing Page
 
-```sh
-npm create astro@latest -- --template basics
+## Descripción
+Este proyecto es una landing page moderna y responsiva diseñada para la clínica veterinaria Ariels Clinic. El objetivo principal es establecer una presencia online para la veterinaria, proporcionando a los clientes potenciales y existentes una forma accesible y atractiva de conocer los servicios que ofrecemos, el equipo médico, la información de contacto y las ubicaciones de nuestras sedes.
+
+## ¿Por qué este proyecto?
+Creé esta landing page con el fin de ayudar a la veterinaria Ariels Clinic a expandir su alcance y mejorar su visibilidad en el entorno digital. Mi motivación fue aplicar mis habilidades de desarrollo web para crear una solución práctica que resolviera una necesidad real del negocio: tener una plataforma centralizada para mostrar su oferta de valor y facilitar la comunicación con sus clientes. Este proyecto me permitió trabajar en un caso de uso real, desde el diseño hasta la implementación, enfocándome en la usabilidad y la presentación de información clave.
+
+## Características principales
+- 🐾 **Servicios completos:** Detalle de todos los servicios veterinarios ofrecidos.
+- 👨‍⚕️ **Nuestro equipo:** Presentación del equipo médico con sus especialidades.
+- 📱 **Contacto fácil:** Múltiples formas de contacto, incluyendo teléfono y redes sociales.
+- 📍 **Sedes disponibles:** Información y ubicación de las diferentes sucursales.
+- ✨ **Diseño responsivo:** Adaptable a cualquier dispositivo (móvil, tablet, escritorio).
+
+## Tecnologías utilizadas
+- **HTML5:** Estructura semántica del contenido.
+- **Tailwind CSS:** Estilos modernos y responsivos.
+- **JavaScript:** Interactividad y funcionalidades dinámicas.
+
+## 🚀 Demo en vivo
+👉 **Prueba la aplicación aquí:** https://vetariels-landing.vercel.app/
+
+## Instalación y ejecución
+1. Clona el repositorio:
+
+```
+git clone https://github.com/Efrexz/vetariels-landing.git
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+2. Ingresa al directorio del proyecto:
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+```
+cd vetariels-landing
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+3. Instala las dependencias:
 
-## 🧞 Commands
+```
+npm install
+```
 
-All commands are run from the root of the project, from a terminal:
+4. Inicia el servidor de desarrollo:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+```
+npm run dev
+```
 
-## 👀 Want to learn more?
+## Próximas mejoras
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- 📅 **Sistema de agendamiento de citas:** Permitir a los usuarios reservar citas directamente desde la página.
+- 💬 **Chat en vivo:** Implementar un chat para soporte y consultas rápidas.
+- 🖼️ **Galería de casos de éxito/pacientes:** Mostrar fotos de mascotas y testimonios.
+
+## Contacto
+- 📩 **Email:** efrexz448@outlook.com
+- 💼 **Linkedin:** https://www.linkedin.com/in/efrainandrade-dev/
+
+---
+
+**¡Gracias por visitar la Landing Page de Veterinaria Ariels Clinic! 🐾**
