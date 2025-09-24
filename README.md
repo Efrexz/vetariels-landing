@@ -14,9 +14,9 @@ Creé esta landing page con el fin de ayudar a la veterinaria Ariels Clinic a ex
 - ✨ **Diseño responsivo:** Adaptable a cualquier dispositivo (móvil, tablet, escritorio).
 
 ## Tecnologías utilizadas
-- **Astro:** 
-- **Tailwind CSS:**
-- **JavaScript:**
+- **Astro** 
+- **Tailwind CSS**
+- **JavaScript**
 
 ## 🚀 Demo en vivo
 👉 **Prueba la aplicación aquí:** https://vetariels-landing.vercel.app/
