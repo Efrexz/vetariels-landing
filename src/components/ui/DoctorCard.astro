@@ -5,29 +5,34 @@ const { name, specialty, imageUrl, location } = Astro.props;
 ---
 
 <article
-  class="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white text-center shadow-card transition duration-500 hover:-translate-y-1 hover:shadow-xl"
+  class="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-card transition duration-500 hover:-translate-y-1 hover:shadow-xl"
   aria-labelledby={`doctor-${name.replace(/\s+/g, "-").toLowerCase()}`}
 >
-  <div class="h-1 w-full bg-gradient-to-r from-brand-orange to-brand-navy"></div>
-  <figure class="flex justify-center px-6 pt-7">
+  <figure class="relative h-64 overflow-hidden sm:h-72">
     <img
       src={imageUrl}
       alt={`Foto profesional del Dr(a). ${name}`}
-      class="h-32 w-32 rounded-full object-cover object-top ring-4 ring-brand-mist"
+      class="absolute inset-0 h-full w-full object-cover object-top transition-all duration-500 ease-in-out group-hover:scale-110"
       loading="lazy"
     />
-    <figcaption class="sr-only">Foto del Dr(a). {name}</figcaption>
+    <div class="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/25 to-transparent transition-all duration-500 group-hover:via-brand-navy/40" />
+
+    <figcaption class="absolute inset-x-0 bottom-0 z-10 p-5 text-white">
+      <h3
+        id={`doctor-${name.replace(/\s+/g, "-").toLowerCase()}`}
+        class="text-lg font-bold leading-snug tracking-[-0.02em]"
+      >
+        {name}
+      </h3>
+      <div class="mt-2 flex items-center gap-2">
+        <span class="h-0.5 w-5 rounded-full bg-brand-orange" aria-hidden="true" />
+        <p class="text-sm text-white/85">{specialty}</p>
+      </div>
+    </figcaption>
   </figure>
 
-  <header class="mt-5 px-6">
-    <h3 class="text-lg font-bold leading-tight text-brand-navy">
-      {name}
-    </h3>
-    <p class="mt-1 text-sm font-semibold text-brand-orange">{specialty}</p>
-  </header>
-
   <section
-    class="mt-5 space-y-3 border-t border-slate-100 px-6 pt-4 pb-6 text-left text-sm text-brand-ink/80"
+    class="space-y-3 p-5 text-sm text-brand-ink/80"
     aria-label="Información del médico"
   >
     <div class="flex items-center gap-3">
