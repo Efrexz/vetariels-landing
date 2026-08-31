@@ -6,6 +6,21 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  background: #ffffff;
+  color: #24364b;
+}
+
+::selection {
+  background: #f5821f;
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 3px solid #f5821f;
+  outline-offset: 3px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

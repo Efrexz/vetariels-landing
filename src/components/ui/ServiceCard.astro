@@ -1,72 +1,86 @@
 ---
-import { Image } from "astro:assets";
-import ClinicIcon from "@assets/icons/clinic.png";
-import HeartIcon from "@assets/icons/health.png";
-const {
-  icon,
-  title,
-  description,
-  includes,
-  isFeatured = false,
-  imageUrl,
-} = Astro.props;
+import { Check } from "@lucide/astro";
 
-const isSizeSmall = icon === HeartIcon || icon === ClinicIcon;
+const { icon: Icon, title, description, items = [], isFeatured = false, imageUrl, tagline, accent: accentKey = "orange" } = Astro.props;
+
+const accentStyles = {
+  rose: { iconBg: "bg-rose-100", iconText: "text-rose-500", chip: "bg-rose-500" },
+  sky: { iconBg: "bg-sky-100", iconText: "text-sky-600", chip: "bg-sky-500" },
+  emerald: { iconBg: "bg-emerald-100", iconText: "text-emerald-600", chip: "bg-emerald-500" },
+  orange: { iconBg: "bg-orange-100", iconText: "text-orange-500", chip: "bg-orange-500" },
+  purple: { iconBg: "bg-purple-100", iconText: "text-purple-500", chip: "bg-purple-500" },
+  amber: { iconBg: "bg-amber-100", iconText: "text-amber-500", chip: "bg-amber-500" },
+};
+
+const accent = accentStyles[accentKey] ?? accentStyles.orange;
 ---
 
 {
   isFeatured ? (
-    <article class="relative w-80 h-80 md:w-96 md:h-96 rounded-full overflow-hidden shadow-xl group text-white ring-4 ring-offset-2 ring-offset-white ring-orange-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-500/30 ">
+    <article class="group relative h-80 w-full overflow-hidden rounded-2xl shadow-card transition duration-500 hover:-translate-y-1 hover:shadow-hero">
       <img
         src={imageUrl}
         alt={`Imagen de ${title}`}
-        class="absolute inset-0 w-full h-full object-cover transition-all duration-500 ease-in-out group-hover:scale-110 group-hover:brightness-50"
+        class="absolute inset-0 h-full w-full object-cover transition-all duration-500 ease-in-out group-hover:scale-110"
+        loading="lazy"
       />
 
-      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+      <div class="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/40 to-transparent transition-all duration-500 group-hover:via-brand-navy/65 group-hover:to-brand-navy/30" />
 
-      <div class="relative h-full p-8 flex flex-col justify-center items-center text-center z-10 ">
-        <div class="transform transition-transform duration-500 ease-in-out group-hover:-translate-y-4">
-          <Image
-            src={icon}
-            alt={`Icono de ${title}`}
-            class={`w-14 h-14 mb-2 mx-auto transition-transform duration-500 group-hover:rotate-12 ${isSizeSmall ? "w-10 h-10" : ""}`}
-            loading="lazy"
-          />
-          <h3 class="text-2xl font-bold text-shadow-lg ">{title}</h3>
+      <div class="pointer-events-none absolute inset-x-6 bottom-44 z-10 translate-y-4 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+        <p class="text-xs leading-5 text-white/90 line-clamp-6 [text-shadow:0_1px_2px_rgb(0_0_0/0.35)]">
+          {description}
+        </p>
+      </div>
+
+      <div class="relative z-10 flex h-full flex-col justify-end p-6 text-white">
+        <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-brand-navy ring-4 ring-white/25 transition-transform duration-500 ease-out group-hover:scale-110">
+          <Icon class="h-7 w-7 text-white" stroke-width={1.8} aria-hidden="true" />
         </div>
-
-        <div class="transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100 max-h-0 group-hover:max-h-40 overflow-hidden">
-          <p class="mt-3 py- text-gray-200 leading-relaxed text-shadow">
-            {description}
-          </p>
+        <h3 class="text-xl font-bold tracking-[-0.02em]">{title}</h3>
+        <div class="mt-2 flex items-center gap-2">
+          <span class="h-0.5 w-5 rounded-full bg-brand-orange" aria-hidden="true" />
+          {tagline && <p class="text-sm text-white/85">{tagline}</p>}
         </div>
       </div>
     </article>
   ) : (
-    <article class="relative bg-white border border-slate-200 rounded-2xl h-full flex flex-col ... hover:shadow-xl hover:shadow-blue-500/20 overflow-hidden">
-      <div class="h-2 bg-blue-900" />
-
-      <div class="p-8 flex flex-col flex-grow">
-        <Image
-          src={icon}
-          alt={`Icono de ${title}`}
-          class={`w-16 h-16 mb-4 ${isSizeSmall ? "w-12 h-12" : ""}`}
-          loading="lazy"
-        />
-        <header class="mb-4">
-          <h3 class="text-xl font-semibold text-blue-900">{title}</h3>
-        </header>
-        <div class="text-gray-600 mb-6 flex-grow">
-          <p class="leading-relaxed">{description}</p>
+    <article class="flex h-full flex-col rounded-2xl border border-slate-200/70 bg-white p-6 shadow-card transition duration-500 hover:-translate-y-1 hover:shadow-xl sm:p-7">
+      <div class="mb-4 flex items-center gap-4">
+        <div
+          class={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${accent.iconBg}`}
+        >
+          <Icon class={`h-6 w-6 ${accent.iconText}`} stroke-width={1.8} aria-hidden="true" />
         </div>
-        <footer class="text-sm text-slate-500 mt-auto">
-          <div class="border-t border-slate-200 pt-3">
-            <span class="font-medium text-slate-700">Incluye:</span>
-            <span class="ml-1">{includes}</span>
-          </div>
-        </footer>
+        <h3 class="text-lg font-bold leading-snug tracking-[-0.02em] text-brand-navy">
+          {title}
+        </h3>
       </div>
+
+      <span class="mb-4 h-1 w-10 rounded-full bg-brand-orange" aria-hidden="true" />
+
+      <p class="text-sm leading-6 text-brand-ink/70">{description}</p>
+
+      {
+        items.length > 0 && (
+          <div class="mt-auto border-t border-slate-100 pt-4">
+            <p class="mb-3 text-xs font-bold text-brand-navy">Incluye:</p>
+            <ul class="grid grid-cols-1 gap-x-3 gap-y-2 sm:grid-cols-2">
+              {items.map((item) => (
+                <li class="flex items-start gap-2 text-xs leading-5 text-brand-ink/80">
+                  <span
+                    class={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${accent.chip}`}
+                    aria-hidden="true"
+                  >
+                    <Check class="h-2.5 w-2.5 text-white" stroke-width={3.5} />
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
     </article>
   )
 }

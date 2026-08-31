@@ -1,5 +1,5 @@
 ---
-import XIcon from "@assets/icons/xIcon.svg";
+import { X } from "@lucide/astro";
 const { modalId } = Astro.props;
 ---
 
@@ -15,7 +15,7 @@ const { modalId } = Astro.props;
       class="absolute top-2 right-2 bg-gray-100 rounded-full p-2 text-gray-600 hover:bg-red-100 hover:text-red-600 transition-colors"
       aria-label="Cerrar ventana"
     >
-      <XIcon class="w-5 h-5" />
+       <X class="h-5 w-5" stroke-width="1.8" />
     </button>
   </div>
 </dialog>

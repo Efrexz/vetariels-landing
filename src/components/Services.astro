@@ -1,44 +1,49 @@
 ---
+import { PawPrint } from "@lucide/astro";
 import ServiceCard from "@components/ui/ServiceCard.astro";
 import servicesData from "@data/services";
 ---
 
 <section
   id="services"
-  class="py-16 bg-white"
+  class="bg-white py-20 lg:py-28"
   aria-labelledby="services-heading"
 >
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <header class="text-center mb-12">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <header class="mx-auto mb-14 max-w-2xl text-center">
+      <PawPrint
+        aria-hidden="true"
+        class="mx-auto mb-3 h-9 w-9 text-brand-orange"
+        stroke-width={1.8}
+      />
       <h2
         id="services-heading"
-        class="text-3xl md:text-4xl font-bold text-blue-900 mb-4"
+        class="text-3xl font-bold tracking-[-0.03em] text-brand-navy sm:text-4xl"
       >
-        Nuestros servicios
+        Nuestros <span class="text-brand-orange">servicios</span>
       </h2>
-      <p class="text-xl text-slate-700">
-        Atención veterinaria integral para todas las etapas de la vida de tu
-        mascota
+      <p class="mt-4 text-base leading-7 text-brand-ink/75 sm:text-lg">
+        Atención veterinaria integral para todas las etapas de la vida de tu mascota.
       </p>
     </header>
 
-    {/* Grid de servicios */}
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
       role="list"
       aria-label="Servicios veterinarios disponibles"
     >
       {
         servicesData.map((service) => (
-          <div role="listitem" class="flex justify-center">
+          <div role="listitem" class="flex">
             <ServiceCard
               icon={service.icon}
               title={service.title}
               description={service.description}
-              includes={service.includes}
+              items={service.items}
               isFeatured={service.isFeatured}
               imageUrl={service.imageUrl}
-              isSizeSmall={service.isSizeSmall}
+              tagline={service.tagline}
+              accent={service.accent}
             />
           </div>
         ))

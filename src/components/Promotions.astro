@@ -1,132 +1,148 @@
 ---
-import PromotionCard from "@components/ui/PromotionCard.astro";
-import ArrowLeftIcon from "@assets/icons/arrowLeft.svg";
-import ArrowRightIcon from "@assets/icons/arrowRight.svg";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "@lucide/astro";
+import Modal from "@components/ui/Modal.astro";
 import promotions from "@data/promotions";
+
+const visiblePromotions = promotions.filter(
+  (promotion, index, allPromotions) =>
+    allPromotions.findIndex((item) => item.id === promotion.id) === index
+);
 ---
 
 <section
-  class="py-16 bg-gradient-to-br from-slate-50 to-blue-100 opacity-0 translate-y-8 transition-all duration-700 ease-out"
+  class="bg-brand-surface py-24"
   id="promotions"
   aria-labelledby="promotions-heading"
 >
-  <div class="max-w-7xl mx-auto overflow-hidden">
-    <div class="px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h2
-          id="promotions-heading"
-          class="text-3xl md:text-4xl font-bold text-blue-900 mb-4"
-        >
-          Promociones del Mes
-        </h2>
-        <p class="text-xl text-slate-700 max-w-2xl mx-auto">
-          Aprovecha nuestras campañas especiales pensadas en el bienestar de tu
-          mascota.
-        </p>
-      </div>
-    </div>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <header class="mx-auto mb-14 max-w-2xl text-center">
+      <p class="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-brand-orange">
+        Campañas y beneficios
+      </p>
+      <h2
+        id="promotions-heading"
+        class="text-3xl font-bold tracking-[-0.03em] text-brand-navy sm:text-4xl"
+      >
+        Promociones para cuidar más
+      </h2>
+      <p class="mt-4 text-base leading-7 text-brand-ink/75 sm:text-lg">
+        Conoce nuestras campañas vigentes y encuentra el cuidado que tu mascota
+        necesita.
+      </p>
+    </header>
 
-    <div class="embla relative px-4 sm:px-6 lg:px-8">
-      <div class="embla__viewport -mx-4 overflow-hidden">
+    <div class="embla relative mt-12">
+      <div class="embla__viewport overflow-hidden rounded-[2rem]">
         <div class="embla__container flex">
           {
-            promotions.map((promo) => (
-              <div class="embla__slide flex-[0_0_85%] sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] pl-4">
-                <PromotionCard
-                  id={promo.id}
-                  title={promo.title}
-                  subtitle={promo.subtitle}
-                  image={promo.image}
-                  prices={promo.prices}
-                  extraOffer={promo.extraOffer}
-                  conditions={promo.conditions}
-                  includes={promo.includes}
-                  expirationDate={promo.expirationDate}
-                  dateISO={promo.dateISO}
-                />
-              </div>
-            ))
+            visiblePromotions.map((promo, index) => {
+              const modalId = `promo-modal-${promo.id}`;
+              return (
+                <div class="embla__slide min-w-0 flex-[0_0_88%] pl-3 first:pl-0 sm:flex-[0_0_54%] lg:flex-[0_0_33.333%] lg:pl-5 lg:first:pl-0">
+                  <article class="group h-full">
+                    <figure class="overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white shadow-card transition duration-500 group-hover:-translate-y-1 group-hover:shadow-xl">
+                      <div class="relative aspect-[4/5] overflow-hidden bg-white">
+                        <img
+                          src={promo.image}
+                          alt={`Afiche de la promoción: ${promo.title}`}
+                          width="1024"
+                          height="1280"
+                          loading={index === 0 ? "eager" : "lazy"}
+                          class="h-full w-full object-contain transition duration-700 group-hover:scale-[1.02]"
+                        />
+                        <span class="absolute left-4 top-4 rounded-full bg-brand-navy/90 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-white backdrop-blur-sm">
+                          Promoción
+                        </span>
+                      </div>
+                      <figcaption class="flex items-center justify-between gap-4 p-5 sm:p-6">
+                        <div>
+                          <p class="text-xs font-semibold uppercase tracking-[0.16em] text-brand-orange">
+                            {promo.subtitle}
+                          </p>
+                          <h3 class="mt-2 text-lg font-bold leading-tight text-brand-navy">
+                            {promo.title}
+                          </h3>
+                        </div>
+                        <button
+                          type="button"
+                          onclick={`document.getElementById('${modalId}').showModal()`}
+                          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-mist text-brand-navy transition duration-300 hover:bg-brand-orange hover:text-white focus-visible:outline-brand-orange"
+                          aria-label={`Ver detalles de ${promo.title}`}
+                        >
+                          <ArrowUpRight aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
+                        </button>
+                      </figcaption>
+                    </figure>
+                  </article>
+                  <Modal modalId={modalId}>
+                    <h3 class="mb-4 text-center text-2xl font-bold text-brand-navy">
+                      {promo.title}
+                    </h3>
+                    <img
+                      src={promo.image}
+                      alt={`Promoción de ${promo.title}`}
+                      class="w-full rounded-xl"
+                    />
+                  </Modal>
+                </div>
+              );
+            })
           }
         </div>
       </div>
 
       <button
-        class="embla__prev absolute top-1/2 -translate-y-1/2 left-[-0.5rem] md:left-[-1rem] bg-white rounded-full p-2 shadow-lg disabled:opacity-30"
+        type="button"
+        class="embla__prev absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-brand-navy shadow-lg transition hover:bg-brand-orange hover:text-white disabled:cursor-not-allowed disabled:opacity-30 sm:-left-5"
         aria-label="Promoción anterior"
       >
-        <ArrowLeftIcon class="w-6 h-6 text-orange-500" />
+        <ChevronLeft aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
       </button>
       <button
-        class="embla__next absolute top-1/2 -translate-y-1/2 right-[-0.5rem] md:right-[-1rem] bg-white rounded-full p-2 shadow-lg disabled:opacity-30"
+        type="button"
+        class="embla__next absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-brand-navy shadow-lg transition hover:bg-brand-orange hover:text-white disabled:cursor-not-allowed disabled:opacity-30 sm:-right-5"
         aria-label="Siguiente promoción"
       >
-        <ArrowRightIcon class="w-6 h-6 text-orange-500" />
+        <ChevronRight aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
       </button>
     </div>
   </div>
 </section>
 
 <script>
-  //Igual que en la seccion de doctores, alli deje los comentarios explicando el proceso
   import EmblaCarousel from "embla-carousel";
 
-  document.addEventListener("DOMContentLoaded", () => {
+  const initializePromotions = () => {
     const promotionSection = document.getElementById("promotions");
-    if (!promotionSection) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.remove("opacity-0", "translate-y-8");
-
-            const slides = entry.target.querySelectorAll(
-              ".promotion-slide-content"
-            );
-            slides.forEach((slide, index) => {
-              setTimeout(() => {
-                slide.classList.remove("opacity-0", "translate-y-4");
-              }, 150 * index);
-            });
-
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.4 }
-    );
-
-    observer.observe(promotionSection);
+    if (!promotionSection || promotionSection.dataset.initialized === "true") return;
 
     const emblaNode = promotionSection.querySelector(".embla");
-    if (emblaNode) {
-      const viewportNode = emblaNode.querySelector(
-        ".embla__viewport"
-      ) as HTMLElement;
-      const prevBtn = emblaNode.querySelector(
-        ".embla__prev"
-      ) as HTMLButtonElement;
-      const nextBtn = emblaNode.querySelector(
-        ".embla__next"
-      ) as HTMLButtonElement;
+    const viewportNode = emblaNode?.querySelector(".embla__viewport");
+    const prevBtn = emblaNode?.querySelector(".embla__prev");
+    const nextBtn = emblaNode?.querySelector(".embla__next");
 
-      if (viewportNode && prevBtn && nextBtn) {
-        const emblaApi = EmblaCarousel(viewportNode, {
-          loop: false,
-          align: "start",
-        });
+    if (!viewportNode || !prevBtn || !nextBtn) return;
 
-        function updateButtons() {
-          prevBtn.disabled = !emblaApi.canScrollPrev();
-          nextBtn.disabled = !emblaApi.canScrollNext();
-        }
+    promotionSection.dataset.initialized = "true";
+    const emblaApi = EmblaCarousel(viewportNode, {
+      loop: false,
+      align: "start",
+    });
 
-        prevBtn.addEventListener("click", () => emblaApi.scrollPrev(), false);
-        nextBtn.addEventListener("click", () => emblaApi.scrollNext(), false);
+    const updateButtons = () => {
+      prevBtn.disabled = !emblaApi.canScrollPrev();
+      nextBtn.disabled = !emblaApi.canScrollNext();
+    };
 
-        emblaApi.on("select", updateButtons);
-        emblaApi.on("init", updateButtons);
-      }
-    }
-  });
+    prevBtn.addEventListener("click", () => emblaApi.scrollPrev());
+    nextBtn.addEventListener("click", () => emblaApi.scrollNext());
+    emblaApi.on("select", updateButtons);
+    updateButtons();
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializePromotions, { once: true });
+  } else {
+    initializePromotions();
+  }
 </script>

@@ -1,43 +1,86 @@
-<section class="py-20 bg-white" aria-labelledby="welcome-heading">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
-      <div class="lg:col-span-1 flex justify-center">
-        <img
-          src="/images/doctors/olgaBustinza.webp"
-          alt="Foto de la M.V.Z. Olga Bustinza, fundadora de la clínica"
-          class="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover object-top shadow-2xl ring-2 ring-offset-4 ring-offset-white ring-orange-400"
-        />
-      </div>
+---
+import { HeartHandshake, ShieldCheck, UsersRound } from "@lucide/astro";
+---
 
-      <article class="lg:col-span-2 space-y-4">
-        <header>
-          <h2
-            id="welcome-heading"
-            class="text-3xl md:text-4xl font-bold text-blue-900"
-          >
-            Una Pasión que se Hizo Vocación
-          </h2>
-        </header>
-        <blockquote class="border-l-4 border-orange-500 pl-6 py-2">
-          <p class="text-xl text-slate-700 italic">
-            "Desde que fundé la clínica en 2003, mi sueño ha sido crear un lugar
-            donde la excelencia médica y el amor por los animales se unan. Cada
-            mascota que entra por nuestra puerta es tratada como si fuera
-            nuestra."
-          </p>
-          <footer class="mt-4 text-right">
-            <p class="font-bold text-blue-900">M.V.Z. Olga Bustinza</p>
-            <p class="text-sm text-slate-500">
-              Fundadora, Clínica Veterinaria Ariels
+<section
+  id="welcome"
+  class="bg-white py-16 lg:py-20"
+  aria-labelledby="welcome-heading"
+>
+  <div class="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+    <div class="relative overflow-hidden rounded-[2.25rem] bg-brand-navy px-5 py-8 shadow-hero sm:px-8 lg:px-12 lg:py-10">
+      <div class="pointer-events-none absolute -right-28 -top-32 h-72 w-72 rounded-full border-[30px] border-white/5"></div>
+      <div class="pointer-events-none absolute -bottom-36 left-[38%] h-72 w-72 rounded-full border-[38px] border-brand-orange/10"></div>
+
+      <div class="relative grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
+        <figure class="relative mx-auto w-full max-w-[240px] lg:max-w-[280px]">
+          <div class="absolute -inset-3 rounded-full border-2 border-brand-orange/40" aria-hidden="true"></div>
+          <img
+            src="/images/doctors/olgaBustinza.webp"
+            alt="Foto de la M.V.Z. Olga Bustinza, fundadora de Ariel's Clinic"
+            width="388"
+            height="388"
+            loading="lazy"
+            class="relative aspect-square w-full rounded-full object-cover object-top shadow-xl ring-4 ring-white/10"
+          />
+          <figcaption class="mt-5 text-center text-white">
+            <span class="block text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-orange">
+              Desde 2003
+            </span>
+            <strong class="mt-1 block text-lg font-semibold">Una vocación que continúa</strong>
+          </figcaption>
+        </figure>
+
+        <article class="text-white">
+          <header>
+            <p class="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-brand-orange">
+              Nuestra forma de cuidar
             </p>
-          </footer>
-        </blockquote>
-        <p class="text-lg text-slate-700 pt-4">
-          Esa visión nos guía hoy. Contamos con un equipo altamente calificado y
-          tecnología de vanguardia para ofrecer atención integral, desde
-          consultas y cirugía hasta cuidados intensivos y servicios de Spa.
-        </p>
-      </article>
+            <h2
+              id="welcome-heading"
+              class="max-w-xl text-3xl font-bold leading-tight tracking-[-0.03em] sm:text-4xl lg:text-[2.75rem]"
+            >
+              Profesionalismo y cuidado en cada etapa
+            </h2>
+            <div class="mt-5 h-1 w-12 rounded-full bg-brand-orange"></div>
+          </header>
+
+          <p class="mt-6 max-w-2xl text-base leading-8 text-white/75 sm:text-lg">
+            Contamos con un equipo altamente calificado y tecnología de vanguardia
+            para ofrecer atención integral, desde consultas y cirugías hasta
+            cuidados intensivos y servicios de Spa.
+          </p>
+
+          <blockquote class="mt-7 border-l-2 border-brand-orange pl-4 text-sm leading-6 text-white/70">
+            “Desde que fundé la clínica en 2003, mi sueño ha sido crear un lugar
+            donde la excelencia médica y el amor por los animales se unan.”
+            <footer class="mt-2 font-semibold text-white">
+              M.V.Z. Olga Bustinza · Fundadora
+            </footer>
+          </blockquote>
+
+          <div class="mt-9 grid gap-5 border-t border-white/15 pt-7 sm:grid-cols-3">
+            <div class="flex items-start gap-3">
+              <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-orange text-white">
+                <HeartHandshake aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
+              </span>
+              <span class="text-sm font-semibold leading-5 text-white/90">Atención<br />personalizada</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-white">
+                <UsersRound aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
+              </span>
+              <span class="text-sm font-semibold leading-5 text-white/90">Equipo<br />especializado</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-white">
+                <ShieldCheck aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
+              </span>
+              <span class="text-sm font-semibold leading-5 text-white/90">Seguridad y<br />confianza</span>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
   </div>
 </section>
