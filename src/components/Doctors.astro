@@ -1,5 +1,6 @@
 ---
 import DoctorCard from "@components/ui/DoctorCard.astro";
+import SectionDecoration from "@components/ui/SectionDecoration.astro";
 import { ChevronLeft, ChevronRight, Stethoscope } from "@lucide/astro";
 import doctors from "@data/doctors";
 ---
@@ -7,9 +8,10 @@ import doctors from "@data/doctors";
 <section
   id="doctors"
   aria-labelledby="doctors-title"
-  class="bg-brand-surface py-20 lg:py-28 opacity-0 translate-y-8 transition-all duration-700 ease-out"
+  class="relative overflow-hidden bg-brand-surface py-20 lg:py-28 opacity-0 translate-y-8 transition-all duration-700 ease-out"
 >
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  <SectionDecoration />
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <header class="mx-auto mb-14 max-w-2xl text-center">
       <Stethoscope
         aria-hidden="true"
@@ -31,7 +33,7 @@ import doctors from "@data/doctors";
       <div class="embla__viewport overflow-hidden">
         <div class="embla__container flex">
           {
-            doctors.map((doctor) => (
+            doctors.map((doctor, index) => (
               <div class="embla__slide flex flex-[0_0_90%] pl-3 first:pl-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] lg:pl-5">
                 <div class="doctor-slide-content w-full opacity-0 translate-y-4 transition-all duration-500 ease-out">
                   <DoctorCard
@@ -39,6 +41,7 @@ import doctors from "@data/doctors";
                     specialty={doctor.specialty}
                     imageUrl={doctor.imageUrl}
                     location={doctor.location}
+                    index={index}
                   />
                 </div>
               </div>

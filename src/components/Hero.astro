@@ -1,15 +1,17 @@
 ---
 import { Award, Clock3, Heart, MapPin, PawPrint, Tag } from "@lucide/astro";
+import SectionDecoration from "@components/ui/SectionDecoration.astro";
 import heroSlides from "@data/heroSlides";
 ---
 
 <section
   id="hero"
-  class="relative bg-brand-surface pb-32 pt-32 sm:pt-36 lg:pb-40 lg:pt-40"
+  class="relative overflow-hidden bg-brand-surface pb-32 pt-32 sm:pt-36 lg:pb-40 lg:pt-40"
   role="banner"
   aria-labelledby="hero-heading"
 >
-  <div class="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+  <SectionDecoration />
+  <div class="relative mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
     <div class="grid items-center gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:gap-14">
       <div class="max-w-2xl">
         <div
