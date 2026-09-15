@@ -1,192 +1,353 @@
 ---
-import { Image } from "astro:assets";
-import ClinicIcon from "@assets/icons/clinic.png";
-import HeartIcon from "@assets/icons/health.png";
+import { Award, Clock3, Heart, MapPin, PawPrint, Tag } from "@lucide/astro";
+import SectionDecoration from "@components/ui/SectionDecoration.astro";
+import heroSlides from "@data/heroSlides";
 ---
 
 <section
-  class="relative bg-gradient-to-br from-slate-50 to-blue-100 py-20 lg:py-32"
-  role="banner"
   id="hero"
+  class="relative overflow-hidden bg-brand-surface pb-32 pt-32 sm:pt-36 lg:pb-40 lg:pt-40"
+  role="banner"
   aria-labelledby="hero-heading"
 >
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-      <div class="space-y-8">
-        <div>
-          <h1
-            id="hero-heading"
-            data-hero-element="content"
-            class="text-4xl md:text-5xl lg:text-6xl font-bold text-blue-900 leading-tight"
-          >
-            Medicina veterinaria
-            <span class="text-orange-500">con propósito</span>
-          </h1>
-          <p
-            data-hero-element="content"
-            class="mt-6 text-xl text-slate-700 leading-relaxed"
-          >
-            Servicios integrales en medicina preventiva, diagnóstico y cirugía.
-            Profesionalismo y cuidado en cada consulta.
-          </p>
+  <SectionDecoration />
+  <div class="relative mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+    <div class="grid items-center gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:gap-14">
+      <div class="max-w-2xl">
+        <div
+          data-hero-reveal
+          class="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-brand-orange"
+        >
+          <span class="h-2 w-2 rounded-full bg-brand-orange"></span>
+          Hospital veterinario en Lima
         </div>
+
+        <h1
+          id="hero-heading"
+          data-hero-reveal
+          class="max-w-2xl text-5xl font-bold leading-[1.08] tracking-[-0.04em] text-brand-navy sm:text-6xl lg:text-[4rem]"
+        >
+          <span class="block">Medicina veterinaria</span>
+          <span class="mt-1 block text-brand-orange">
+            con propósito
+            <PawPrint
+              aria-hidden="true"
+              class="ml-1 inline-block h-9 w-9 -translate-y-1 text-brand-navy sm:h-10 sm:w-10"
+              stroke-width="2"
+            />
+          </span>
+        </h1>
+
+        <p
+          data-hero-reveal
+          class="mt-7 max-w-xl text-base leading-8 text-brand-ink/80 sm:text-lg"
+        >
+          Brindamos atención integral, preventiva y especializada para el
+          bienestar y la salud de tu mejor amigo.
+        </p>
 
         <nav
-          class="flex flex-col sm:flex-row gap-4"
+          data-hero-reveal
+          class="mt-9 flex flex-col gap-3 sm:flex-row"
           role="navigation"
-          aria-label="Botones de acción"
+          aria-label="Acciones principales"
         >
           <a
-            data-hero-element="content"
             href="#promotions"
-            class="bg-orange-500 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-orange-600 transition-colors text-center"
-            aria-describedby="promo-description"
+            class="group inline-flex items-center justify-center gap-3 rounded-xl bg-brand-orange px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-orange-200 transition duration-300 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-xl focus-visible:outline-brand-orange"
           >
-            Ver Promociones
+            <Tag
+              aria-hidden="true"
+              class="h-5 w-5 transition-transform duration-300 group-hover:rotate-[-8deg]"
+              stroke-width="1.8"
+            />
+            Ver promociones
           </a>
-          <span id="promo-description" class="sr-only"
-            >Ver ofertas y promociones especiales para el cuidado de tu mascota</span
-          >
-
           <a
-            data-hero-element="content"
             href="#locations"
-            class="border-2 border-blue-900 text-blue-900 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-blue-50 transition-colors text-center"
-            aria-describedby="location-description"
+            class="inline-flex items-center justify-center gap-3 rounded-xl border border-brand-navy/20 bg-white px-6 py-4 text-sm font-semibold text-brand-navy shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-brand-navy/40 hover:bg-brand-mist hover:shadow-md focus-visible:outline-brand-orange"
           >
-            Encontrar Ubicación
+            <MapPin aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
+            Encontrar ubicación
           </a>
-          <span id="location-description" class="sr-only"
-            >Encontrar la clínica veterinaria más cercana en Lima</span
-          >
         </nav>
 
-        <aside
-          class="grid grid-cols-3 gap-6 pt-8"
-          aria-labelledby="stats-heading"
-        >
-          <h2 id="stats-heading" class="sr-only">
-            Nuestras estadísticas y experiencia
-          </h2>
-          <div data-hero-element="content" class="text-center">
-            <div class="text-3xl font-bold text-orange-500">20+</div>
-            <div class="text-sm text-slate-600">Años de experiencia</div>
-          </div>
-          <div data-hero-element="content" class="text-center">
-            <div class="text-3xl font-bold text-orange-500">100k+</div>
-            <div class="text-sm text-slate-600">Mascotas atendidas</div>
-          </div>
-          <div data-hero-element="content" class="text-center">
-            <div class="text-3xl font-bold text-orange-500">24/7</div>
-            <div class="text-sm text-slate-600">Atención de Emergencia</div>
-          </div>
-        </aside>
+        <div data-hero-reveal class="mt-8 flex items-center gap-3 text-sm text-brand-ink/70">
+          <span class="flex -space-x-2" aria-hidden="true">
+            <span class="h-7 w-7 rounded-full border-2 border-brand-surface bg-brand-navy"></span>
+            <span class="h-7 w-7 rounded-full border-2 border-brand-surface bg-brand-orange"></span>
+            <span class="h-7 w-7 rounded-full border-2 border-brand-surface bg-brand-mist"></span>
+          </span>
+          <span>Atención cercana, profesional y con propósito</span>
+        </div>
       </div>
 
-      <aside class="relative hidden lg:block" role="img">
+      <div data-hero-reveal class="hero-visual-shell relative mx-auto w-full max-w-2xl lg:max-w-none">
         <div
-          data-hero-element="image-wrapper"
-          class="aspect-square rounded-3xl overflow-hidden shadow-2xl"
+          class="hero-visual relative aspect-[4/3] overflow-hidden bg-brand-mist shadow-hero"
+          data-hero-carousel
+          aria-label="Imágenes de Ariel's Clinic"
         >
-          <Image
-            src="/vetArielHero.webp"
-            alt="Equipo Veterinario frente a clinica"
-            class="w-full h-full object-cover"
-            loading="eager"
-            width="800"
-            height="800"
-          />
+          {
+            heroSlides.map((slide, index) => (
+              <figure
+                class={`hero-slide absolute inset-0 ${index === 0 ? "is-active" : ""}`}
+                data-hero-slide
+                aria-hidden={index === 0 ? "false" : "true"}
+                style={`--hero-slide-image: url("${slide.src}")`}
+              >
+                <div class="hero-slide-backdrop" aria-hidden="true"></div>
+                <img
+                  src={slide.src}
+                  alt={slide.alt}
+                  width="1600"
+                  height="1200"
+                  loading={index === 0 ? "eager" : "lazy"}
+                  class="relative z-10 h-full w-full object-contain drop-shadow-[0_8px_18px_rgb(12_44_85_/_0.18)]"
+                />
+                <div class="absolute inset-0 z-20 bg-gradient-to-t from-brand-navy/75 via-transparent to-brand-navy/10"></div>
+                <figcaption class="absolute bottom-6 left-6 z-30 max-w-[75%] text-white sm:bottom-8 sm:left-8">
+                  <span class="block text-[10px] font-semibold uppercase tracking-[0.2em] text-white/75 sm:text-xs">
+                    {slide.eyebrow}
+                  </span>
+                  <strong class="mt-1 block text-lg font-semibold leading-tight sm:text-2xl">
+                    {slide.title}
+                  </strong>
+                </figcaption>
+              </figure>
+            ))
+          }
+
+          <div
+            class="absolute bottom-7 right-6 flex items-center gap-2 sm:bottom-9 sm:right-8"
+            aria-label="Seleccionar imagen"
+            role="group"
+          >
+            {
+              heroSlides.map((slide, index) => (
+                <button
+                  type="button"
+                  data-hero-dot
+                  aria-label={`Ver imagen ${index + 1}: ${slide.eyebrow}`}
+                  aria-current={index === 0 ? "true" : "false"}
+                  class={`h-2 rounded-full bg-white/60 transition-all duration-300 ${index === 0 ? "is-active w-7 bg-white" : "w-2 hover:bg-white"}`}
+                ></button>
+              ))
+            }
+          </div>
+        </div>
+        <p data-hero-status class="sr-only" aria-live="polite">
+          Imagen 1 de {heroSlides.length}: {heroSlides[0].title}
+        </p>
+      </div>
+    </div>
+
+    <div data-hero-reveal class="relative z-20 mx-auto mt-12 -mb-16 max-w-6xl lg:-mt-5">
+      <div class="grid overflow-hidden rounded-2xl bg-white shadow-card sm:grid-cols-2 lg:grid-cols-4">
+        <div class="flex items-center gap-4 px-5 py-5 sm:px-7 lg:border-r lg:border-slate-100">
+          <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-mist text-brand-navy">
+            <Award aria-hidden="true" class="h-6 w-6" stroke-width="1.8" />
+          </span>
+          <span>
+            <strong class="block text-xl font-bold leading-none text-brand-navy">20+</strong>
+            <span class="mt-1 block text-xs leading-5 text-brand-ink/65">Años de experiencia</span>
+          </span>
         </div>
 
-        <!-- Floating elements -->
-        <div
-          data-hero-element="adornment"
-          class="absolute -top-6 -right-6 bg-white p-4 rounded-2xl shadow-lg"
-          role="img"
-          aria-label="Ícono de hospital veterinario"
-        >
-          <Image src={ClinicIcon} alt="veterinaryIcon" class="w-8 h-8" />
+        <div class="flex items-center gap-4 border-t border-slate-100 px-5 py-5 sm:border-t-0 sm:px-7 lg:border-r">
+          <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-50 text-brand-orange">
+            <PawPrint aria-hidden="true" class="h-6 w-6" stroke-width="1.8" />
+          </span>
+          <span>
+            <strong class="block text-xl font-bold leading-none text-brand-navy">10Mil+</strong>
+            <span class="mt-1 block text-xs leading-5 text-brand-ink/65">Mascotas atendidas</span>
+          </span>
         </div>
-        <div
-          data-hero-element="adornment"
-          class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-lg"
-          aria-label="Ícono de un corazon"
-        >
-          <Image src={HeartIcon} alt="heartIcon" class="w-8 h-8" />
+
+        <div class="flex items-center gap-4 border-t border-slate-100 px-5 py-5 sm:px-7 lg:border-r lg:border-t-0">
+          <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-mist text-brand-navy">
+            <Clock3 aria-hidden="true" class="h-6 w-6" stroke-width="1.8" />
+          </span>
+          <span>
+            <strong class="block text-xl font-bold leading-none text-brand-navy">24/7</strong>
+            <span class="mt-1 block text-xs leading-5 text-brand-ink/65">Atención de emergencia</span>
+          </span>
         </div>
-      </aside>
+
+        <div class="flex items-center gap-4 border-t border-slate-100 px-5 py-5 sm:px-7 lg:border-t-0">
+          <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-50 text-brand-orange">
+            <Heart aria-hidden="true" class="h-6 w-6" stroke-width="1.8" />
+          </span>
+          <span>
+            <strong class="block text-base font-bold leading-tight text-brand-navy">Compromiso</strong>
+            <span class="mt-1 block text-xs leading-5 text-brand-ink/65">Con el bienestar animal</span>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!--  DEFINIMOS LOS ESTADOS INICIALES Y LAS TRANSICIONES -->
 <style>
-  /* Contenido de la izquierda (título, párrafo, botones, stats) */
-  [data-hero-element="content"] {
-    opacity: 0;
-    transform: translateY(20px);
-    transition:
-      opacity 0.6s ease-out,
-      transform 0.6s ease-out;
+  .hero-visual {
+    position: relative;
+    z-index: 1;
+    border-radius: 46% 2rem 2rem 52% / 43% 2rem 2rem 57%;
   }
 
-  /* Contenedor de la imagen principal */
-  [data-hero-element="image-wrapper"] {
-    opacity: 0;
-    transform: scale(0.95);
-    transition:
-      opacity 0.8s ease-in-out,
-      transform 0.8s ease-in-out;
+  .hero-visual-shell::before {
+    position: absolute;
+    z-index: 0;
+    inset: 4% -2% -4% -7%;
+    border-radius: 48% 2.5rem 2.5rem 54% / 43% 2.5rem 2.5rem 57%;
+    background: rgb(255 255 255 / 0.82);
+    box-shadow:
+      0 28px 42px -20px rgb(12 44 85 / 0.68),
+      0 10px 18px -14px rgb(12 44 85 / 0.5);
+    content: "";
+    transform: rotate(-2deg);
   }
 
-  /* Adornos flotantes */
-  [data-hero-element="adornment"] {
+  .hero-slide {
     opacity: 0;
-    transform: scale(0.5);
+    pointer-events: none;
+    visibility: hidden;
     transition:
-      opacity 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-      transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      opacity 700ms ease,
+      visibility 700ms ease;
   }
 
-  /*  DEFINIMOS EL ESTADO FINAL (VISIBLE) */
-  [data-hero-element].is-visible {
+  .hero-slide-backdrop {
+    position: absolute;
+    z-index: 0;
+    inset: -2rem;
+    background-image: var(--hero-slide-image);
+    background-position: center;
+    background-size: cover;
+    filter: blur(22px);
+    opacity: 0.72;
+    transform: scale(1.08);
+  }
+
+  .hero-slide.is-active {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  [data-hero-reveal] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 650ms ease,
+      transform 650ms ease;
+  }
+
+  [data-hero-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 640px) {
+    .hero-visual-shell::before {
+      display: none;
+    }
+
+    .hero-visual {
+      border-radius: 2rem 2rem 2rem 3.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slide,
+    [data-hero-reveal] {
+      transition: none;
+    }
+
+    [data-hero-reveal] {
+      opacity: 1;
+      transform: none;
+    }
   }
 </style>
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // Seleccionamos los diferentes grupos de elementos
-    const contentElements = document.querySelectorAll(
-      '[data-hero-element="content"]'
-    );
-    const imageWrapper = document.querySelector(
-      '[data-hero-element="image-wrapper"]'
-    );
-    const adornments = document.querySelectorAll(
-      '[data-hero-element="adornment"]'
-    );
+<script is:inline>
+  const heroSection = document.getElementById("hero");
 
-    // Función para animar un elemento
-    const animateElement = (element, delay = 0) => {
-      if (!element) return;
-      setTimeout(() => {
-        element.classList.add("is-visible");
-      }, delay);
-    };
+  if (heroSection) {
+    const revealElements = heroSection.querySelectorAll("[data-hero-reveal]");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Coreografía de la animación
-    //  Animar el contenido de la izquierda en cascada
-    contentElements.forEach((el, index) => {
-      animateElement(el, 100 + index * 150); // 100ms, 250ms, 400ms, 550ms
+    revealElements.forEach((element, index) => {
+      window.setTimeout(
+        () => element.classList.add("is-visible"),
+        reducedMotion ? 0 : 100 + index * 110
+      );
     });
 
-    //  Animar la imagen principal un poco después de que empiece el texto
-    animateElement(imageWrapper, 300);
+    const carousel = heroSection.querySelector("[data-hero-carousel]");
+    const slides = Array.from(heroSection.querySelectorAll("[data-hero-slide]"));
+    const dots = Array.from(heroSection.querySelectorAll("[data-hero-dot]"));
+    const status = heroSection.querySelector("[data-hero-status]");
 
-    //  Animar los adornos al final, con un efecto de "pop"
-    animateElement(adornments[0], 700); // El hospital
-    animateElement(adornments[1], 800); // El corazón
-  });
+    if (carousel && slides.length > 1) {
+      let activeIndex = 0;
+      let timer;
+
+      const updateCarousel = (nextIndex) => {
+        activeIndex = (nextIndex + slides.length) % slides.length;
+
+        slides.forEach((slide, index) => {
+          const isActive = index === activeIndex;
+          slide.classList.toggle("is-active", isActive);
+          slide.setAttribute("aria-hidden", String(!isActive));
+        });
+
+        dots.forEach((dot, index) => {
+          const isActive = index === activeIndex;
+          dot.classList.toggle("is-active", isActive);
+          dot.classList.toggle("w-7", isActive);
+          dot.classList.toggle("w-2", !isActive);
+          dot.classList.toggle("bg-white", isActive);
+          dot.classList.toggle("bg-white/60", !isActive);
+          dot.setAttribute("aria-current", String(isActive));
+        });
+
+        const activeSlide = slides[activeIndex].querySelector("strong");
+        if (status && activeSlide) {
+          status.textContent = `Imagen ${activeIndex + 1} de ${slides.length}: ${activeSlide.textContent}`;
+        }
+      };
+
+      const stopAutoplay = () => {
+        if (timer) window.clearInterval(timer);
+      };
+
+      const startAutoplay = () => {
+        stopAutoplay();
+        if (!reducedMotion) {
+          timer = window.setInterval(() => updateCarousel(activeIndex + 1), 5000);
+        }
+      };
+
+      dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+          updateCarousel(index);
+          startAutoplay();
+        });
+      });
+
+      carousel.addEventListener("mouseenter", stopAutoplay);
+      carousel.addEventListener("mouseleave", startAutoplay);
+      carousel.addEventListener("focusin", stopAutoplay);
+      carousel.addEventListener("focusout", startAutoplay);
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) stopAutoplay();
+        else startAutoplay();
+      });
+
+      updateCarousel(0);
+      startAutoplay();
+    }
+  }
 </script>

@@ -1,0 +1,22 @@
+---
+import { PawPrint } from "@lucide/astro";
+---
+
+<div
+  class="pointer-events-none absolute inset-0 overflow-hidden"
+  aria-hidden="true"
+>
+  <div
+    class="absolute right-0 top-0 h-44 w-44"
+    style="background-image: radial-gradient(rgba(245, 130, 31, 0.22) 1.5px, transparent 1.6px); background-size: 16px 16px; background-position: top right;"
+  >
+  </div>
+  <PawPrint
+    class="absolute -left-8 top-20 h-44 w-44 rotate-[-18deg] text-brand-navy/[0.05]"
+    stroke-width={1.5}
+  />
+  <PawPrint
+    class="absolute bottom-8 right-14 h-28 w-28 rotate-[15deg] text-brand-navy/[0.04]"
+    stroke-width={1.5}
+  />
+</div>

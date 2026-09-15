@@ -1,57 +1,55 @@
 ---
-import { Image } from "astro:assets";
-import BurguerMenuIcon from "@assets/icons/burguerMenu.svg";
+import { CalendarDays, Menu, X } from "@lucide/astro";
 import navigationItems from "@data/navegationItems";
 import FloatingButton from "@components/ui/FloatingButton.astro";
-import XIcon from "@assets/icons/xIcon.svg";
 
-//Estilos compartidos para enlaces de navegación
-const desktopNavLinkStyles = `relative group text-gray-200 hover:text-orange-400 px-3 py-2 text-sm font-medium transition-colors`;
-const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-200 hover:text-orange-400 hover:bg-blue-800 rounded-md`;
+const desktopNavLinkStyles =
+  "group relative rounded-md px-2 py-3 text-sm font-semibold text-brand-navy transition-colors hover:text-brand-orange";
+const mobileNavLinkStyles =
+  "block rounded-lg px-4 py-3 text-sm font-semibold text-brand-navy transition-colors hover:bg-brand-surface hover:text-brand-orange";
 ---
 
-<header>
+<header class="relative z-50">
   <nav
-    class="fixed top-0 left-0 right-0 z-50 bg-slate-900 backdrop-blur-sm shadow-lg"
+    class="fixed inset-x-0 top-0 border-b border-slate-100/80 bg-white/95 shadow-[0_8px_30px_-24px_rgb(19_55_99_/_0.45)] backdrop-blur-md"
     role="navigation"
     aria-label="Navegación principal"
   >
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <!-- Logo -->
-        <div class="flex items-center">
-          <div class="flex-shrink-0 rounded-lg px-2">
-            <a
-              href="#hero"
-              class="flex items-center rounded-lg"
-              aria-label="Ir al inicio"
-            >
-              <Image
-                src="/logo-png.png"
-                alt="Logo de la veterinaria"
-                loading="eager"
-                width="120"
-                height="120"
-              />
-            </a>
-          </div>
-        </div>
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex h-20 items-center justify-between lg:h-[84px]">
+        <a
+          href="#hero"
+          class="flex shrink-0 items-center rounded-lg"
+          aria-label="Ir al inicio de Ariel's Clinic"
+        >
+          <img
+            src="/logo-png.png"
+            alt="Ariel's Clinic Hospital Veterinario"
+            width="3820"
+            height="2396"
+            loading="eager"
+            class="h-14 w-auto object-contain sm:h-16"
+          />
+        </a>
 
-        <!-- Desktop navigation -->
         <div class="hidden lg:block">
-          <ul class="ml-10 flex items-baseline space-x-8" role="menubar">
+          <ul class="flex items-center gap-5" role="menubar">
             {
               navigationItems.map((item) => {
+                const isActive = item.href === "#hero";
                 return (
                   <li role="none">
                     <a
                       href={item.href}
-                      class={desktopNavLinkStyles}
+                      class={`${desktopNavLinkStyles} ${isActive ? "text-brand-orange" : ""}`}
                       aria-label={item.ariaLabel}
+                      aria-current={isActive ? "page" : undefined}
                       role="menuitem"
                     >
                       {item.label}
-                      <span class="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
+                      <span
+                        class={`absolute bottom-1 left-2 right-2 h-0.5 origin-left rounded-full bg-brand-orange transition-transform duration-300 ease-out ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                      ></span>
                     </a>
                   </li>
                 );
@@ -60,31 +58,32 @@ const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-200
           </ul>
         </div>
 
-        <!-- Vacio para centrar el menu -->
-        <!-- <div></div> -->
+        <a
+          href="#locations"
+          class="hidden items-center gap-2 rounded-xl bg-brand-orange px-5 py-3 text-sm font-semibold text-white shadow-md shadow-orange-200 transition hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-lg focus-visible:outline-brand-orange lg:flex"
+          aria-label="Agendar una cita en una de nuestras sedes"
+        >
+          <CalendarDays aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
+          Agenda tu cita
+        </a>
 
-        <!-- Mobile menu button -->
-        <div class="lg:hidden">
-          <button
-            id="mobile-menu-button"
-            class="text-gray-200 hover:text-orange-400"
-            aria-controls="mobile-menu"
-            aria-expanded="false"
-            aria-label="Abrir menú principal"
-          >
-            <BurguerMenuIcon id="burger-icon" class="w-6 h-6" />
-            <XIcon id="close-icon" class="w-7 h-7 hidden" />
-          </button>
-        </div>
+        <button
+          id="mobile-menu-button"
+          class="rounded-lg p-2 text-brand-navy transition hover:bg-brand-surface hover:text-brand-orange lg:hidden"
+          aria-controls="mobile-menu"
+          aria-expanded="false"
+          aria-label="Abrir menú principal"
+          type="button"
+        >
+          <Menu id="burger-icon" class="h-6 w-6" stroke-width="2" />
+          <X id="close-icon" class="hidden h-7 w-7" stroke-width="2" />
+        </button>
       </div>
     </div>
 
-    <!-- Mobile menu -->
-    <div class="lg:hidden hidden" id="mobile-menu">
-      <div
-        class="px-2 pt-2 pb-3 space-y-1 bg-blue-900 border-t border-blue-800 shadow-lg"
-      >
-        <ul role="menu" aria-label="Menú de navegación móvil">
+    <div class="hidden border-t border-slate-100 bg-white lg:hidden" id="mobile-menu">
+      <div class="mx-auto max-w-7xl px-4 pb-5 pt-3 sm:px-6">
+        <ul class="space-y-1" role="menu" aria-label="Menú de navegación móvil">
           {
             navigationItems.map((item) => {
               const IconComponent = item.icon;
@@ -96,8 +95,8 @@ const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-200
                     aria-label={item.ariaLabel}
                     role="menuitem"
                   >
-                    <span class="flex items-center">
-                      <IconComponent class="w-4 h-4 mr-2" aria-hidden="true" />
+                    <span class="flex items-center gap-3">
+                      <IconComponent class="h-4 w-4 text-brand-orange" aria-hidden="true" />
                       {item.label}
                     </span>
                   </a>
@@ -106,85 +105,80 @@ const mobileNavLinkStyles = `block px-3 py-2 text-base font-medium text-gray-200
             })
           }
         </ul>
+
+        <a
+          href="#locations"
+          class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-brand-orange px-5 py-3 text-sm font-semibold text-white shadow-md shadow-orange-200 transition hover:bg-orange-600"
+          aria-label="Agendar una cita en una de nuestras sedes"
+        >
+          <CalendarDays aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
+          Agenda tu cita
+        </a>
       </div>
     </div>
   </nav>
+
   <FloatingButton />
 </header>
 
-<script>
+<script is:inline>
   const menuButton = document.getElementById("mobile-menu-button");
   const mobileMenu = document.getElementById("mobile-menu");
-  const mobileMenuLinks = document.querySelectorAll("#mobile-menu a");
+  const burgerIcon = document.getElementById("burger-icon");
+  const closeIcon = document.getElementById("close-icon");
 
-  function closeMenu() {
-    mobileMenu.classList.add("hidden");
-    menuButton.setAttribute("aria-expanded", "false");
-  }
+  if (menuButton && mobileMenu) {
+    const setMenuState = (isOpen) => {
+      mobileMenu.classList.toggle("hidden", !isOpen);
+      burgerIcon?.classList.toggle("hidden", isOpen);
+      closeIcon?.classList.toggle("hidden", !isOpen);
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+      menuButton.setAttribute(
+        "aria-label",
+        isOpen ? "Cerrar menú principal" : "Abrir menú principal"
+      );
+    };
 
-  function openMenu() {
-    mobileMenu.classList.remove("hidden");
-    menuButton.setAttribute("aria-expanded", "true");
-  }
-
-  function toggleIcons(isOpen) {
-    document.getElementById("burger-icon")?.classList.toggle("hidden", isOpen);
-    document.getElementById("close-icon")?.classList.toggle("hidden", !isOpen);
-  }
-
-  menuButton.addEventListener("click", () => {
-    const isExpanded = menuButton.getAttribute("aria-expanded") === "true";
-    if (isExpanded) {
-      closeMenu();
-      toggleIcons(false);
-    } else {
-      openMenu();
-      toggleIcons(true);
-    }
-  });
-
-  // Cerrar el menú al hacer clic en un enlace del menú móvil
-  mobileMenuLinks.forEach((link) => {
-    link.addEventListener("click", () => {
-      // Cuando se hace clic en un enlace, cerramos el menú.
-      closeMenu();
+    menuButton.addEventListener("click", () => {
+      const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+      setMenuState(!isOpen);
     });
-  });
 
-  // --- Codigo para el boton flotante ---
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => setMenuState(false));
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setMenuState(false);
+    });
+  }
+
   const floatingButton = document.getElementById("whatsapp-fab");
   const whatsappOptions = document.getElementById("whatsapp-options");
 
-  function toggleWhatsappMenu() {
-    const isHidden = whatsappOptions.classList.contains("hidden");
-    if (isHidden) {
-      whatsappOptions.classList.remove("hidden");
-      //Aplicamos una animacion cuando abre el menu
-      whatsappOptions.classList.add("scale-100", "opacity-100");
-      whatsappOptions.classList.remove("scale-95", "opacity-0");
-      floatingButton.setAttribute("aria-expanded", "true");
-    } else {
-      whatsappOptions.classList.add("scale-95", "opacity-0");
-      setTimeout(() => {
-        whatsappOptions.classList.add("hidden");
-        whatsappOptions.classList.remove("scale-100", "opacity-100");
-      }, 200);
-      floatingButton.setAttribute("aria-expanded", "false");
-    }
+  if (floatingButton && whatsappOptions) {
+    const setWhatsappState = (isOpen) => {
+      whatsappOptions.classList.toggle("hidden", !isOpen);
+      whatsappOptions.classList.toggle("scale-100", isOpen);
+      whatsappOptions.classList.toggle("opacity-100", isOpen);
+      whatsappOptions.classList.toggle("scale-95", !isOpen);
+      whatsappOptions.classList.toggle("opacity-0", !isOpen);
+      floatingButton.setAttribute("aria-expanded", String(isOpen));
+    };
+
+    floatingButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const isOpen = floatingButton.getAttribute("aria-expanded") === "true";
+      setWhatsappState(!isOpen);
+    });
+
+    document.addEventListener("click", (event) => {
+      if (
+        floatingButton.getAttribute("aria-expanded") === "true" &&
+        !whatsappOptions.contains(event.target)
+      ) {
+        setWhatsappState(false);
+      }
+    });
   }
-
-  floatingButton.addEventListener("click", (event) => {
-    event.stopPropagation();
-    toggleWhatsappMenu();
-  });
-
-  // Aplicamos esto si hacemos click fuera del menu para que se cierre
-  document.addEventListener("click", (event) => {
-    const container = document.getElementById("floating-whatsapp-container");
-    const isExpanded = floatingButton.getAttribute("aria-expanded") === "true";
-
-    if (isExpanded && container && !container.contains(event.target as Node)) {
-      toggleWhatsappMenu();
-    }
-  });
 </script>
