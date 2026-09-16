@@ -1,62 +1,68 @@
 ---
 import DoctorCard from "@components/ui/DoctorCard.astro";
-import ArrowLeft from "@assets/icons/arrowLeft.svg";
-import ArrowRight from "@assets/icons/arrowRight.svg";
+import SectionDecoration from "@components/ui/SectionDecoration.astro";
+import { ChevronLeft, ChevronRight, Stethoscope } from "@lucide/astro";
 import doctors from "@data/doctors";
 ---
 
 <section
   id="doctors"
   aria-labelledby="doctors-title"
-  class="bg-gradient-to-br from-slate-50 to-blue-100 py-16 sm:py-24 opacity-0 translate-y-8 transition-all duration-700 ease-out"
+  class="relative overflow-hidden bg-brand-surface py-20 lg:py-28 opacity-0 translate-y-8 transition-all duration-700 ease-out"
 >
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <header class="text-center mb-12">
+  <SectionDecoration />
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <header class="mx-auto mb-14 max-w-2xl text-center">
+      <Stethoscope
+        aria-hidden="true"
+        class="mx-auto mb-3 h-9 w-9 text-brand-orange"
+        stroke-width={1.8}
+      />
       <h2
         id="doctors-title"
-        class="text-3xl md:text-4xl font-bold text-blue-900 tracking-tight"
+        class="text-3xl font-bold tracking-[-0.03em] text-brand-navy sm:text-4xl"
       >
-        Conoce a Nuestros Veterinarios
+        Conoce a Nuestros <span class="text-brand-orange">Veterinarios</span>
       </h2>
-      <p class="mt-4 text-lg text-slate-700 max-w-2xl mx-auto">
-        Nuestro equipo está comprometido con brindar atención experta y cercana
-        a tus mascotas.
+      <p class="mt-4 text-base leading-7 text-brand-ink/75 sm:text-lg">
+        Comprometidos con brindar atención experta y cercana a tus mascotas.
       </p>
-
-      <div class="embla relative mt-10">
-        <div class="embla__viewport overflow-hidden">
-          <div class="embla__container flex">
-            {
-              doctors.map((doctor) => (
-                <div class="embla__slide flex-[0_0_90%] sm:flex-[0_0_50%] lg:flex-[0_0_25%] pl-4">
-                  {/* Cada tarjeta también tiene su estado inicial */}
-                  <div class="doctor-slide-content opacity-0 translate-y-4 transition-all duration-500 ease-out">
-                    <DoctorCard
-                      name={doctor.name}
-                      specialty={doctor.specialty}
-                      experience={doctor.experience}
-                      location={doctor.location}
-                      imageUrl={doctor.imageUrl}
-                    />
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-
-        <button
-          class="embla__prev absolute top-1/2 -translate-y-1/2 left-[-1rem] md:left-[-2rem] bg-white rounded-full p-2 shadow-lg disabled:opacity-30"
-        >
-          <ArrowLeft class="w-6 h-6 text-orange-500" />
-        </button>
-        <button
-          class="embla__next absolute top-1/2 -translate-y-1/2 right-[-1rem] md:right-[-2rem] bg-white rounded-full p-2 shadow-lg disabled:opacity-30"
-        >
-          <ArrowRight class="w-6 h-6 text-orange-500" />
-        </button>
-      </div>
     </header>
+
+    <div class="embla relative">
+      <div class="embla__viewport overflow-hidden">
+        <div class="embla__container flex">
+          {
+            doctors.map((doctor, index) => (
+              <div class="embla__slide flex flex-[0_0_90%] pl-3 first:pl-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] lg:pl-5">
+                <div class="doctor-slide-content w-full opacity-0 translate-y-4 transition-all duration-500 ease-out">
+                  <DoctorCard
+                    name={doctor.name}
+                    specialty={doctor.specialty}
+                    imageUrl={doctor.imageUrl}
+                    location={doctor.location}
+                    index={index}
+                  />
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <button
+        class="embla__prev absolute top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-brand-navy shadow-lg transition hover:bg-brand-orange hover:text-white disabled:cursor-not-allowed disabled:opacity-30 sm:-left-5 sm:flex"
+        aria-label="Doctor anterior"
+      >
+        <ChevronLeft aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
+      </button>
+      <button
+        class="embla__next absolute top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-brand-navy shadow-lg transition hover:bg-brand-orange hover:text-white disabled:cursor-not-allowed disabled:opacity-30 sm:-right-5 sm:flex"
+        aria-label="Siguiente doctor"
+      >
+        <ChevronRight aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
+      </button>
+    </div>
   </div>
 </section>
 
@@ -74,59 +80,53 @@ import doctors from "@data/doctors";
             entry.target.classList.remove("opacity-0", "translate-y-8");
 
             const slides = entry.target.querySelectorAll(
-              ".doctor-slide-content"
-            );
+                ".doctor-slide-content"
+              );
             slides.forEach((slide, index) => {
-              setTimeout(() => {
-                // Quitamos las clases de cada tarjeta individualmente
-                slide.classList.remove("opacity-0", "translate-y-4");
-              }, 150 * index); // Retraso escalonado
+              window.setTimeout(
+                () => slide.classList.remove("opacity-0", "translate-y-4"),
+                120 * index
+              );
             });
 
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.4 }
+      { threshold: 0.2 }
     );
 
     observer.observe(doctorsSection);
 
-    //Solucion al error que no se ejecutaba los botones de doctores, teniamos que ser mas especificos porque si no tomaba el boton de promociones
     const emblaNode = doctorsSection.querySelector(".embla");
+    if (!emblaNode) return;
 
-    //Esto lo hacemos para asegurarnos de que emblaNode no sea null y no lance error el tpyescript
-    if (emblaNode) {
-      const viewportNode = emblaNode.querySelector(
-        ".embla__viewport"
-      ) as HTMLElement;
-      const prevBtn = emblaNode.querySelector(
-        ".embla__prev"
-      ) as HTMLButtonElement;
-      const nextBtn = emblaNode.querySelector(
-        ".embla__next"
-      ) as HTMLButtonElement;
+    const viewportNode = emblaNode.querySelector(
+      ".embla__viewport"
+    ) as HTMLElement | null;
+    const prevBtn = emblaNode.querySelector(
+      ".embla__prev"
+    ) as HTMLButtonElement | null;
+    const nextBtn = emblaNode.querySelector(
+      ".embla__next"
+    ) as HTMLButtonElement | null;
 
-      if (viewportNode && prevBtn && nextBtn) {
-        const emblaApi = EmblaCarousel(viewportNode, {
-          loop: false,
-          align: "start",
-        });
+    if (!viewportNode || !prevBtn || !nextBtn) return;
 
-        // actualizar el estado de los botones
-        const updateButtons = () => {
-          // Ahora no dará error porque sabe que los botones son HTMLButtonElement.
-          prevBtn.disabled = !emblaApi.canScrollPrev();
-          nextBtn.disabled = !emblaApi.canScrollNext();
-        };
+    const emblaApi = EmblaCarousel(viewportNode, {
+      loop: false,
+      align: "start",
+    });
 
-        prevBtn.addEventListener("click", () => emblaApi.scrollPrev(), false);
-        nextBtn.addEventListener("click", () => emblaApi.scrollNext(), false);
+    const updateButtons = () => {
+      prevBtn.disabled = !emblaApi.canScrollPrev();
+      nextBtn.disabled = !emblaApi.canScrollNext();
+    };
 
-        // Actualizamos los botones al inicio y en cada cambio
-        emblaApi.on("select", updateButtons);
-        emblaApi.on("init", updateButtons);
-      }
-    }
+    prevBtn.addEventListener("click", () => emblaApi.scrollPrev(), false);
+    nextBtn.addEventListener("click", () => emblaApi.scrollNext(), false);
+
+    emblaApi.on("select", updateButtons);
+    emblaApi.on("init", updateButtons);
   });
 </script>
