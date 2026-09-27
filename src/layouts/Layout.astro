@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import locations from "@data/locations";
 
 const {
   title,
@@ -12,6 +13,61 @@ const fullTitle = title ? `${title} | Ariel's Clinic` : "Veterinaria y Spa para 
 const canonical = new URL(Astro.url.pathname, siteUrl).href;
 const absoluteOgImage = new URL(ogImage, siteUrl).href;
 const gaId = import.meta.env.PUBLIC_GA_ID;
+const gscVerification = import.meta.env.PUBLIC_GSC_VERIFICATION;
+
+// Convierte strings tipo "8:00 AM - 10:00 PM" / "24/7" a openingHoursSpecification
+function toOpeningHours(hours) {
+  if (hours.weekdays === "24/7" && hours.weekends === "24/7") {
+    return [{ "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], opens: "00:00", closes: "23:59" }];
+  }
+  const parse = (str) => {
+    const matches = [...str.matchAll(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)/gi)];
+    if (matches.length === 0) return null;
+    const to24 = (m) => {
+      let h = parseInt(m[1], 10) % 12;
+      if (m[3].toUpperCase() === "PM") h += 12;
+      return `${String(h).padStart(2, "0")}:${m[2] ?? "00"}`;
+    };
+    return { opens: to24(matches[0]), closes: to24(matches[matches.length - 1]) };
+  };
+  const specs = [];
+  const weekdays = parse(hours.weekdays);
+  const weekends = parse(hours.weekends);
+  if (weekdays) {
+    specs.push({ "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday"], opens: weekdays.opens, closes: weekdays.closes });
+  }
+  if (weekends && JSON.stringify(weekends) !== JSON.stringify(weekdays)) {
+    specs.push({ "@type": "OpeningHoursSpecification", dayOfWeek: ["Saturday","Sunday"], opens: weekends.opens, closes: weekends.closes });
+  }
+  return specs;
+}
+
+// Schema LocalBusiness (VeterinaryCare) por cada sede - SEO local
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@graph": locations.map((loc) => ({
+    "@type": "VeterinaryCare",
+    name: `Ariel's Clinic - Sede ${loc.name}`,
+    image: new URL(loc.imageUrl, siteUrl).href,
+    url: canonical,
+    telephone: loc.phone,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: loc.address.street,
+      addressLocality: loc.address.locality,
+      addressRegion: loc.address.region,
+      postalCode: loc.address.postalCode,
+      addressCountry: loc.address.country,
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: loc.coordinates.lat,
+      longitude: loc.coordinates.lng,
+    },
+    openingHoursSpecification: toOpeningHours(loc.hours),
+    priceRange: "$$",
+  })),
+};
 ---
 
 <!doctype html>
@@ -24,7 +80,14 @@ const gaId = import.meta.env.PUBLIC_GA_ID;
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="canonical" href={canonical} />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#1E3A6E" />
+    {gscVerification && <meta name="google-site-verification" content={gscVerification} />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -72,6 +135,12 @@ const gaId = import.meta.env.PUBLIC_GA_ID;
           "https://www.tiktok.com/@arielsclinichospital?_t=8khrdEF2zZt&_r=1",
         ],
       })}
+    />
+
+    <!-- === SCRIPT SCHEMA SEDES (LocalBusiness) === -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(localBusinessSchema)}
     />
   </head>
   <body class="font-sans antialiased">

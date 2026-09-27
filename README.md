@@ -65,6 +65,13 @@ npm run dev
 - **Variables de entorno** (en `.env` local o en las variables de Vercel):
   - `PUBLIC_SITE_URL`: URL base del sitio; la usan los OG tags, el QR y el schema de Google. Al comprar el dominio propio solo se actualiza aquí.
   - `PUBLIC_GA_ID` (opcional): ID de medición de GA4. **Sin configurarla, el sitio no carga ningún script de analítica.** Al configurarla, se registran clics en WhatsApp (con sede de origen) y envíos del newsletter.
+  - `PUBLIC_GSC_VERIFICATION` (opcional): código de verificación de Google Search Console.
+
+## 🔍 SEO
+
+- **Sitemap y robots:** `@astrojs/sitemap` genera `sitemap-index.xml` en cada build; `public/robots.txt` lo referencia. Al registrar el sitio en [Google Search Console](https://search.google.com/search-console), envía ese sitemap.
+- **Datos estructurados:** JSON-LD de `Organization`, `VeterinaryCare` por cada sede (dirección, geo, horarios, teléfono) y `AggregateRating` con las reseñas de Google.
+- **Favicon:** set completo generado desde el logo (`scripts/generate-favicon.mjs` → `npm run favicon:generate`). Si algún día tienen el SVG oficial del ícono, reemplazar `public/favicon.svg` y regenerar.
 
 ## Contacto
 
