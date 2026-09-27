@@ -2,7 +2,7 @@ import QRCode from "qrcode";
 import { mkdir, writeFile } from "node:fs/promises";
 
 const SITE_URL = process.env.SCRIPTS_SITE_URL ?? "https://vetariels-landing.vercel.app";
-const target = `${SITE_URL}/#promotions`;
+const target = SITE_URL;
 
 await mkdir("public/qr", { recursive: true });
 
