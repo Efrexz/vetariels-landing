@@ -1,62 +1,221 @@
 ---
-import PhoneIcon from "@assets/icons/phone.svg";
+import {
+  Clock,
+  Mail,
+  MapPin,
+  Phone,
+  Sparkles,
+} from "@lucide/astro";
+import InstagramIcon from "@assets/icons/socialMedia/instagram.svg";
+import FacebookIcon from "@assets/icons/socialMedia/facebook.svg";
+import TikTokIcon from "@assets/icons/socialMedia/tiktok.svg";
+import locations from "@data/locations";
+
+const FORMSPREE_URL = "https://formspree.io/f/myzpazje";
 
 const quickLinks = [
   { href: "/#doctors", label: "Doctores" },
   { href: "/#locations", label: "Ubicaciones" },
   { href: "/#promotions", label: "Promociones" },
+  { href: "/#testimonials", label: "Testimonios" },
 ];
 
-const servicesList = ["Emergencias", "Cirugia", "Cuidado Dental", "Vacunación"];
+const servicesList = [
+  "Emergencias 24/7",
+  "Cirugía",
+  "Cuidado Dental",
+  "Vacunación",
+  "Laboratorio",
+  "Spa Canino/Felino",
+];
 
-const locations = [
+const socialLinks = [
   {
-    name: "Sede San Miguel",
-    phone: "+51 954-599-221",
+    platform: "Instagram",
+    href: "https://www.instagram.com/arielsclinichospital?igsh=MThxN3d1dmNoNmFqNw%3D%3D&utm_source=qr",
+    icon: InstagramIcon,
+    classes: "hover:bg-gradient-to-br hover:from-pink-500 hover:via-red-500 hover:to-yellow-500 hover:border-transparent",
   },
   {
-    name: "Sede San Martín de Porres",
-    phone: "+51 986-985-047",
+    platform: "Facebook",
+    href: "https://www.facebook.com/arielsclinichv?mibextid=ibOpuV",
+    icon: FacebookIcon,
+    classes: "hover:bg-blue-600 hover:border-transparent",
   },
   {
-    name: "Sede Los Olivos",
-    phone: "+51 954-599-221",
+    platform: "TikTok",
+    href: "https://www.tiktok.com/@arielsclinichospital?_t=8khrdEF2zZt&_r=1",
+    icon: TikTokIcon,
+    classes: "hover:bg-slate-900 hover:border-transparent",
   },
 ];
 
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="bg-slate-900 text-slate-300">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-8"
-    >
-      <!-- Logo y Descripción -->
-      <div class="sm:col-span-2 lg:col-span-1">
-        <div class="flex items-center gap-3 mb-4">
-          <img
-            src="/logo-png.png"
-            alt="Logo de VetAriel"
-            class="w-48 rounded-lg"
-            loading="lazy"
-          />
+<footer class="bg-brand-navy text-white/80">
+  <!-- Banda de newsletter + redes -->
+  <div class="border-b border-white/15">
+    <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+      <div class="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+        <div id="newsletter">
+          <p class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-orange">
+            <Sparkles aria-hidden="true" class="h-4 w-4" stroke-width="2" />
+            Boletín veterinario
+          </p>
+          <h2 class="mt-3 text-2xl font-bold leading-tight tracking-[-0.02em] text-white sm:text-3xl">
+            Consejos y promociones
+            <span class="text-brand-orange">para tu mascota</span>
+          </h2>
+          <p class="mt-3 max-w-lg text-sm leading-6 text-white/70">
+            Elige cómo prefieres recibirlas: promociones exclusivas, consejos de
+            cuidado y noticias de salud. Sin spam, prometido.
+          </p>
         </div>
-        <p class="text-slate-400 text-base leading-relaxed">
+
+        <div>
+          <form id="newsletter-form" action={FORMSPREE_URL} method="POST">
+            <div id="newsletter-fields">
+            <input
+              type="hidden"
+              name="metodo_de_contacto"
+              id="metodo-contacto"
+              value="Correo Electrónico"
+            />
+
+            <!-- Toggle correo / whatsapp -->
+            <div
+              class="mb-3 flex w-fit rounded-full border border-white/20 bg-white/10 p-1"
+            >
+              <button
+                type="button"
+                id="btn-email"
+                class="flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold transition-all duration-300"
+              >
+                <Mail aria-hidden="true" class="h-4 w-4" stroke-width="1.8" />
+                Correo
+              </button>
+              <button
+                type="button"
+                id="btn-phone"
+                class="flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold transition-all duration-300"
+              >
+                <Phone aria-hidden="true" class="h-4 w-4" stroke-width="1.8" />
+                WhatsApp
+              </button>
+            </div>
+
+            <div class="flex flex-col gap-2.5 sm:flex-row">
+              <input
+                id="contact-input"
+                name="contacto_del_usuario"
+                type="email"
+                placeholder="tu@correo.com"
+                class="w-full flex-1 rounded-xl border border-white/25 bg-white/10 px-5 py-3.5 text-sm text-white placeholder-white/50 transition focus:border-brand-orange focus:outline-none focus:ring-2 focus:ring-brand-orange/50"
+                required
+              />
+              <button
+                type="submit"
+                class="whitespace-nowrap rounded-xl bg-brand-orange px-6 py-3.5 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:bg-orange-600 focus-visible:outline-brand-orange"
+              >
+                Suscribirme
+              </button>
+            </div>
+            <ul
+              class="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-1.5 text-xs text-white/60 sm:justify-start"
+            >
+              <li class="flex items-center gap-1.5">
+                <span aria-hidden="true" class="text-brand-orange">✓</span>
+                Promociones exclusivas
+              </li>
+              <li class="flex items-center gap-1.5">
+                <span aria-hidden="true" class="text-brand-orange">✓</span>
+                Consejos de cuidado
+              </li>
+              <li class="flex items-center gap-1.5">
+                <span aria-hidden="true" class="text-brand-orange">✓</span>
+                Sin spam
+              </li>
+            </ul>
+            </div>
+
+            <!-- Mensaje de éxito -->
+            <div id="newsletter-success" class="hidden">
+              <p
+                class="flex items-center gap-3 rounded-xl border border-brand-green/40 bg-brand-green/10 px-5 py-4 text-sm text-white"
+              >
+                <span
+                  class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-green"
+                  aria-hidden="true"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                </span>
+                <span>
+                  <strong class="block font-semibold">¡Gracias por suscribirte!</strong>
+                  Pronto recibirás consejos y promociones exclusivas.
+                </span>
+              </p>
+            </div>
+          </form>
+
+          <!-- Redes sociales -->
+          <div class="mt-6 flex items-center gap-3">
+            <span class="text-xs font-semibold uppercase tracking-[0.16em] text-white/50">
+              Síguenos
+            </span>
+            <span class="h-px flex-1 bg-white/15" aria-hidden="true"></span>
+            <div class="flex gap-2.5">
+              {
+                socialLinks.map((link) => (
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class:list={[
+                      "flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white transition duration-300 hover:-translate-y-0.5",
+                      link.classes,
+                    ]}
+                    aria-label={`Síguenos en ${link.platform}`}
+                  >
+                    <link.icon class="h-5 w-5" stroke-width="1.8" aria-hidden="true" />
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cuerpo del footer -->
+  <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-y-12 gap-x-8 sm:grid-cols-2 lg:grid-cols-4">
+      <!-- Logo y descripción -->
+      <div class="sm:col-span-2 lg:col-span-1">
+        <img
+          src="/logo-png.png"
+          alt="Ariel's Clinic Hospital Veterinario"
+          class="w-44 rounded-lg"
+          loading="lazy"
+        />
+        <p class="mt-5 text-sm leading-6 text-white/60">
           Comprometidos con la salud de tu compañero fiel desde hace más de 20
           años, brindando cuidado y confianza.
         </p>
       </div>
 
       <nav aria-label="Enlaces rápidos del sitio">
-        <h3 class="text-lg font-semibold text-white">Enlaces Rápidos</h3>
-        <ul class="mt-4 space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-[0.16em] text-white">
+          Enlaces rápidos
+        </h3>
+        <ul class="mt-5 space-y-3">
           {
             quickLinks.map((link) => (
               <li>
                 <a
                   href={link.href}
-                  class="hover:text-orange-500 transition-colors duration-300"
+                  class="text-sm text-white/60 transition-colors duration-300 hover:text-brand-orange"
                 >
                   {link.label}
                 </a>
@@ -66,29 +225,48 @@ const currentYear = new Date().getFullYear();
         </ul>
       </nav>
 
-      <div>
-        <h3 class="text-lg font-semibold text-white">Servicios</h3>
-        <ul class="mt-4 space-y-3">
+      <nav aria-label="Servicios destacados">
+        <h3 class="text-sm font-semibold uppercase tracking-[0.16em] text-white">
+          Servicios
+        </h3>
+        <ul class="mt-5 space-y-3">
           {
             servicesList.map((service) => (
               <li>
-                <span class="text-slate-400">{service}</span>
+                <a
+                  href="/#services"
+                  class="text-sm text-white/60 transition-colors duration-300 hover:text-brand-orange"
+                >
+                  {service}
+                </a>
               </li>
             ))
           }
         </ul>
-      </div>
+      </nav>
 
       <div>
-        <h3 class="text-lg font-semibold text-white">Nuestras Sedes</h3>
-        <ul class="mt-4 space-y-4">
+        <h3 class="text-sm font-semibold uppercase tracking-[0.16em] text-white">
+          Nuestras sedes
+        </h3>
+        <ul class="mt-5 space-y-5">
           {
             locations.map((loc) => (
               <li>
-                <strong class="block text-white">{loc.name}</strong>
-                <div class="flex items-center gap-2 mt-1 text-slate-400">
-                  <PhoneIcon class="w-4 h-4" aria-hidden="true" />
-                  <span>{loc.phone}</span>
+                <strong class="flex items-center gap-2 text-sm font-semibold text-white">
+                  <MapPin aria-hidden="true" class="h-4 w-4 text-brand-orange" stroke-width="1.8" />
+                  Sede {loc.name}
+                </strong>
+                <div class="mt-1.5 space-y-1 text-xs leading-5 text-white/60">
+                  <span class="block">{loc.address.street}</span>
+                  <span class="flex items-center gap-2">
+                    <Phone aria-hidden="true" class="h-3.5 w-3.5 text-white/40" stroke-width="1.8" />
+                    {loc.phone}
+                  </span>
+                  <span class="flex items-center gap-2">
+                    <Clock aria-hidden="true" class="h-3.5 w-3.5 text-white/40" stroke-width="1.8" />
+                    {loc.hours.weekdays}
+                  </span>
                 </div>
               </li>
             ))
@@ -98,19 +276,87 @@ const currentYear = new Date().getFullYear();
     </div>
 
     <div
-      class="mt-16 pt-8 border-t border-blue-800 text-center sm:text-left sm:flex sm:justify-between"
+      class="mt-14 flex flex-col items-center gap-4 border-t border-white/15 pt-8 text-center sm:flex-row sm:justify-between sm:text-left"
     >
-      <p class="text-sm text-slate-400">
-        © {currentYear} ArielsClinic. Todos los derechos reservados.
+      <p class="text-xs text-white/50">
+        © {currentYear} Ariel's Clinic. Todos los derechos reservados.
       </p>
-      <div class="mt-4 sm:mt-0">
-        <a
-          class="text-sm text-slate-400 hover:text-orange-500 transition-colors duration-300"
-          href="/politica-de-privacidad"
-        >
-          Política de Privacidad
-        </a>
-      </div>
+      <a
+        class="text-xs text-white/50 transition-colors duration-300 hover:text-brand-orange"
+        href="/politica-de-privacidad"
+      >
+        Política de Privacidad
+      </a>
     </div>
   </div>
 </footer>
+
+<script is:inline>
+  const btnEmail = document.getElementById("btn-email");
+  const btnPhone = document.getElementById("btn-phone");
+  const inputField = document.getElementById("contact-input");
+  const hiddenMethodInput = document.getElementById("metodo-contacto");
+
+  function updateFormUI(method) {
+    if (method === "email") {
+      inputField.type = "email";
+      inputField.placeholder = "tu@correo.com";
+      hiddenMethodInput.value = "Correo Electrónico";
+
+      btnEmail.classList.add("bg-brand-orange", "text-white");
+      btnEmail.classList.remove("text-white/70");
+      btnPhone.classList.add("text-white/70");
+      btnPhone.classList.remove("bg-brand-orange", "text-white");
+    } else {
+      inputField.type = "tel";
+      inputField.placeholder = "+51 999 999 999";
+      hiddenMethodInput.value = "WhatsApp";
+
+      btnPhone.classList.add("bg-brand-orange", "text-white");
+      btnPhone.classList.remove("text-white/70");
+      btnEmail.classList.add("text-white/70");
+      btnEmail.classList.remove("bg-brand-orange", "text-white");
+    }
+    inputField.value = "";
+  }
+
+  btnEmail.addEventListener("click", () => updateFormUI("email"));
+  btnPhone.addEventListener("click", () => updateFormUI("phone"));
+
+  updateFormUI("email");
+
+  const newsletterForm = document.getElementById("newsletter-form");
+  const newsletterFields = document.getElementById("newsletter-fields");
+  const newsletterSuccess = document.getElementById("newsletter-success");
+
+  newsletterForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const submitButton = newsletterForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.textContent = "Enviando...";
+
+    try {
+      const response = await fetch(newsletterForm.action, {
+        method: "POST",
+        body: new FormData(newsletterForm),
+        headers: { Accept: "application/json" },
+      });
+
+      if (response.ok) {
+        newsletterFields.classList.add("hidden");
+        newsletterSuccess.classList.remove("hidden");
+      } else {
+        submitButton.disabled = false;
+        submitButton.textContent = "Suscribirme";
+        alert(
+          "Hubo un problema al suscribirte. Inténtalo de nuevo en unos minutos."
+        );
+      }
+    } catch {
+      submitButton.disabled = false;
+      submitButton.textContent = "Suscribirme";
+      alert("Sin conexión. Revisa tu internet e inténtalo de nuevo.");
+    }
+  });
+</script>
