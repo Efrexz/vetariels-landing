@@ -48,6 +48,9 @@ function generateWhatsappUrl(sede) {
                 href={generateWhatsappUrl(sede)}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-g-event="whatsapp_click"
+                data-g-source="boton_flotante"
+                data-g-sede={sede.nombre}
                 class="flex items-center py-3 px-1 text-sm font-medium text-brand-ink/75 rounded-md hover:bg-brand-mist transition-colors border-b border-slate-100"
                 aria-label={`Contactar con la sede de ${sede.nombre} por WhatsApp`}
               >

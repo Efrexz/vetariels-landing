@@ -1,5 +1,17 @@
 ---
 import "../styles/global.css";
+
+const {
+  title,
+  description = "Todo para el cuidado integral de tu mascota en Lima: consultas, vacunación, cirugía, emergencias, radiografías, ecografías, spa, medicamentos, profilaxis dental y análisis de laboratorio. ¡Protege a tu mejor amigo con expertos en salud animal!",
+  ogImage = "/og-image.jpg",
+} = Astro.props;
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://vetariels-landing.vercel.app";
+const fullTitle = title ? `${title} | Ariel's Clinic` : "Veterinaria y Spa para Mascotas en Lima | Ariel's Clinic";
+const canonical = new URL(Astro.url.pathname, siteUrl).href;
+const absoluteOgImage = new URL(ogImage, siteUrl).href;
+const gaId = import.meta.env.PUBLIC_GA_ID;
 ---
 
 <!doctype html>
@@ -8,9 +20,10 @@ import "../styles/global.css";
     <meta charset="UTF-8" />
     <meta
       name="description"
-      content="Todo para el cuidado integral de tu mascota en Lima: consultas, vacunación, cirugía, emergencias, radiografías, ecografías, spa, medicamentos, profilaxis dental y análisis de laboratorio. ¡Protege a tu mejor amigo con expertos en salud animal!"
+      content={description}
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,17 +31,34 @@ import "../styles/global.css";
       href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Poppins:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <title>Veterinaria y Spa para Mascotas en Lima | VetAriel</title>
+    <title>{fullTitle}</title>
 
-    <!-- === INICIO: SCRIPT SCHEMA ORGANIZATION (JSON-LD) === -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Ariel's Clinic" />
+    <meta property="og:locale" content="es_PE" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Ariel's Clinic - Hospital Veterinario" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteOgImage} />
+    <meta name="twitter:label1" content="Atención" />
+    <meta name="twitter:data1" content="Emergencias 24/7 en Lima" />
+
+    <!-- === SCRIPT SCHEMA ORGANIZATION (JSON-LD) === -->
     <script
       type="application/ld+json"
       set:html={JSON.stringify({
         "@context": "https://schema.org",
         "@type": "Organization",
-        name: "VetAriel",
-        // "url": "[URL COMPLETA DE TU SITIO WEB, ej: https://www.vetariel.pe]",
-        // "logo": "[URL COMPLETA DE TU LOGO, ej: https://www.vetariel.pe/logo-principal.png]",
+        name: "Ariel's Clinic",
+        url: siteUrl,
+        logo: new URL("/logo-png.png", siteUrl).href,
         contactPoint: {
           "@type": "ContactPoint",
           telephone: "+51954599221",
@@ -46,5 +76,32 @@ import "../styles/global.css";
   </head>
   <body class="font-sans antialiased">
     <slot />
+
+    {
+      gaId && (
+        <script is:inline define:vars={{ gaId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            window.dataLayer.push(arguments);
+          }
+          gtag("js", new Date());
+          gtag("config", gaId, { send_page_view: true });
+
+          document.addEventListener("click", (event) => {
+            const el = event.target.closest("[data-g-event]");
+            if (!el) return;
+            gtag("event", el.dataset.gEvent, {
+              origen: el.dataset.gSource || "",
+              sede: el.dataset.gSede || "",
+            });
+          }, true);
+
+          document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("newsletter-form");
+            if (form) form.addEventListener("submit", () => gtag("event", "newsletter_submit"));
+          });
+        </script>
+      )
+    }
   </body>
 </html>

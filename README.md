@@ -58,6 +58,14 @@ npm run dev
 - 💬 **Chat en vivo:** Implementar un chat para soporte y consultas rápidas.
 - 🖼️ **Galería de casos de éxito/pacientes:** Mostrar fotos de mascotas y testimonios.
 
+## 📣 Marketing y difusión
+
+- **QR de campañas:** `public/qr/ariels-clinic-promos.png` (para redes/WhatsApp) y `.svg` (para imprimir). Apunta a la página con las promociones vigentes (`/#promotions`), así que el QR impreso nunca caduca: la página siempre muestra lo actual. Si cambia el dominio, regenera con `npm run qr:generate`.
+- **Previews al compartir (OG tags):** se configuran en `src/layouts/Layout.astro` con la imagen `public/og-image.jpg`. Para regenerarla tras cambiar el logo: `npm run assets:generate`.
+- **Variables de entorno** (en `.env` local o en las variables de Vercel):
+  - `PUBLIC_SITE_URL`: URL base del sitio; la usan los OG tags, el QR y el schema de Google. Al comprar el dominio propio solo se actualiza aquí.
+  - `PUBLIC_GA_ID` (opcional): ID de medición de GA4. **Sin configurarla, el sitio no carga ningún script de analítica.** Al configurarla, se registran clics en WhatsApp (con sede de origen) y envíos del newsletter.
+
 ## Contacto
 
 - 📩 **Email:** efrexz448@gmail.com
