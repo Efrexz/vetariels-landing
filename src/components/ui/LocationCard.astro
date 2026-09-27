@@ -9,7 +9,7 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
 ---
 
 <article
-  class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 transform hover:-translate-y-1.5 h-full flex flex-col group"
+  class="bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-hero transition-all duration-300 transform hover:-translate-y-1.5 h-full flex flex-col group"
   role="region"
   aria-labelledby={locationId}
   itemscope
@@ -33,7 +33,7 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
     <header class="mb-4">
       <h2
         id={locationId}
-        class="text-2xl font-bold text-blue-900"
+        class="text-2xl font-bold text-brand-navy"
         itemprop="name"
       >
         {name}
@@ -46,7 +46,7 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
     >
       <h3 class="sr-only">Detalles de contacto</h3>
       <address
-        class="space-y-3 text-slate-700 not-italic"
+        class="space-y-3 text-brand-ink/75 not-italic"
         itemprop="address"
         itemscope
         itemtype="https://schema.org/PostalAddress"
@@ -100,7 +100,7 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
           href={`https://wa.me/${whatsapp}`}
           target="_blank"
           rel="noopener noreferrer"
-          class="flex-1 bg-green-500 text-white py-3 px-4 rounded-lg font-bold hover:bg-green-600 transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 transform hover:scale-105"
+          class="flex-1 bg-brand-green text-white py-3 px-4 rounded-xl font-bold hover:bg-green-600 transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-2 transform hover:scale-105"
           aria-label={`Contactar veterinaria ${name} por WhatsApp`}
         >
           <WhatsappIcon class="w-5 h-5 mr-2" aria-hidden="true" />
@@ -111,7 +111,7 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
           href={`https://www.google.com/maps/dir/?api=1&origin=Current+Location&destination=${encodeURIComponent(address.street + ", " + address.locality)}`}
           target="_blank"
           rel="noopener noreferrer"
-          class="flex-1 bg-teal-50 text-blue-900 py-3 px-4 rounded-lg font-bold hover:bg-blue-100 transition-colors duration-300 flex items-center justify-center shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transform hover:scale-105"
+          class="flex-1 bg-brand-mist text-brand-navy py-3 px-4 rounded-xl font-bold hover:bg-brand-navy hover:text-white transition-colors duration-300 flex items-center justify-center shadow-md focus:outline-none focus:ring-2 focus:ring-brand-navy focus:ring-offset-2 transform hover:scale-105"
           itemprop="hasMap"
         >
           <span>Cómo llegar</span>

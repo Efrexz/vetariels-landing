@@ -5,7 +5,7 @@ import ExternalLinkIcon from "@assets/icons/externalLink.svg";
 const { authorName, rating, quote, petInfo, reviewUrl } = Astro.props;
 
 // Obtenemos las estrellas según la calificación
-const stars = Array(rating).fill(0); // [0, 0, 0, 0, 0]
+const stars = Array(Math.round(rating)).fill(0); // [0, 0, 0, 0, 0]
 
 const initial = authorName.charAt(0).toUpperCase();
 ---
@@ -18,7 +18,7 @@ const initial = authorName.charAt(0).toUpperCase();
   aria-label={`Leer la reseña de ${authorName} en Google Maps`}
 >
   <figure
-    class="bg-white rounded-2xl p-8 shadow-lg h-full flex flex-col"
+    class="relative bg-white rounded-2xl p-8 shadow-card h-full flex flex-col"
     itemscope
     itemtype="https://schema.org/Review"
   >
@@ -37,18 +37,18 @@ const initial = authorName.charAt(0).toUpperCase();
       <meta itemprop="bestRating" content="5" />
     </div>
 
-    <blockquote class="text-slate-700 italic mb-6 flex-grow">
+    <blockquote class="text-brand-ink/75 italic mb-6 flex-grow">
       <p itemprop="reviewBody">"{quote}"</p>
     </blockquote>
 
     <figcaption class="flex items-center">
       <div
-        class="w-14 h-14 rounded-full bg-blue-900 text-white flex items-center justify-center text-xl font-bold mr-4"
+        class="w-14 h-14 rounded-full bg-brand-navy text-white flex items-center justify-center text-xl font-bold mr-4"
       >
         <span>{initial}</span>
       </div>
       <div itemprop="author" itemscope itemtype="https://schema.org/Person">
-        <h4 class="font-bold text-blue-900" itemprop="name">{authorName}</h4>
+        <h4 class="font-bold text-brand-navy" itemprop="name">{authorName}</h4>
 
         <div
           class="flex items-center text-yellow-400 mt-1"
@@ -61,7 +61,7 @@ const initial = authorName.charAt(0).toUpperCase();
           }
           <span class="sr-only">{rating} de 5 estrellas</span>
         </div>
-        <p class="text-sm text-slate-500 mt-1">{petInfo}</p>
+        <p class="text-sm text-brand-ink/55 mt-1">{petInfo}</p>
       </div>
     </figcaption>
   </figure>

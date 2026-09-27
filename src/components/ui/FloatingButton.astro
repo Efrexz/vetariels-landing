@@ -32,12 +32,12 @@ function generateWhatsappUrl(sede) {
   <!-- Menú de sedes -->
   <div
     id="whatsapp-options"
-    class="hidden absolute bottom-20 right-0 w-64 bg-slate-100 rounded-lg shadow-2xl transition-all duration-300 ease-in-out transform origin-bottom-right overflow-hidden"
+    class="hidden absolute bottom-20 right-0 w-64 bg-white rounded-2xl shadow-hero transition-all duration-300 ease-in-out transform origin-bottom-right overflow-hidden"
   >
-    <div class="w-full h-1.5 bg-blue-900"></div>
+    <div class="w-full h-1.5 bg-brand-orange"></div>
 
     <div class="p-4">
-      <p class="font-semibold text-blue-900 text-center mb-3">
+      <p class="font-semibold text-brand-navy text-center mb-3">
         Elige una sede para contactar
       </p>
       <ul class="space-y-1">
@@ -48,10 +48,10 @@ function generateWhatsappUrl(sede) {
                 href={generateWhatsappUrl(sede)}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-center py-3 px-1 text-sm font-medium text-slate-700 rounded-md hover:bg-slate-200 transition-colors border-b border-slate-200"
+                class="flex items-center py-3 px-1 text-sm font-medium text-brand-ink/75 rounded-md hover:bg-brand-mist transition-colors border-b border-slate-100"
                 aria-label={`Contactar con la sede de ${sede.nombre} por WhatsApp`}
               >
-                <LocationIcon class="w-5 h-5 mr-3 text-orange-500" />
+                <LocationIcon class="w-5 h-5 mr-3 text-brand-orange" />
                 <span>{sede.nombre}</span>
               </a>
             </li>
@@ -64,7 +64,7 @@ function generateWhatsappUrl(sede) {
   <!-- Botón flotante -->
   <button
     id="whatsapp-fab"
-    class="bg-green-500 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-transform duration-200 hover:scale-110"
+    class="bg-brand-green text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-2 transition-transform duration-200 hover:scale-110"
     aria-label="Abrir opciones de contacto de WhatsApp"
     aria-haspopup="true"
     aria-expanded="false"
