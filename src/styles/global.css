@@ -21,6 +21,14 @@ body {
   outline-offset: 3px;
 }
 
+/* Elevación de flotantes (WhatsApp / Cata): el abierto va arriba, el otro abajo */
+.floater-top {
+  z-index: 60 !important;
+}
+.floater-dimmed {
+  z-index: 40 !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

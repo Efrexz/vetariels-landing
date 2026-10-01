@@ -1,0 +1,669 @@
+---
+import { X, Send } from "@lucide/astro";
+
+const whatsappNumber = "51954599221"; // Sede San Miguel 24/7
+const whatsappMessage = encodeURIComponent("¡Hola! Tengo una consulta sobre mi mascota.");
+
+const sedes = ["San Miguel", "San Martín de Porres", "Los Olivos"];
+const suggestedQuestions = [
+  "¿Cuál es el horario de las sedes?",
+  "¿Qué promociones tienen hoy?",
+  "¿Cómo agendo una cita?",
+];
+---
+
+<!-- Asistente Cata (Dentro del wrapper compartido #floaters en index.astro) -->
+<div id="chatbot-container" class="relative shrink-0">
+  <!-- Panel: desktop al costado del botón (alineado por abajo); móvil encima, ancho completo -->
+  <div
+    id="chatbot-panel"
+    class="chatbot-panel absolute bottom-0 right-[4.25rem] z-[60] flex h-[30rem] w-96 max-w-[calc(100vw-6.5rem)] flex-col overflow-hidden rounded-2xl bg-white shadow-hero"
+    role="dialog"
+    aria-label="Asistente virtual Cata de Ariel's Clinic"
+  >
+    <div class="flex items-center gap-3 bg-brand-navy px-4 py-3 text-white">
+      <img
+        src="/images/pet/cata-avatar.webp"
+        alt="Cata, asistente virtual de Ariel's Clinic"
+        width="56"
+        height="56"
+        class="h-10 w-10 shrink-0 rounded-full ring-2 ring-white/25"
+      />
+      <div class="min-w-0 flex-1">
+        <p class="flex items-center gap-1.5 text-sm font-bold leading-tight">
+          Cata · Asistente
+          <span class="relative flex h-2 w-2" aria-hidden="true">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-green-400"></span>
+          </span>
+        </p>
+        <label class="sr-only" for="chatbot-sede">Sede de referencia</label>
+        <select
+          id="chatbot-sede"
+          class="mt-1 w-full appearance-none rounded-md bg-white/10 px-2 py-0.5 text-[10px] font-semibold text-white outline-none transition hover:bg-white/15 focus-visible:ring-2 focus-visible:ring-brand-orange"
+        >
+          <option class="text-brand-navy" value="">Todas las sedes</option>
+          {sedes.map((s) => <option class="text-brand-navy" value={s}>{`Sede ${s}`}</option>)}
+        </select>
+      </div>
+      <button
+        id="chatbot-close"
+        type="button"
+        class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white/70 transition hover:bg-white/15 hover:text-white"
+        aria-label="Cerrar el asistente"
+      >
+        <X aria-hidden="true" class="h-5 w-5" stroke-width="2" />
+      </button>
+    </div>
+
+    <a
+      href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center justify-center gap-1.5 border-b border-slate-100 bg-brand-green/5 px-3 py-1.5 text-[11px] font-semibold text-brand-green transition hover:bg-brand-green/10"
+      data-g-event="whatsapp_click"
+      data-g-source="chatbot_barra"
+    >
+      ¿Emergencia o consulta directa? Escríbenos por WhatsApp
+    </a>
+
+    <div
+      id="chatbot-messages"
+      class="chatbot-msgs flex flex-1 flex-col gap-3 overflow-y-auto bg-brand-surface/60 p-4 text-sm"
+      aria-live="polite"
+    >
+      <!-- Saludo inicial se inyecta por JS -->
+    </div>
+
+    <div id="chatbot-suggestions" class="chatbot-suggestions flex flex-col gap-1.5 px-3 pb-2">
+      <div id="sede-chips" class="hidden flex-col gap-1.5">
+        <p class="px-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-brand-ink/45">
+          ¿De qué sede necesitas información?
+        </p>
+        {sedes.map((s) => (
+          <button
+            type="button"
+            data-sede-chip={s}
+            class="rounded-full border border-brand-navy/15 bg-white px-3 py-1.5 text-left text-xs font-medium text-brand-navy transition duration-200 hover:border-brand-orange hover:bg-brand-mist/60 hover:text-brand-orange active:scale-[0.98]"
+          >
+            📍 Sede {s}
+          </button>
+        ))}
+      </div>
+      <div id="question-chips" class="flex flex-col gap-1.5">
+        {
+          suggestedQuestions.map((q) => (
+            <button
+              type="button"
+              data-chat-suggestion
+              class="rounded-full border border-brand-navy/15 bg-white px-3 py-1.5 text-left text-xs font-medium text-brand-navy transition duration-200 hover:border-brand-orange hover:bg-brand-mist/60 hover:text-brand-orange active:scale-[0.98]"
+            >
+              {q}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <form id="chatbot-form" class="flex items-center gap-2 border-t border-slate-100 bg-white p-3">
+      <input
+        id="chatbot-input"
+        type="text"
+        maxlength="500"
+        placeholder="¿Qué quieres saber de Ariel's?"
+        class="min-w-0 flex-1 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-md text-brand-ink placeholder-brand-ink/40 transition focus:border-brand-orange focus:outline-none focus:ring-2 focus:ring-brand-orange/30 disabled:opacity-60"
+        autocomplete="off"
+      />
+      <button
+        type="submit"
+        id="chatbot-send"
+        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-orange text-white transition duration-200 hover:bg-orange-600 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+        aria-label="Enviar mensaje"
+      >
+        <Send aria-hidden="true" class="h-4 w-4" stroke-width="2" />
+      </button>
+    </form>
+  </div>
+
+  <!-- Botón flotante de Cata + burbuja invitación -->
+  <button
+    id="chatbot-fab"
+    type="button"
+    class="group relative h-16 w-16 shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2"
+    aria-label="Abrir el asistente virtual Cata"
+    aria-expanded="false"
+    aria-haspopup="dialog"
+  >
+    <img
+      src="/images/pet/cata-fab.webp"
+      alt=""
+      width="96"
+      height="96"
+      class="bot-fab-img h-16 w-16 rounded-full ring-[3px] ring-white shadow-card transition-transform duration-300 ease-out group-hover:rotate-[-6deg] group-hover:scale-105"
+    />
+    <span
+      id="chatbot-badge"
+      class="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5 rounded-full bg-brand-orange ring-2 ring-white animate-pulse"
+      aria-hidden="true"
+    >
+    </span>
+    <span
+      id="chatbot-fab-close-chip"
+      class="chat-fab-chip absolute -left-0.5 -top-1 hidden h-5 w-5 items-center justify-center rounded-full bg-brand-navy text-white shadow-md"
+      aria-hidden="true"
+    >
+      <X class="h-3 w-3" stroke-width="2.5" />
+    </span>
+  </button>
+
+  <!-- Burbuja de invitación: encima de Cata, cola hacia abajo; se cierra al abrir Cata / su X / scrollear -->
+  <div
+    id="chatbot-teaser"
+    class="chatbot-teaser absolute bottom-[4.5rem] right-0 whitespace-nowrap"
+    role="note"
+  >
+    <button id="chatbot-teaser-close" type="button" class="absolute -right-1.5 -top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-slate-200 text-slate-500 shadow-sm transition hover:bg-brand-orange hover:text-white" aria-label="Cerrar la invitación del asistente" tabindex="-1">
+      <X class="h-2 w-2" stroke-width="3" />
+    </button>
+    <button
+      id="chatbot-teaser-link"
+      type="button"
+      class="block cursor-pointer whitespace-nowrap rounded-xl rounded-br-sm border border-brand-mist bg-white px-3.5 py-2 text-[13px] font-bold text-brand-navy shadow-card transition hover:shadow-lg hover:text-brand-orange"
+    >
+      ¿Te ayudo? 🐾
+    </button>
+  </div>
+</div>
+</div>
+
+<style>
+  .chatbot-panel {
+    transform: translateX(12px) scale(0.98);
+    opacity: 0;
+    visibility: hidden;
+    transform-origin: bottom right;
+    transition:
+      opacity 220ms ease-out,
+      transform 220ms ease-out,
+      visibility 220ms ease-out;
+  }
+  .chatbot-panel.chat-open {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .chat-fab-chip {
+    animation: chat-chip-in 200ms ease-out;
+  }
+  @keyframes chat-chip-in {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  /* Burbuja de invitación (teaser) */
+  .chatbot-teaser {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition:
+      opacity 260ms ease-out,
+      transform 260ms ease-out,
+      visibility 260ms ease-out;
+    pointer-events: none;
+  }
+  .chatbot-teaser.chat-teaser-on {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .chatbot-teaser::after {
+    content: "";
+    position: absolute;
+    right: 16px;
+    bottom: -5px;
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    border-right: 1px solid #eaf1f8;
+    border-bottom: 1px solid #eaf1f8;
+    transform: rotate(45deg);
+    border-radius: 2px;
+  }
+
+  .chatbot-msgs {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(30 58 110 / 0.25) transparent;
+  }
+  .chatbot-msgs::-webkit-scrollbar {
+    width: 5px;
+  }
+  .chatbot-msgs::-webkit-scrollbar-thumb {
+    background: rgb(30 58 110 / 0.25);
+    border-radius: 999px;
+  }
+
+  .chat-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .chat-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgb(12 44 85 / 0.2);
+  }
+  .chat-bubble-user,
+  .chat-bubble-bot {
+    overflow-wrap: anywhere;
+    box-shadow: 0 1px 2px rgb(12 44 85 / 0.06);
+    animation: chat-bubble-in 220ms ease-out;
+  }
+  .chat-bubble-user {
+    background: #1e3a6e;
+    color: #fff;
+    border-radius: 1rem 1rem 0.25rem 1rem;
+  }
+  .chat-bubble-bot {
+    position: relative;
+    background: #fff;
+    color: #24364b;
+    border-radius: 0.25rem 1rem 1rem 1rem;
+    border: 1px solid rgb(2 8 23 / 0.06);
+    border-left: 3px solid #f5821f;
+  }
+  @keyframes chat-bubble-in {
+    from { transform: translateY(6px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .chat-typing {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .chat-typing .paw {
+    animation: chat-paw-bounce 1s ease-in-out infinite;
+    transform-origin: bottom center;
+  }
+  .chat-typing .paw:nth-child(2) { animation-delay: 0.15s; }
+  .chat-typing .paw:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes chat-paw-bounce {
+    0%, 60%, 100% { transform: translateY(0) scale(1); opacity: 0.45; }
+    30% { transform: translateY(-4px) scale(1.1); opacity: 1; }
+  }
+
+  @media (max-width: 640px) {
+    .chatbot-panel {
+      right: 0;
+      bottom: 3.5rem;
+      width: calc(100vw - 4.5rem);
+      height: 30rem;
+      transform: translateY(12px) scale(0.98);
+      transform-origin: bottom center;
+    }
+    .chatbot-panel.chat-open {
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chatbot-panel,
+    .chat-bubble-user,
+    .chat-bubble-bot,
+    .chat-fab-chip,
+    .chat-typing .paw,
+    .animate-ping,
+    .animate-pulse,
+    .bot-fab-img {
+      animation: none !important;
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+</style>
+
+<script>
+  const container = document.getElementById("chatbot-container");
+  const panel = document.getElementById("chatbot-panel");
+  const fab = document.getElementById("chatbot-fab");
+  const closeChip = document.getElementById("chatbot-fab-close-chip");
+  const closeButton = document.getElementById("chatbot-close");
+  const form = document.getElementById("chatbot-form");
+  const input = document.getElementById("chatbot-input");
+  const sendBtn = document.getElementById("chatbot-send");
+  const messagesEl = document.getElementById("chatbot-messages");
+  const suggestionsEl = document.getElementById("chatbot-suggestions");
+  const sedeChipsWrap = document.getElementById("sede-chips");
+  const questionChipsWrap = document.getElementById("question-chips");
+  const sedeSelect = document.getElementById("chatbot-sede");
+  const badge = document.getElementById("chatbot-badge");
+
+  const STORAGE_KEY = "cata_sede";
+  const history = [];
+  let sede = "";
+  let sedeAsked = false;
+  let questionsAsked = 0;
+
+  function scrollBottom(force = false) {
+    const nearBottom = messagesEl.scrollHeight - messagesEl.scrollTop - messagesEl.clientHeight < 80;
+    if (force || nearBottom) {
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+  }
+
+  function botRow(bubbleNode) {
+    const wap = document.createElement("div");
+    wap.className = "chat-row self-start";
+    const img = document.createElement("img");
+    img.src = "/images/pet/cata-mini.webp";
+    img.alt = "";
+    img.setAttribute("aria-hidden", "true");
+    img.width = 28;
+    img.height = 28;
+    img.className = "chat-avatar";
+    wap.appendChild(img);
+    if (bubbleNode) wap.appendChild(bubbleNode);
+    messagesEl.appendChild(wap);
+    return wap;
+  }
+
+  function addBubble(text, role) {
+    const bubble = document.createElement("div");
+    bubble.className = `max-w-[85%] px-4 py-2.5 text-[15px] leading-relaxed ${
+      role === "user" ? "chat-bubble-user self-end" : "chat-bubble-bot self-start"
+    }`;
+    bubble.textContent = text;
+
+    if (role === "user") {
+      messagesEl.appendChild(bubble);
+    } else {
+      botRow(bubble);
+    }
+    scrollBottom(role === "user");
+    return bubble;
+  }
+
+  function showTyping() {
+    const bubble = document.createElement("div");
+    bubble.className = "chat-bubble-bot chat-typing px-4 py-3";
+    bubble.setAttribute("aria-label", "Cata está escribiendo");
+    bubble.innerHTML = `<span class="paw" aria-hidden="true">🐾</span><span class="paw" aria-hidden="true">🐾</span><span class="paw" aria-hidden="true">🐾</span>`;
+    const row = botRow(bubble);
+    scrollBottom();
+    // Devolvemos la fila completa (avatar + burbuja) para poder eliminarla entera luego
+    return row;
+  }
+
+  function hideSuggestions() {
+    if (questionChipsWrap && !questionChipsWrap.classList.contains("hidden")) {
+      questionChipsWrap.classList.add("hidden");
+    }
+    if (sedeChipsWrap) sedeChipsWrap.classList.add("hidden");
+  }
+
+  function showSedeQuestion() {
+    sedeAsked = true;
+    if (sedeChipsWrap) {
+      sedeChipsWrap.classList.remove("hidden");
+      sedeChipsWrap.classList.add("flex");
+    }
+    if (questionChipsWrap) questionChipsWrap.classList.add("hidden");
+    scrollBottom(true);
+  }
+
+  function setSede(value, { announce = true } = {}) {
+    sede = value || "";
+    try {
+      localStorage.setItem(STORAGE_KEY, sede);
+    } catch (e) {
+      /* modo privacidad */
+    }
+    // Los chips de sede desaparecen definitivamente tras la elección:
+    // el cambio de sede es solo vía el selector del header
+    if (sedeChipsWrap) {
+      sedeChipsWrap.classList.add("hidden");
+      sedeChipsWrap.classList.remove("flex");
+    }
+    if (sedeSelect) sedeSelect.value = sede;
+    if (announce && sede) {
+      addBubble(`¡Genial! ✨ Te atiendo con la información de la sede ${sede}. Si necesitas otra sede, cámbiala arriba.`, "bot");
+    }
+    if (questionChipsWrap) {
+      questionChipsWrap.classList.remove("hidden");
+      questionsAsked = 0;
+    }
+    scrollBottom(true);
+  }
+
+  async function ask(question) {
+    const trimmed = question.trim();
+    if (!trimmed || sendBtn.disabled) return;
+
+    // Si aún no hay sede elegida, un mensaje libre activa la pregunta de sede
+    if (!sede && !sedeAsked) {
+      showSedeQuestion();
+      return;
+    }
+
+    hideSuggestions();
+    addBubble(trimmed, "user");
+    history.push({ role: "user", text: trimmed });
+
+    sendBtn.disabled = true;
+    input.value = "";
+    const typing = showTyping();
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: trimmed, history, sede }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      // Se elimina la fila entera (avatar + indicador) para no dejar un avatar huérfano
+      typing.remove();
+
+      if (res.ok && data.reply) {
+        addBubble(data.reply, "bot");
+        history.push({ role: "bot", text: data.reply });
+      } else if (res.status === 503 || data.error === "alta_demanda") {
+        addBubble("Ahora mismo hay mucha demanda y no puedo responder. En un rato me puedes preguntar de nuevo, o hazlo por WhatsApp 🐾", "bot");
+      } else if (res.status === 429) {
+        addBubble(
+          data.error === "limite_mensajes"
+            ? "¡Ups! Alcanzaste el límite de mensajes por ahora. Para atención inmediata escríbenos por WhatsApp 🐾"
+            : "Ya no puedo atender más preguntas por hoy. ¡Pero mi equipo está disponible por WhatsApp! 🐾",
+          "bot"
+        );
+      } else {
+        addBubble("Tuve un problema para responder. Escríbenos por WhatsApp y te atendemos de inmediato 🐾", "bot");
+      }
+    } catch {
+      typing.remove();
+      addBubble("Parece que no tengo conexión. Escríbenos por WhatsApp 🐾", "bot");
+    } finally {      sendBtn.disabled = false;
+    }
+  }
+
+  function openPanel() {
+    panel.classList.add("chat-open");
+    fab.setAttribute("aria-expanded", "true");
+    closeChip.classList.remove("hidden");
+    closeChip.classList.add("flex");
+    if (badge) badge.classList.add("hidden");
+
+    // Elevación: Cata arriba, WhatsApp abajo; y cerrar su panel si estaba abierto
+    container.classList.add("floater-top");
+    document
+      .getElementById("floating-whatsapp-container")
+      ?.classList.add("floater-dimmed");
+    window.dispatchEvent(
+      new CustomEvent("floater-action", { detail: { source: "cata", action: "open" } })
+    );
+    dismissTeaser?.();
+
+    if (messagesEl.children.length === 0) {
+      try {
+        sede = localStorage.getItem(STORAGE_KEY) || "";
+      } catch (e) {
+        sede = "";
+      }
+    if (!sede) {
+      // Volvió a "Todas las sedes": en la próxima pregunta puede reinciar la elección
+      sedeAsked = false;
+    }
+    if (!sedeAsked && sede) {
+      sedeAsked = true;
+    }
+    if (sedeSelect) sedeSelect.value = sede;
+
+      if (sede) {
+        addBubble(`¡Hola! 🐾 Soy Cata, la asistente de Ariel's Clinic. Recuerda: te atiendo según la sede "${sede}" — puedes cambiarla arriba. ¿En qué te ayudo?`, "bot");
+      } else {
+        addBubble("¡Hola! 🐾 Soy Cata, la asistente de Ariel's Clinic. Antes de empezar: ¿de qué sede necesitas información?", "bot");
+        showSedeQuestion();
+      }
+    }
+
+    scrollBottom(true);
+    input.focus();
+  }
+
+  function closePanel() {
+    if (!panel.classList.contains("chat-open")) return false;
+    panel.classList.remove("chat-open");
+    fab.setAttribute("aria-expanded", "false");
+    closeChip.classList.add("hidden");
+    closeChip.classList.remove("flex");
+    container.classList.remove("floater-top");
+    document
+      .getElementById("floating-whatsapp-container")
+      ?.classList.remove("floater-dimmed");
+    window.dispatchEvent(
+      new CustomEvent("floater-action", { detail: { source: "cata", action: "close" } })
+    );
+    return true;
+  }
+
+  fab.addEventListener("click", () => {
+    if (panel.classList.contains("chat-open")) closePanel();
+    else openPanel();
+  });
+
+  closeButton.addEventListener("click", () => {
+    if (closePanel()) fab.focus();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && panel.classList.contains("chat-open")) {
+      closePanel();
+      fab.focus();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (panel.classList.contains("chat-open") && !container.contains(event.target)) {
+      closePanel();
+    }
+  });
+
+  // El otro flotante abrió: me bajo (mi contenedor); su cierre me restaura
+  document.addEventListener("floater-action", (event) => {
+    const { source, action } = event.detail ?? {};
+    if (source === "whatsapp") {
+      if (action === "open") {
+        closePanel();
+        container.classList.add("floater-dimmed");
+      } else if (!panel.classList.contains("chat-open")) {
+        container.classList.remove("floater-dimmed");
+      }
+    }
+  });
+
+  // ---- Burbuja de invitación ("¿Te ayudo? 🐾") ----
+  const teaser = document.getElementById("chatbot-teaser");
+  const teaserClose = document.getElementById("chatbot-teaser-close");
+  const teaserLink = document.getElementById("chatbot-teaser-link");
+  const TEASER_KEY = "cata_teaser_cerrado";
+
+  let teaserDismissed = false;
+  try {
+    teaserDismissed = sessionStorage.getItem(TEASER_KEY) === "1";
+  } catch (e) {
+    teaserDismissed = false;
+  }
+
+  function dismissTeaser() {
+    if (!teaser || teaserDismissed) return;
+    teaserDismissed = true;
+    teaser.classList.remove("chat-teaser-on");
+    try {
+      sessionStorage.setItem(TEASER_KEY, "1");
+    } catch (e) {
+      /* modo privacidad */
+    }
+  }
+
+  if (teaser && !teaserDismissed) {
+    window.setTimeout(() => {
+      if (!teaserDismissed) teaser.classList.add("chat-teaser-on");
+    }, 2500);
+
+    teaserClose?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      dismissTeaser();
+    });
+
+    teaserLink?.addEventListener("click", (event) => {
+      event.preventDefault();
+      dismissTeaser();
+      openPanel();
+    });
+
+    teaser.addEventListener("click", () => {
+      // click directo en la burbuja también abre Cata
+      dismissTeaser();
+      openPanel();
+    });
+
+    // Se cierra al scrollear mas de 300px una vez visible
+    let scrollDismissed = false;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (scrollDismissed || teaserDismissed) return;
+        if (window.scrollY > 300) {
+          scrollDismissed = true;
+          dismissTeaser();
+        }
+      },
+      { passive: true }
+    );
+  }
+
+  sedeSelect.addEventListener("change", () => setSede(sedeSelect.value));
+
+  sedeChipsWrap.addEventListener("click", (event) => {
+    const chip = event.target.closest("[data-sede-chip]");
+    if (chip) setSede(chip.dataset.sedeChip.trim());
+  });
+
+  questionChipsWrap.addEventListener("click", (event) => {
+    const chip = event.target.closest("[data-chat-suggestion]");
+    if (chip) {
+      questionsAsked += 1;
+      if (questionsAsked >= 1) questionChipsWrap.classList.add("hidden");
+      ask(chip.textContent);
+    }
+  });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    ask(input.value);
+  });
+</script>

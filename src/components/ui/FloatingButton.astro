@@ -1,77 +1,204 @@
 ---
 import WhatsAppIcon from "@assets/icons/whatsapp.svg";
-import LocationIcon from "@assets/icons/location.svg";
+import { ChevronRight, Clock3, MapPin } from "@lucide/astro";
+import locations from "@data/locations";
 
-const sedes = [
-  {
-    nombre: "Sede San Martín De Porres",
-    whatsappNumber: "+51986985047",
-    message:
-      "¡Hola! Me gustaría agendar una cita para la sede de San Martin de Porres.",
-  },
-  {
-    nombre: "Sede San Miguel",
-    whatsappNumber: "+51954599221",
-    message: "¡Hola! Me gustaría agendar una cita para la sede de San Miguel.",
-  },
-  {
-    nombre: "Sede Los Olivos",
-    whatsappNumber: "+51932719342",
-    message: "¡Hola! Me gustaría agendar una cita para la sede de Los Olivos.",
-  },
-];
+// Único origen de verdad (como Footer / mapa / knowledge.json)
+const sedes = locations.map((location) => ({
+  nombre: location.name,
+  telefono: location.phone.replace(/\s|\+/g, ""),
+  horario247: location.hours.weekdays === "24/7",
+  horario: location.hours.weekdays,
+  emergency: location.hours.weekdays === "24/7",
+  // Nombres de distrito legibles para el mensaje prellenado
+  mensaje: `¡Hola! Me gustaría agendar una cita para la sede ${location.name}.`,
+}));
 
-// Generamos la URL de WhatsApp para cada sede
-function generateWhatsappUrl(sede) {
-  const encodedMessage = encodeURIComponent(sede.message);
-  return `https://wa.me/${sede.whatsappNumber}?text=${encodedMessage}`;
-}
+const panelLink =
+  "group flex items-center gap-3 rounded-xl px-2.5 py-3 text-sm font-semibold text-brand-ink/80 transition-colors hover:bg-brand-mist focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green";
+const emergenciaSede = sedes.find((s) => s.horario247) ?? sedes[0];
 ---
 
-<div id="floating-whatsapp-container" class="fixed bottom-5 right-5 z-50">
-  <!-- Menú de sedes -->
+<div id="floating-whatsapp-container" class="relative shrink-0">
+  <!-- Menú de sedes: mismo patrón visual que el panel de Cata -->
   <div
     id="whatsapp-options"
-    class="hidden absolute bottom-20 right-0 w-64 bg-white rounded-2xl shadow-hero transition-all duration-300 ease-in-out transform origin-bottom-right overflow-hidden"
+    class="wa-panel absolute bottom-0 right-[4.25rem] z-[60] w-72 max-w-[calc(100vw-6.5rem)] origin-bottom-right overflow-hidden rounded-2xl bg-white shadow-hero"
+    role="menu"
+    aria-label="Contactar con una sede por WhatsApp"
   >
-    <div class="w-full h-1.5 bg-brand-orange"></div>
+    <div class="flex items-center gap-3 bg-brand-navy px-4 py-3 text-white">
+      <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-green">
+        <WhatsAppIcon class="h-5 w-5" aria-hidden="true" />
+      </span>
+      <div class="min-w-0 flex-1">
+        <p class="text-sm font-bold leading-tight">Conversemos por WhatsApp</p>
+        <p class="text-[10px] leading-tight text-white/60">Elige tu sede más cercana</p>
+      </div>
+    </div>
 
-    <div class="p-4">
-      <p class="font-semibold text-brand-navy text-center mb-3">
-        Elige una sede para contactar
-      </p>
-      <ul class="space-y-1">
-        {
-          sedes.map((sede) => (
-            <li>
-              <a
-                href={generateWhatsappUrl(sede)}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-g-event="whatsapp_click"
-                data-g-source="boton_flotante"
-                data-g-sede={sede.nombre}
-                class="flex items-center py-3 px-1 text-sm font-medium text-brand-ink/75 rounded-md hover:bg-brand-mist transition-colors border-b border-slate-100"
-                aria-label={`Contactar con la sede de ${sede.nombre} por WhatsApp`}
-              >
-                <LocationIcon class="w-5 h-5 mr-3 text-brand-orange" />
-                <span>{sede.nombre}</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+    <ul class="p-3">
+      {
+        sedes.map((sede) => (
+          <li role="none">
+            <a
+              href={`https://wa.me/${sede.telefono}?text=${encodeURIComponent(sede.mensaje)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-g-event="whatsapp_click"
+              data-g-source="boton_flotante"
+              data-g-sede={sede.nombre}
+              role="menuitem"
+              class:list={[panelLink, "border border-transparent hover:border-transparent"]}
+              aria-label={`Contactar con la sede de ${sede.nombre} por WhatsApp`}
+            >
+              <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-green/10 text-brand-green transition-transform duration-200 group-hover:scale-105">
+                <MapPin aria-hidden="true" class="h-4.5 w-4.5" stroke-width="1.8" />
+              </span>
+              <span class="min-w-0 flex-1">
+                <span class="block leading-tight">Sede {sede.nombre}</span>
+                <span class="mt-1 flex items-center gap-1.5 text-[10px] font-medium text-brand-ink/55">
+                  <Clock3 aria-hidden="true" class="h-3 w-3" stroke-width="1.8" />
+                  {sede.horario247 ? "Abierto 24/7" : sede.horario}
+                </span>
+              </span>
+              <ChevronRight
+                aria-hidden="true"
+                class="wa-arrow h-4 w-4 -translate-x-1 text-brand-orange opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100"
+              />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="border-t border-slate-100 p-3">
+      <a
+        href={`https://wa.me/${emergenciaSede.telefono}?text=${encodeURIComponent("¡Hola! Es una emergencia con mi mascota.")}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-g-event="whatsapp_click"
+        data-g-source="boton_flotante_emergencia"
+        data-g-sede={emergenciaSede.nombre}
+        role="menuitem"
+        class="flex items-center justify-center gap-2 rounded-xl bg-brand-green px-3 py-2.5 text-xs font-bold text-white transition hover:bg-green-600"
+        aria-label={`Contactar emergencias de la sede ${emergenciaSede.nombre} por WhatsApp`}
+      >
+        <WhatsAppIcon class="h-4 w-4" aria-hidden="true" /> ¿Urgencia? {emergenciaSede.nombre} atiende 24/7
+      </a>
     </div>
   </div>
 
-  <!-- Botón flotante -->
+  <!-- Botón flotante: par visual del asistente Cata (ring blanco) -->
   <button
     id="whatsapp-fab"
-    class="bg-brand-green text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-2 transition-transform duration-200 hover:scale-110"
+    class="wa-fab flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-brand-green to-green-600 text-white shadow-card ring-[3px] ring-white"
     aria-label="Abrir opciones de contacto de WhatsApp"
-    aria-haspopup="true"
+    aria-haspopup="menu"
     aria-expanded="false"
   >
-    <WhatsAppIcon class="w-8 h-8" />
+    <WhatsAppIcon class="wa-fab-icon h-8 w-8" />
   </button>
 </div>
+
+<style>
+  /* Transición real (hoy hidden mata las transiciones). El script del Header solo alterna clases. */
+  .wa-panel {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(12px) scale(0.98);
+    transition:
+      opacity 220ms ease-out,
+      transform 220ms ease-out,
+      visibility 220ms ease-out;
+    pointer-events: none;
+  }
+  .wa-panel.wa-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .wa-fab {
+    transition: transform 200ms ease-out;
+  }
+  .wa-fab:hover {
+    transform: scale(1.08);
+  }
+  .wa-fab:focus-visible {
+    transform: scale(1.08);
+  }
+  .wa-fab-icon {
+    transition: transform 300ms ease-out;
+  }
+  .wa-fab:hover .wa-fab-icon {
+    animation: wa-wiggle 600ms ease-in-out;
+  }
+  @keyframes wa-wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    30% { transform: rotate(-10deg) scale(1.08); }
+    60% { transform: rotate(8deg) scale(1.05); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wa-panel,
+    .wa-fab,
+    .wa-fab-icon,
+    .wa-arrow {
+      animation: none !important;
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+</style>
+
+<script>
+  // Lógica local (más robusta que la del Header: Escape, foco, animación por clase)
+  const fab = document.getElementById("whatsapp-fab");
+  const panelEl = document.getElementById("whatsapp-options");
+
+  if (fab && panelEl) {
+    const container = document.getElementById("floating-whatsapp-container");
+    const isOpen = () => fab.getAttribute("aria-expanded") === "true";
+    const firstLink = panelEl.querySelector('a[role="menuitem"]');
+
+    const setOpen = (open) => {
+      fab.setAttribute("aria-expanded", String(open));
+      panelEl.classList.toggle("wa-open", open);
+      container.classList.toggle("floater-top", open);
+      // Exclusión mutua: avisar al otro flotante (abrir me, cerrar el otro)
+      window.dispatchEvent(
+        new CustomEvent("floater-action", { detail: { source: "whatsapp", action: open ? "open" : "close" } })
+      );
+      if (open && firstLink) firstLink.focus({ preventScroll: true });
+    };
+
+    fab.addEventListener("click", (event) => {
+      event.stopPropagation();
+      setOpen(!isOpen());
+    });
+
+    document.addEventListener("click", (event) => {
+      if (isOpen() && !panelEl.contains(event.target) && event.target.closest("#whatsapp-fab") === null) {
+        setOpen(false);
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && isOpen()) {
+        setOpen(false);
+        fab.focus();
+      }
+    });
+
+    // Abrir/levantar el otro flotante me baja a mí; su cierre me restaura
+    document.addEventListener("floater-action", (event) => {
+      const { source, action } = event.detail ?? {};
+      if (source === "cata") {
+        if (action === "open") container.classList.add("floater-dimmed");
+        else if (!isOpen()) container.classList.remove("floater-dimmed");
+      }
+    });
+  }
+</script>

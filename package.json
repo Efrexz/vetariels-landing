@@ -9,7 +9,8 @@
     "astro": "astro",
     "assets:generate": "node scripts/generate-og.mjs",
     "qr:generate": "node scripts/generate-qr.mjs",
-    "favicon:generate": "node scripts/generate-favicon.mjs"
+    "favicon:generate": "node scripts/generate-favicon.mjs",
+    "knowledge:generate": "node scripts/generate-knowledge.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

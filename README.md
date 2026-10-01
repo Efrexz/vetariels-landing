@@ -73,6 +73,17 @@ npm run dev
 - **Datos estructurados:** JSON-LD de `Organization`, `VeterinaryCare` por cada sede (dirección, geo, horarios, teléfono) y `AggregateRating` con las reseñas de Google.
 - **Favicon:** set completo generado desde el logo (`scripts/generate-favicon.mjs` → `npm run favicon:generate`). Si algún día tienen el SVG oficial del ícono, reemplazar `public/favicon.svg` y regenerar.
 
+## 🤖 Asistente virtual (chatbot)
+
+Asistente con Gemini API (free tier: ~1.500 consultas/día, suficiente para el tráfico esperado). Respuestas limitadas a información de la clínica; ante dudas médicas deriva a WhatsApp o emergencias 24/7.
+
+- **Frontend:** `src/components/Chatbot.astro` (botón flotante junto al de WhatsApp).
+- **Backend:** `api/chat.js` (serverless de Vercel) — la API key NUNCA está en el frontend.- **Conocimiento:** `api/knowledge.json` — se regenera con `npm run knowledge:generate` desde los datos de la página (servicios, sedes, promociones, FAQs). Al actualizar promociones, regenéralo.
+- **Configuración en Vercel:** crear la API key en [aistudio.google.com](https://aistudio.google.com) y agregar la variable de entorno `GEMINI_API_KEY` (modelo gratuito `gemini-3.8-flash` por defecto; verificable en el panel "Rate limits" de AI Studio). Sin key, el endpoint responde 503 y el chat siempre sugiere WhatsApp. **No enlaces facturación al proyecto de Gemini y no habrá cargos posibles.**
+- **Protecciones incluidas:** respuestas cortas (max 3 frases, `maxOutputTokens` 320) para ahorrar tokens, 12 mensajes/hora por IP, historial corto por petición. Cada caso (demanda, cuota, key inválida) tiene su propio mensaje en el frontend.
+- **Proveedores en cadena** (`api/chat.js`): con `OPENROUTER_API_KEY` configurada → principal DeepSeek V4 Flash pagado en OpenRouter (fluido, ~$0.15/mes en uso normal; fallback interno a la variante `:free` de $0), y Gemini free queda como red de seguridad final. Sin key de OpenRouter → cadena original Gemini-first. En cualquier caso, si nada responde, el chat dirige a WhatsApp.
+- **Configuración:** `OPENROUTER_API_KEY` y `GEMINI_API_KEY` en `.env` (local / Vercel). Regenerar conocimiento con `npm run knowledge:generate` al cambiar servicios/promociones/FAQs.
+
 ## Contacto
 
 - 📩 **Email:** efrexz448@gmail.com

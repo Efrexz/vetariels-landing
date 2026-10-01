@@ -4,6 +4,7 @@ import {
   CalendarClock,
   ChevronLeft,
   ChevronRight,
+  MapPin,
   Sparkles,
 } from "@lucide/astro";
 import Modal from "@components/ui/Modal.astro";
@@ -69,6 +70,18 @@ const visiblePromotions = promotions.filter(
                           />
                           Vigente hasta el {promo.expirationDate}
                         </span>
+                        {
+                          promo.sedes && promo.sedes !== "todas" && (
+                            <span class="absolute left-4 top-12 inline-flex items-center gap-1.5 rounded-full bg-brand-orange/95 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-white shadow-sm backdrop-blur-sm">
+                              <MapPin
+                                aria-hidden="true"
+                                class="h-3 w-3"
+                                stroke-width="2"
+                              />
+                              Solo sede {Array.isArray(promo.sedes) ? promo.sedes.join(" y ") : promo.sedes}
+                            </span>
+                          )
+                        }
                       </div>
                       <figcaption class="flex flex-col gap-4 p-5 sm:p-6">
                         <div>

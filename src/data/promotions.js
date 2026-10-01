@@ -1,3 +1,7 @@
+// promotions:
+//   - `sedes` (opcional): lista de sedes donde aplica la promo, ej: ["San Miguel"].
+//     Si se omite (o "todas"), la promo se muestra en todas las sedes.
+//   - Respaldo para el chatbot: api/knowledge.json se regenera con `npm run knowledge:generate`
 const promotions = [
   {
     id: "salud-integral",

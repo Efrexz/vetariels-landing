@@ -9,6 +9,8 @@ import Doctors from "@components/Doctors.astro";
 import Locations from "@components/Locations.astro";
 import Testimonials from "@components/Testimonials.astro";
 import Footer from "@components/Footer.astro";
+import FloatingButton from "@components/ui/FloatingButton.astro";
+import Chatbot from "@components/Chatbot.astro";
 ---
 
 <Layout>
@@ -22,5 +24,10 @@ import Footer from "@components/Footer.astro";
     <Locations />
     <Testimonials />
     <Footer />
+    <!-- Un solo contenedor para los 2 flotantes: el panel abierto siempre queda encima -->
+    <div id="floaters" class="fixed bottom-5 right-5 z-50 flex items-end gap-3">
+      <FloatingButton />
+      <Chatbot />
+    </div>
   </main>
 </Layout>

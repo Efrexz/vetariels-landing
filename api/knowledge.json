@@ -1,0 +1,158 @@
+{
+  "clinica": {
+    "nombre": "Ariel's Clinic - Hospital Veterinario",
+    "desde": 2003,
+    "ciudad": "Lima, Perú",
+    "whatsappPrincipal": "+51 954 599 221"
+  },
+  "servicios": [
+    {
+      "titulo": "Ecografías",
+      "descripcion": "Ofrecemos estudios ecográficos abdominales y gestacionales para evaluar órganos internos y monitorear embarazos. Método no invasivo, ideal para detectar alteraciones en tiempo real sin causar molestias.",
+      "incluye": []
+    },
+    {
+      "titulo": "Radiografías",
+      "descripcion": "Realizamos estudios radiológicos digitales para el diagnóstico preciso de fracturas, cuerpos extraños, enfermedades articulares y otros problemas internos. Tecnología moderna para imágenes claras y rápidas.",
+      "incluye": []
+    },
+    {
+      "titulo": "Emergencias 24/7",
+      "descripcion": "Atención veterinaria de emergencias disponible 24/7 para situaciones críticas. Nuestro equipo está preparado para actuar con rapidez y precisión cuando más lo necesitas.",
+      "incluye": []
+    },
+    {
+      "titulo": "Vacunación",
+      "descripcion": "Ofrecemos esquemas completos de vacunación para proteger a tu mascota contra enfermedades prevenibles. Aplicamos protocolos actualizados para garantizar su salud y bienestar.",
+      "incluye": []
+    },
+    {
+      "titulo": "Cirugía",
+      "descripcion": "Contamos con quirófano equipado con tecnología avanzada para cirugías rutinarias y de emergencia. Nuestro equipo médico garantiza procedimientos seguros y eficientes.",
+      "incluye": []
+    },
+    {
+      "titulo": "Cuidado Dental",
+      "descripcion": "Servicios de salud oral veterinaria con énfasis en profilaxis dental para prevenir sarro, gingivitis y enfermedades periodontales. También realizamos extracciones, radiografías y cirugías orales.",
+      "incluye": []
+    },
+    {
+      "titulo": "Hospitalización y Monitoreo",
+      "descripcion": "Servicio de hospitalización en un ambiente seguro y controlado para mascotas que requieren cuidados continuos, recuperación postoperatoria o tratamiento intensivo.",
+      "incluye": []
+    },
+    {
+      "titulo": "Spa Canino/Felino",
+      "descripcion": "Servicio integral de spa y grooming profesional para perros y gatos, enfocado en la higiene, salud y estética. Incluye técnicas especializadas y productos adaptados a cada raza.",
+      "incluye": []
+    },
+    {
+      "titulo": "Laboratorio",
+      "descripcion": "Contamos con laboratorio clínico veterinario para realizar análisis de sangre, orina, heces y pruebas rápidas. Detectamos infecciones, alteraciones metabólicas y otras condiciones con resultados confiables.",
+      "incluye": []
+    }
+  ],
+  "sedes": [
+    {
+      "nombre": "San Miguel",
+      "direccion": "Av. Brígida Silva De Ochoa 272 II etapa, Urb. Pando",
+      "distrito": "San Miguel",
+      "telefono": "+51 954 599 221",
+      "horario": "24/7 (lunes a viernes) / 24/7 (fines de semana)"
+    },
+    {
+      "nombre": "San Martín De Porres",
+      "direccion": "Av. Los Próceres 115, con Av. José Granda",
+      "distrito": "San Martín de Porres",
+      "telefono": "+51 986 985 047",
+      "horario": "8:00 AM - 10:00 PM (lunes a viernes) / 9:00 AM - 6:00 PM (fines de semana)"
+    },
+    {
+      "nombre": "Los Olivos",
+      "direccion": "Av Beta Mz Ñ lote 1 urb, Los Olivos 15306",
+      "distrito": "Los Olivos",
+      "telefono": "+51 932 719 342",
+      "horario": "8:00 AM - 9:00 PM (lunes a viernes) / 8:00 AM - 5:00 PM (fines de semana)"
+    }
+  ],
+  "promociones": [
+    {
+      "titulo": "Campaña Salud Integral",
+      "detalle": "Chequeo Veterinario",
+      "vigenteHasta": "31 de Agosto, 2025",
+      "sedes": "todas"
+    },
+    {
+      "titulo": "Campaña de Esterilización y Castración",
+      "detalle": "Promoción Mes de Agosto",
+      "vigenteHasta": "31 de Agosto, 2025",
+      "sedes": "todas"
+    },
+    {
+      "titulo": "Campaña Salud Dermatológica",
+      "detalle": "Consulta y evaluación completa de piel y pelaje",
+      "vigenteHasta": "31 de Agosto, 2025",
+      "sedes": "todas"
+    },
+    {
+      "titulo": "Profilaxis Dental",
+      "detalle": "Cuidar su salud bucal es sinónimo de amor",
+      "vigenteHasta": "31 de Agosto, 2025",
+      "sedes": "todas"
+    },
+    {
+      "titulo": "Campaña de Esterilización y Castración",
+      "detalle": "Promoción Mes de Agosto",
+      "vigenteHasta": "31 de Agosto, 2025",
+      "sedes": "todas"
+    },
+    {
+      "titulo": "Campaña de Esterilización y Castración",
+      "detalle": "Promoción Mes de Agosto",
+      "vigenteHasta": "31 de Agosto, 2025",
+      "sedes": "todas"
+    }
+  ],
+  "faqs": [
+    {
+      "pregunta": "¿Dónde están ubicadas sus sedes?",
+      "respuesta": "Tenemos 3 sedes en Lima: San Miguel (Av. Brígida Silva De Ochoa 272, Urb. Pando), San Martín de Porres (Av. Los Próceres 115) y Los Olivos (Av. Beta Mz Ñ lote 1, urb. Los Olivos 15306). Encuentra mapa, teléfono y horarios en la sección Ubicaciones de esta página."
+    },
+    {
+      "pregunta": "¿Atienden emergencias de madrugada?",
+      "respuesta": "Sí. Nuestra sede de San Miguel atiende 24/7 todos los días del año, incluyendo emergencias de madrugada. Si tu mascota presenta una urgencia, llámanos o escríbenos por WhatsApp al +51 954 599 221."
+    },
+    {
+      "pregunta": "¿Cómo agendo una cita?",
+      "respuesta": "Escríbenos por WhatsApp a la sede de tu preferencia y nuestro equipo te coordinará la cita más cercana. También puedes llamarnos directamente a los teléfonos de cada sede."
+    },
+    {
+      "pregunta": "¿Qué vacunas necesita mi mascota?",
+      "respuesta": "Depende de la especie, edad y estilo de vida. Aplicamos esquemas completos y protocolos actualizados: vacunas esenciales y de acuerdo al estilo de vida de tu mascota, con recordatorios de refuerzo. En consulta te armamos el plan exacto para tu peludo."
+    },
+    {
+      "pregunta": "¿A qué edad puedo esterilizar a mi mascota?",
+      "respuesta": "Depende de la especie, raza y tamaño. Somos cautos: recomendamos una consulta previa para evaluar a tu mascota. En Ariel's Clinic realizamos esterilizaciones y cirugías con quirófano equipado y monitoreo anestésico completo."
+    },
+    {
+      "pregunta": "¿Los análisis y radiografías se hacen el mismo día?",
+      "respuesta": "Sí. Contamos con laboratorio clínico (sangre, orina, heces y pruebas rápidas), radiología digital y ecografías para un diagnóstico en el menor tiempo posible. Los resultados se entregan el mismo día en la mayoría de casos."
+    },
+    {
+      "pregunta": "¿Qué pasa si mi mascota necesita quedarse internada?",
+      "respuesta": "Contamos con hospitalización y monitoreo 24/7 de signos vitales, fluidoterapia, manejo del dolor y soporte nutricional. Te mantenemos informado del estado de tu mascota durante toda la estadía."
+    },
+    {
+      "pregunta": "¿El spa canino/felino incluye corte según raza?",
+      "respuesta": "Sí. Nuestro servicio de spa incluye baño medicado o convencional, secado, cepillado, deslanado, estilizado y corte según raza, además de limpieza de oídos y almohadillas con productos adaptados al pelaje de tu mascota."
+    },
+    {
+      "pregunta": "¿Qué formas de pago aceptan?",
+      "respuesta": "Aceptamos efectivo, tarjeta y transferencias (Yape/Plin). En promociones especiales puedes consultar por descuentos adicionales directamente por WhatsApp con la sede que te atienda."
+    },
+    {
+      "pregunta": "¿Cómo me entero de las promociones vigentes?",
+      "respuesta": "Las campañas vigentes están siempre en la sección Promociones de esta página. También puedes suscribirte a nuestro boletín al final de la página para recibir promociones y consejos de cuidado por correo o WhatsApp."
+    }
+  ]
+}

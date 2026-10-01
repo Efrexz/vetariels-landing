@@ -1,7 +1,6 @@
 ---
 import { CalendarDays, Menu, X } from "@lucide/astro";
 import navigationItems from "@data/navegationItems";
-import FloatingButton from "@components/ui/FloatingButton.astro";
 
 const desktopNavLinkStyles =
   "group relative rounded-md px-2 py-3 text-sm font-semibold text-brand-navy transition-colors hover:text-brand-orange";
@@ -117,8 +116,6 @@ const mobileNavLinkStyles =
       </div>
     </div>
   </nav>
-
-  <FloatingButton />
 </header>
 
 <script is:inline>
@@ -150,35 +147,6 @@ const mobileNavLinkStyles =
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") setMenuState(false);
-    });
-  }
-
-  const floatingButton = document.getElementById("whatsapp-fab");
-  const whatsappOptions = document.getElementById("whatsapp-options");
-
-  if (floatingButton && whatsappOptions) {
-    const setWhatsappState = (isOpen) => {
-      whatsappOptions.classList.toggle("hidden", !isOpen);
-      whatsappOptions.classList.toggle("scale-100", isOpen);
-      whatsappOptions.classList.toggle("opacity-100", isOpen);
-      whatsappOptions.classList.toggle("scale-95", !isOpen);
-      whatsappOptions.classList.toggle("opacity-0", !isOpen);
-      floatingButton.setAttribute("aria-expanded", String(isOpen));
-    };
-
-    floatingButton.addEventListener("click", (event) => {
-      event.stopPropagation();
-      const isOpen = floatingButton.getAttribute("aria-expanded") === "true";
-      setWhatsappState(!isOpen);
-    });
-
-    document.addEventListener("click", (event) => {
-      if (
-        floatingButton.getAttribute("aria-expanded") === "true" &&
-        !whatsappOptions.contains(event.target)
-      ) {
-        setWhatsappState(false);
-      }
     });
   }
 </script>
