@@ -77,39 +77,33 @@
   ],
   "promociones": [
     {
-      "titulo": "Campaña Salud Integral",
-      "detalle": "Chequeo Veterinario",
-      "vigenteHasta": "31 de Agosto, 2025",
+      "titulo": "Plan Michi al Día",
+      "detalle": "Cuidamos su salud, porque también son parte de la familia",
+      "vigenteHasta": "30 de Septiembre, 2026",
       "sedes": "todas"
     },
     {
-      "titulo": "Campaña de Esterilización y Castración",
-      "detalle": "Promoción Mes de Agosto",
-      "vigenteHasta": "31 de Agosto, 2025",
+      "titulo": "Plan Guau al Día",
+      "detalle": "Cuidamos su salud, porque también son parte de la familia",
+      "vigenteHasta": "30 de Septiembre, 2026",
       "sedes": "todas"
     },
     {
-      "titulo": "Campaña Salud Dermatológica",
-      "detalle": "Consulta y evaluación completa de piel y pelaje",
-      "vigenteHasta": "31 de Agosto, 2025",
+      "titulo": "Jornada de Castración y Esterilización",
+      "detalle": "Perros y gatos · anestesia inhalatoria",
+      "vigenteHasta": "30 de Septiembre, 2026",
       "sedes": "todas"
     },
     {
-      "titulo": "Profilaxis Dental",
+      "titulo": "Jornada de Profilaxis Dental",
       "detalle": "Cuidar su salud bucal es sinónimo de amor",
-      "vigenteHasta": "31 de Agosto, 2025",
+      "vigenteHasta": "30 de Septiembre, 2026",
       "sedes": "todas"
     },
     {
-      "titulo": "Campaña de Esterilización y Castración",
-      "detalle": "Promoción Mes de Agosto",
-      "vigenteHasta": "31 de Agosto, 2025",
-      "sedes": "todas"
-    },
-    {
-      "titulo": "Campaña de Esterilización y Castración",
-      "detalle": "Promoción Mes de Agosto",
-      "vigenteHasta": "31 de Agosto, 2025",
+      "titulo": "Bienestar Nutricional",
+      "detalle": "Plan completo de nutrición para tu mascota",
+      "vigenteHasta": "30 de Septiembre, 2026",
       "sedes": "todas"
     }
   ],

@@ -33,7 +33,7 @@ const knowledge = {
   promociones: promotionsModule.map((p) => ({
     titulo: p.title,
     detalle: p.subtitle,
-    vigenteHasta: p.expirationDate,
+    vigenteHasta: p.expirationDate ?? "consultar con la clínica",
     sedes: p.sedes ?? "todas",
   })),
   faqs: faqs.map((f) => ({ pregunta: f.question, respuesta: f.answer })),
