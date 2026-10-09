@@ -30,8 +30,8 @@ const locations = [
     phone: "+51 986 985 047",
     imageUrl: "/images/locations/sanMartin.webp",
     hours: {
-      weekdays: "8:00 AM - 10:00 PM",
-      weekends: "9:00 AM - 6:00 PM",
+      weekdays: "8:00 AM - 9:00 PM",
+      weekends: "8:00 AM - 9:00 PM",
     },
     coordinates: { lat: -12.02041546665544, lng: -77.0865150516204 },
   },
@@ -49,7 +49,7 @@ const locations = [
     imageUrl: "/images/locations/losOlivos.webp",
     hours: {
       weekdays: "8:00 AM - 9:00 PM",
-      weekends: "8:00 AM - 5:00 PM",
+      weekends: "8:00 AM - 9:00 PM",
     },
     coordinates: { lat: -12.008495867831654, lng: -77.0710509284642 },
   },

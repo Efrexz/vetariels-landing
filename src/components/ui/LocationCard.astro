@@ -86,6 +86,9 @@ const locationId = `location-${name.replace(/\s+/g, "-").toLowerCase()}`;
             <div>
               <span class="font-semibold">Horario:</span>
               {hours.weekdays}
+              <span class="text-slate-500">
+                {hours.weekdays === "24/7" ? "(todos los días)" : "(lunes a domingo)"}
+              </span>
             </div>
           </div>
         </div>

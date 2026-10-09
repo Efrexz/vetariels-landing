@@ -73,7 +73,7 @@ function filterKnowledgeBySede(knowledge, sede) {
       (p) => !p.sedes || p.sedes === "todas" || p.sedes.toLowerCase().includes(sedeKey)
     ),
   };
-  return JSON.stringify(filtered, null, 2);
+  return JSON.stringify(filtered);
 }
 
 async function callGemini(apiKey, model, systemInstruction, prompt) {
@@ -240,7 +240,7 @@ ${sede ? `CONTEXTO DE SEDE: el usuario está consultando por la sede "${sede}". 
 ${SAFETY_RULES}
 
 INFORMACIÓN ACTUAL DE LA CLÍNICA (tu única fuente de verdad):
-${sede ? filterKnowledgeBySede(knowledge, sede) : JSON.stringify(knowledge, null, 2)}`;
+${sede ? filterKnowledgeBySede(knowledge, sede) : JSON.stringify(knowledge)}`;
 
   // Historial se pasa como contexto en el prompt (compatible con todos los modelos)
   const conversation = history

@@ -1,5 +1,5 @@
 ---
-import { CalendarDays, Menu, X } from "@lucide/astro";
+import { CalendarDays, Menu, Scissors, X } from "@lucide/astro";
 import navigationItems from "@data/navegationItems";
 
 const desktopNavLinkStyles =
@@ -57,14 +57,28 @@ const mobileNavLinkStyles =
           </ul>
         </div>
 
-        <a
-          href="#locations"
-          class="hidden items-center gap-2 rounded-xl bg-brand-orange px-5 py-3 text-sm font-semibold text-white shadow-md shadow-orange-200 transition hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-lg focus-visible:outline-brand-orange lg:flex"
-          aria-label="Agendar una cita en una de nuestras sedes"
-        >
-          <CalendarDays aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
-          Agenda tu cita
-        </a>
+        <div class="hidden items-center gap-3 lg:flex">
+          <a
+            href="https://agenda-ariels.vercel.app/?utm_source=vetariel-landing"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-g-event="grooming_link"
+            data-g-source="header"
+            class="inline-flex items-center gap-2 rounded-xl bg-brand-navy px-4 py-3 text-sm font-semibold text-white shadow-md shadow-sky-900/20 transition hover:-translate-y-0.5 hover:bg-brand-blue hover:shadow-lg focus-visible:outline-brand-orange"
+            aria-label="Agendar un servicio de grooming en la página de agenda de Ariel's Clinic (se abre en una pestaña nueva)"
+          >
+            <Scissors aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
+            Agenda grooming
+          </a>
+          <a
+            href="#locations"
+            class="inline-flex items-center gap-2 rounded-xl bg-brand-orange px-5 py-3 text-sm font-semibold text-white shadow-md shadow-orange-200 transition hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-lg focus-visible:outline-brand-orange"
+            aria-label="Agendar una cita en una de nuestras sedes"
+          >
+            <CalendarDays aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
+            Agenda tu cita
+          </a>
+        </div>
 
         <button
           id="mobile-menu-button"
@@ -112,6 +126,19 @@ const mobileNavLinkStyles =
         >
           <CalendarDays aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
           Agenda tu cita
+        </a>
+
+        <a
+          href="https://agenda-ariels.vercel.app/?utm_source=vetariel-landing"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-g-event="grooming_link"
+          data-g-source="menu_movil"
+          class="mt-3 hidden items-center justify-center gap-2 rounded-xl bg-brand-navy px-5 py-3 text-sm font-semibold text-white shadow-md shadow-sky-900/20 transition hover:bg-brand-blue sm:flex lg:hidden"
+          aria-label="Agendar un servicio de grooming en la página de agenda de Ariel's Clinic (se abre en una pestaña nueva)"
+        >
+          <Scissors aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
+          Agenda grooming
         </a>
       </div>
     </div>

@@ -16,7 +16,7 @@ const faqs = [
     id: "cita",
     question: "¿Cómo agendo una cita?",
     answer:
-      "Escríbenos por WhatsApp a la sede de tu preferencia y nuestro equipo te coordinará la cita más cercana. También puedes llamarnos directamente a los teléfonos de cada sede.",
+      "Escríbenos por WhatsApp a la sede de tu preferencia y nuestro equipo te coordinará la cita más cercana. También puedes llamarnos directamente a los teléfonos de cada sede. Ten en cuenta que toda atención es por orden de llegada.",
   },
   {
     id: "vacunas",
@@ -40,7 +40,7 @@ const faqs = [
     id: "hospitalizacion",
     question: "¿Qué pasa si mi mascota necesita quedarse internada?",
     answer:
-      "Contamos con hospitalización y monitoreo 24/7 de signos vitales, fluidoterapia, manejo del dolor y soporte nutricional. Te mantenemos informado del estado de tu mascota durante toda la estadía.",
+      "El internamiento se realiza en nuestra sede de San Miguel, con monitoreo 24/7 de signos vitales, fluidoterapia, manejo del dolor y soporte nutricional. Si tu mascota está siendo atendida en otra sede, no te preocupes: nosotros nos encargamos del traslado del paciente. Te mantenemos informado durante toda la estadía.",
   },
   {
     id: "spa",
@@ -52,13 +52,25 @@ const faqs = [
     id: "pago",
     question: "¿Qué formas de pago aceptan?",
     answer:
-      "Aceptamos efectivo, tarjeta y transferencias (Yape/Plin). En promociones especiales puedes consultar por descuentos adicionales directamente por WhatsApp con la sede que te atienda.",
+      "Aceptamos todos los medios de pago: efectivo, tarjeta y transferencias (Yape/Plin). En promociones y campañas el pago suele realizarse con efectivo, Yape, Plin o transferencia; igualmente puedes consultar en el counter. Si pagas con tarjeta de crédito, se requiere presentar el DNI del titular y que esté presente en el momento del pago.",
   },
   {
     id: "promos",
     question: "¿Cómo me entero de las promociones vigentes?",
     answer:
-      "Las campañas vigentes están siempre en la sección Promociones de esta página. También puedes suscribirte a nuestro boletín al final de la página para recibir promociones y consejos de cuidado por correo o WhatsApp.",
+      "Las campañas vigentes están siempre en la sección Promociones de esta página, y también las anunciamos en nuestras redes sociales: Instagram (@arielsclinichospital), Facebook (Ariels Clinic) y TikTok (@arielsclinichospital). También puedes suscribirte a nuestro boletín al final de la página para recibir promociones y consejos de cuidado por correo o WhatsApp.",
+  },
+  {
+    id: "especialistas",
+    question: "¿Atienden consultas con especialistas?",
+    answer:
+      "Sí. Contamos con consultas especializadas en dermatología, cardiología, neurología, oncología, odontología y neumología. Son de pago previo y el día y la hora se coordinan directamente con el especialista según su disponibilidad. Escríbenos por WhatsApp para coordinar tu cita de especialidad.",
+  },
+  {
+    id: "grooming-agenda",
+    question: "¿Cómo agendo un baño o grooming para mi mascota?",
+    answer:
+      "Tienes dos opciones: acercarte directamente a la clínica (toda atención es por orden de llegada; te recomendamos venir desde las 9 AM, cuando inicia nuestra área de grooming) o coordinar el servicio con nuestra movilidad a través de nuestra página de agenda de grooming. El costo del baño depende del peso, el tipo de pelaje y si la mascota cuenta con motas, y se confirma al momento de llegar con la mascota; por WhatsApp te pueden dar un costo aproximado.",
   },
 ];
 

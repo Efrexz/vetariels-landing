@@ -1,4 +1,4 @@
-import { ScanLine, Radiation, Siren, Syringe, BriefcaseMedical, Sparkles, Hospital, Dog, FlaskConical } from "@lucide/astro";
+import { ScanLine, Radiation, Siren, Stethoscope, Syringe, BriefcaseMedical, Hospital, Dog, FlaskConical } from "@lucide/astro";
 
 const servicesData = [
   {
@@ -63,17 +63,19 @@ const servicesData = [
     ],
   },
   {
-    id: "dental",
-    icon: Sparkles,
-    title: "Cuidado Dental",
+    id: "consultas-especializadas",
+    icon: Stethoscope,
+    title: "Consultas Especializadas",
     accent: "emerald",
     description:
-      "Servicios de salud oral veterinaria con énfasis en profilaxis dental para prevenir sarro, gingivitis y enfermedades periodontales. También realizamos extracciones, radiografías y cirugías orales.",
+      "Contamos con especialistas en distintas áreas de la medicina veterinaria para diagnosticar y tratar con precisión los casos que tu mascota necesita. Coordinamos la cita contigo y con el especialista de cada área.",
     items: [
-      "Profilaxis",
-      "Radiografías dentales",
-      "Extracciones",
-      "Cirugía oral",
+      "Dermatología",
+      "Cardiología",
+      "Neurología",
+      "Oncología",
+      "Odontología",
+      "Neumología",
     ],
   },
   {

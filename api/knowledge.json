@@ -32,8 +32,8 @@
       "incluye": []
     },
     {
-      "titulo": "Cuidado Dental",
-      "descripcion": "Servicios de salud oral veterinaria con énfasis en profilaxis dental para prevenir sarro, gingivitis y enfermedades periodontales. También realizamos extracciones, radiografías y cirugías orales.",
+      "titulo": "Consultas Especializadas",
+      "descripcion": "Contamos con especialistas en distintas áreas de la medicina veterinaria para diagnosticar y tratar con precisión los casos que tu mascota necesita. Coordinamos la cita contigo y con el especialista de cada área.",
       "incluye": []
     },
     {
@@ -58,55 +58,102 @@
       "direccion": "Av. Brígida Silva De Ochoa 272 II etapa, Urb. Pando",
       "distrito": "San Miguel",
       "telefono": "+51 954 599 221",
-      "horario": "24/7 (lunes a viernes) / 24/7 (fines de semana)"
+      "horario": "24/7 de lunes a domingo",
+      "emergencias247": true
     },
     {
       "nombre": "San Martín De Porres",
       "direccion": "Av. Los Próceres 115, con Av. José Granda",
       "distrito": "San Martín de Porres",
       "telefono": "+51 986 985 047",
-      "horario": "8:00 AM - 10:00 PM (lunes a viernes) / 9:00 AM - 6:00 PM (fines de semana)"
+      "horario": "8:00 AM - 9:00 PM de lunes a domingo",
+      "emergencias247": false
     },
     {
       "nombre": "Los Olivos",
       "direccion": "Av Beta Mz Ñ lote 1 urb, Los Olivos 15306",
       "distrito": "Los Olivos",
       "telefono": "+51 932 719 342",
-      "horario": "8:00 AM - 9:00 PM (lunes a viernes) / 8:00 AM - 5:00 PM (fines de semana)"
+      "horario": "8:00 AM - 9:00 PM de lunes a domingo",
+      "emergencias247": false
     }
   ],
   "promociones": [
     {
-      "titulo": "Plan Michi al Día",
-      "detalle": "Cuidamos su salud, porque también son parte de la familia",
-      "vigenteHasta": "30 de Septiembre, 2026",
+      "titulo": "Bienestar Senior",
+      "detalle": "Check-up geriátrico a partir de los 7 años",
+      "incluye": [
+        "Hemograma",
+        "Perfil hepático y renal",
+        "Radiografía de tórax o electrocardiograma",
+        "Medición de glucosa y presión arterial",
+        "TFAS y AFAST",
+        "Urianálisis"
+      ],
+      "condiciones": [
+        "Dirigido a mascotas a partir de los 7 años.",
+        "El paquete es válido pasando una consulta.",
+        "La consulta médica no está incluida en el paquete."
+      ],
+      "precios": "Precio Promocional: Antes S/640.00, Ahora S/399.00",
+      "vigenteHasta": "31 de Octubre, 2026",
       "sedes": "todas"
     },
     {
-      "titulo": "Plan Guau al Día",
-      "detalle": "Cuidamos su salud, porque también son parte de la familia",
-      "vigenteHasta": "30 de Septiembre, 2026",
+      "titulo": "Bienestar Integral",
+      "detalle": "Perfil general de salud para perros y gatos",
+      "incluye": [
+        "Hemograma",
+        "Bioquímica sanguínea básica",
+        "Urianálisis",
+        "TFAS y AFAST"
+      ],
+      "condiciones": [
+        "El paquete es válido pasando una consulta.",
+        "La consulta médica no está incluida en el paquete."
+      ],
+      "precios": "Precio Promocional: Antes S/420.00, Ahora S/220.00",
+      "vigenteHasta": "31 de Octubre, 2026",
       "sedes": "todas"
     },
     {
-      "titulo": "Jornada de Castración y Esterilización",
-      "detalle": "Perros y gatos · anestesia inhalatoria",
-      "vigenteHasta": "30 de Septiembre, 2026",
-      "sedes": "todas"
-    },
-    {
-      "titulo": "Jornada de Profilaxis Dental",
-      "detalle": "Cuidar su salud bucal es sinónimo de amor",
-      "vigenteHasta": "30 de Septiembre, 2026",
-      "sedes": "todas"
-    },
-    {
-      "titulo": "Bienestar Nutricional",
-      "detalle": "Plan completo de nutrición para tu mascota",
-      "vigenteHasta": "30 de Septiembre, 2026",
+      "titulo": "Primeros Pasitos",
+      "detalle": "Kit de bienvenida para gatitos y perritos desde los 2 meses",
+      "incluye": [
+        "Consulta médica",
+        "Hemograma",
+        "Examen coproparasitológico completo",
+        "3 días de desparasitación (se aplica después del resultado del examen)",
+        "Primera vacuna (cuádruple o triple felina)",
+        "Churu para gatito o perrito"
+      ],
+      "condiciones": [
+        "Dirigido a cachorros a partir de los 2 meses."
+      ],
+      "precios": "Precio Promocional: Antes S/290.00, Ahora S/169.00",
+      "vigenteHasta": "31 de Octubre, 2026",
       "sedes": "todas"
     }
   ],
+  "informacion": {
+    "especies": "Atendemos perros y gatos.",
+    "atencion": "Toda la atención es por orden de llegada. Para baños/grooming se recomienda acercarse a partir de las 9 AM, cuando inicia el área de grooming.",
+    "preciosConsulta": {
+      "sanMiguel": "S/50 (perro o gato, sin importar la edad).",
+      "sanMartinDePorresYLosOlivos": "Perros: menores de 7 años S/20, mayores de 7 años S/40. Gatos: menores de 7 años S/25, mayores de 7 años S/45.",
+      "nota": "Los precios de consulta pueden variar; si tienen duda puntual, deriva al counter o WhatsApp."
+    },
+    "consultasEspecializadas": "Contamos con consultas especializadas en dermatología, cardiología, neurología, oncología, odontología (profilaxis, extracciones, cirugía oral) y neumología. Son de pago previo y el día y hora se coordinan con el especialista según su disponibilidad. Se agendan por WhatsApp.",
+    "internamiento": "El internamiento se realiza en la sede San Miguel con monitoreo 24/7. Si la mascota está en San Martín de Porres o Los Olivos, la clínica se encarga del traslado del paciente.",
+    "pagos": "Aceptamos todos los medios de pago (efectivo, tarjeta, Yape, Plin, transferencia). En promociones y campañas el pago suele ser con efectivo, Yape, Plin o transferencia (igual pueden consultar en counter). Con tarjeta de crédito se requiere presentar el DNI del titular y que esté presente al momento del pago.",
+    "grooming": "Servicio de baño y corte. Costo según peso de la mascota y tipo de pelaje (incluye si tiene motas o no); se confirma al momento de llegar con la mascota. Por WhatsApp se puede pedir un costo aproximado. Dos formas de agendar: acercarse a la clínica (por orden de llegada, recomendado a partir de las 9 AM cuando inicia el área de grooming) o coordinar con la movilidad desde la página de agenda (https://agenda-ariels.vercel.app/?utm_source=vetariel-landing), donde el costo de la movilidad depende de la dirección y se confirma al completar la agenda (la dirección llega al counter). Cite el botón 'Agenda grooming' en la parte superior derecha de la página.",
+    "redesSociales": {
+      "instagram": "@arielsclinichospital",
+      "facebook": "Ariels Clinic HV",
+      "tiktok": "@arielsclinichospital",
+      "uso": "Anunciamos promociones y campañas en redes; puedes mencionarlas para que se enteren de las promos vigentes."
+    }
+  },
   "faqs": [
     {
       "pregunta": "¿Dónde están ubicadas sus sedes?",
@@ -118,7 +165,7 @@
     },
     {
       "pregunta": "¿Cómo agendo una cita?",
-      "respuesta": "Escríbenos por WhatsApp a la sede de tu preferencia y nuestro equipo te coordinará la cita más cercana. También puedes llamarnos directamente a los teléfonos de cada sede."
+      "respuesta": "Escríbenos por WhatsApp a la sede de tu preferencia y nuestro equipo te coordinará la cita más cercana. También puedes llamarnos directamente a los teléfonos de cada sede. Ten en cuenta que toda atención es por orden de llegada."
     },
     {
       "pregunta": "¿Qué vacunas necesita mi mascota?",
@@ -134,7 +181,7 @@
     },
     {
       "pregunta": "¿Qué pasa si mi mascota necesita quedarse internada?",
-      "respuesta": "Contamos con hospitalización y monitoreo 24/7 de signos vitales, fluidoterapia, manejo del dolor y soporte nutricional. Te mantenemos informado del estado de tu mascota durante toda la estadía."
+      "respuesta": "El internamiento se realiza en nuestra sede de San Miguel, con monitoreo 24/7 de signos vitales, fluidoterapia, manejo del dolor y soporte nutricional. Si tu mascota está siendo atendida en otra sede, no te preocupes: nosotros nos encargamos del traslado del paciente. Te mantenemos informado durante toda la estadía."
     },
     {
       "pregunta": "¿El spa canino/felino incluye corte según raza?",
@@ -142,11 +189,19 @@
     },
     {
       "pregunta": "¿Qué formas de pago aceptan?",
-      "respuesta": "Aceptamos efectivo, tarjeta y transferencias (Yape/Plin). En promociones especiales puedes consultar por descuentos adicionales directamente por WhatsApp con la sede que te atienda."
+      "respuesta": "Aceptamos todos los medios de pago: efectivo, tarjeta y transferencias (Yape/Plin). En promociones y campañas el pago suele realizarse con efectivo, Yape, Plin o transferencia; igualmente puedes consultar en el counter. Si pagas con tarjeta de crédito, se requiere presentar el DNI del titular y que esté presente en el momento del pago."
     },
     {
       "pregunta": "¿Cómo me entero de las promociones vigentes?",
-      "respuesta": "Las campañas vigentes están siempre en la sección Promociones de esta página. También puedes suscribirte a nuestro boletín al final de la página para recibir promociones y consejos de cuidado por correo o WhatsApp."
+      "respuesta": "Las campañas vigentes están siempre en la sección Promociones de esta página, y también las anunciamos en nuestras redes sociales: Instagram (@arielsclinichospital), Facebook (Ariels Clinic) y TikTok (@arielsclinichospital). También puedes suscribirte a nuestro boletín al final de la página para recibir promociones y consejos de cuidado por correo o WhatsApp."
+    },
+    {
+      "pregunta": "¿Atienden consultas con especialistas?",
+      "respuesta": "Sí. Contamos con consultas especializadas en dermatología, cardiología, neurología, oncología, odontología y neumología. Son de pago previo y el día y la hora se coordinan directamente con el especialista según su disponibilidad. Escríbenos por WhatsApp para coordinar tu cita de especialidad."
+    },
+    {
+      "pregunta": "¿Cómo agendo un baño o grooming para mi mascota?",
+      "respuesta": "Tienes dos opciones: acercarte directamente a la clínica (toda atención es por orden de llegada; te recomendamos venir desde las 9 AM, cuando inicia nuestra área de grooming) o coordinar el servicio con nuestra movilidad a través de nuestra página de agenda de grooming. El costo del baño depende del peso, el tipo de pelaje y si la mascota cuenta con motas, y se confirma al momento de llegar con la mascota; por WhatsApp te pueden dar un costo aproximado."
     }
   ]
 }
