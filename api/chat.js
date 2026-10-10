@@ -14,7 +14,12 @@ const OR_MODEL_FREE = process.env.OPENROUTER_MODEL_FREE ?? "deepseek/deepseek-v4
 const MAX_TURNS = 6; // turnos de historial enviados por request (ahorra cuota)
 const MAX_QUESTION_CHARS = 500;
 const MAX_REQUESTS_PER_HOUR = 12;
-const MAX_OUTPUT_TOKENS = 320; // respuestas cortas y precisas
+// Respuestas cortas por reglas del prompt; el cap es cinturón antitruncado
+// (los modelos con razonamiento interno podrían gastar parte del output)
+const MAX_OUTPUT_TOKENS = Number(process.env.MAX_OUTPUT_TOKENS) || 700;
+// Reintento único con techo mayor si el proveedor cortó por longitud
+const RETRY_OUTPUT_TOKENS = MAX_OUTPUT_TOKENS * 2;
+const REQUEST_TIMEOUT_MS = 20000; // timeout por llamada a proveedor
 
 // Rate limit simple en memoria (por instancia serverless; suficiente para disuadir abuso)
 const rateBucket = new Map();
@@ -58,6 +63,16 @@ async function loadKnowledge() {
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// AbortController nuevo por llamada (serverless: cada request tiene su propio estado)
+function timeoutSignal() {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  return { signal: controller.signal, clear: () => clearTimeout(id) };
+}
+
+const isTruncated = (finishReason) =>
+  finishReason === "length" || finishReason === "MAX_TOKENS";
+
 // Filtra el conocimiento por la sede elegida (promos por sede cuando exista el campo,
 // sedes siempre con la elegida al frente para dar prioridad)
 function filterKnowledgeBySede(knowledge, sede) {
@@ -76,48 +91,61 @@ function filterKnowledgeBySede(knowledge, sede) {
   return JSON.stringify(filtered);
 }
 
-async function callGemini(apiKey, model, systemInstruction, prompt) {
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        // Obligatorio: las keys de Google (AIza y AQ.) se autentican por header
-        "x-goog-api-key": apiKey,
-      },
-      body: JSON.stringify({
-        systemInstruction: { parts: [{ text: systemInstruction }] },
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: MAX_OUTPUT_TOKENS,
+async function callGemini(apiKey, model, systemInstruction, prompt, maxTokens = MAX_OUTPUT_TOKENS) {
+  const { signal, clear } = timeoutSignal();
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Obligatorio: las keys de Google (AIza y AQ.) se autentican por header
+          "x-goog-api-key": apiKey,
         },
-      }),
+        signal,
+        body: JSON.stringify({
+          systemInstruction: { parts: [{ text: systemInstruction }] },
+          contents: [{ role: "user", parts: [{ text: prompt }] }],
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: maxTokens,
+          },
+        }),
+      }
+    );
+
+    const data = await response.json().catch(() => ({}));
+
+    if (response.status === 429) {
+      return { error: "cuota_agotada" };
     }
-  );
-
-  const data = await response.json().catch(() => ({}));
-
-  if (response.status === 429) {
-    return { error: "cuota_agotada" };
-  }
-  if (response.status === 404) {
-    console.error("Modelo Gemini no disponible:", model, "(actualiza GEMINI_MODEL)");
-    return { error: "modelo_no_disponible" };
-  }
-  if (!response.ok) {
-    const errMessage = data?.error?.message ?? "";
-    if (response.status === 400 && /API key not valid|API_KEY_INVALID/i.test(errMessage)) {
-      console.error("GEMINI_API_KEY invalida - revisar configuracion");
-      return { error: "key_invalida" };
+    if (response.status === 404) {
+      console.error("Modelo Gemini no disponible:", model, "(actualiza GEMINI_MODEL)");
+      return { error: "modelo_no_disponible" };
     }
-    console.error(`Gemini error ${response.status} (${model})`, JSON.stringify(data?.error ?? data).slice(0, 300));
-    return { error: textoError(response.status) };
-  }
+    if (!response.ok) {
+      const errMessage = data?.error?.message ?? "";
+      if (response.status === 400 && /API key not valid|API_KEY_INVALID/i.test(errMessage)) {
+        console.error("GEMINI_API_KEY invalida - revisar configuracion");
+        return { error: "key_invalida" };
+      }
+      console.error(`Gemini error ${response.status} (${model})`, JSON.stringify(data?.error ?? data).slice(0, 300));
+      return { error: textoError(response.status) };
+    }
 
-  const text = data?.candidates?.[0]?.content?.parts?.map((p) => p.text ?? "").join("").trim() ?? "";
-  return { reply: text || null };
+    const text = data?.candidates?.[0]?.content?.parts?.map((p) => p.text ?? "").join("").trim() ?? "";
+    const finishReason = data?.candidates?.[0]?.finishReason ?? null;
+    return { reply: text || null, finishReason };
+  } catch (err) {
+    if (err?.name === "AbortError") {
+      console.error("Gemini timeout", model, REQUEST_TIMEOUT_MS, "ms");
+      return { error: "proveedor_lento" };
+    }
+    throw err;
+  } finally {
+    clear();
+  }
 }
 
 function textoError(status) {
@@ -126,31 +154,52 @@ function textoError(status) {
   return "some_error";
 }
 
-async function callOpenRouter(apiKey, model, systemInstruction, prompt) {
-  const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model,
-      messages: [
-        { role: "system", content: systemInstruction },
-        { role: "user", content: prompt },
-      ],
-      max_tokens: MAX_OUTPUT_TOKENS,
-      temperature: 0.7,
-    }),
-  });
+async function callOpenRouter(apiKey, model, systemInstruction, prompt, maxTokens = MAX_OUTPUT_TOKENS) {
+  const { signal, clear } = timeoutSignal();
+  try {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`,
+      },
+      signal,
+      body: JSON.stringify({
+        model,
+        messages: [
+          { role: "system", content: systemInstruction },
+          { role: "user", content: prompt },
+        ],
+        max_tokens: maxTokens,
+        temperature: 0.7,
+      }),
+    });
 
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    console.error(`OpenRouter error (${model})`, response.status, JSON.stringify(data?.error ?? data).slice(0, 300));
-    return null;
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      console.error(`OpenRouter error (${model})`, response.status, JSON.stringify(data?.error ?? data).slice(0, 300));
+      return { error: textoError(response.status) };
+    }
+    const text = data?.choices?.[0]?.message?.content?.trim() ?? "";
+    const finishReason = data?.choices?.[0]?.finish_reason ?? null;
+    return { reply: text || null, finishReason };
+  } catch (err) {
+    if (err?.name === "AbortError") {
+      console.error("OpenRouter timeout", model, REQUEST_TIMEOUT_MS, "ms");
+      return { error: "proveedor_lento" };
+    }
+    throw err;
+  } finally {
+    clear();
   }
-  const text = data?.choices?.[0]?.message?.content?.trim() ?? "";
-  return text || null;
+}
+
+// Reintento unico con techo mayor si el modelo corto por longitud.
+// Si el reintento tambien corta, entregamos la mejor respuesta disponible (best-effort).
+async function retryTruncated(call, firstResult) {
+  const retried = await call(RETRY_OUTPUT_TOKENS);
+  if (retried.reply) return { reply: retried.reply };
+  return { reply: firstResult.reply };
 }
 
 // Encuentra una respuesta recorriendo los niveles configurados.
@@ -160,16 +209,22 @@ async function askAI(apiKey, openRouterKey, systemInstruction, prompt) {
 
   if (openRouterKey) {
     // Principal: DeepSeek V4 Flash pagado (estable, sin limite diario) - 2 intentos rapidos
+    const paidCall = (maxTokens) => callOpenRouter(openRouterKey, OR_MODEL_PAID, systemInstruction, prompt, maxTokens);
     for (const [attempt, delay] of [[0, 0], [1, 500]]) {
       if (delay) await wait(delay);
-      const reply = await callOpenRouter(openRouterKey, OR_MODEL_PAID, systemInstruction, prompt);
-      if (reply) return { reply };
-      console.error(`OpenRouter intento ${attempt + 1}/2 con ${OR_MODEL_PAID} sin respuesta`);
+      const result = await paidCall(MAX_OUTPUT_TOKENS);
+      if (result.reply && !isTruncated(result.finishReason)) return { reply: result.reply };
+      if (result.reply) return retryTruncated(paidCall, result);
+      console.error(`OpenRouter intento ${attempt + 1}/2 con ${OR_MODEL_PAID} sin respuesta (${result.error ?? "sin respuesta"})`);
+      lastError = result.error ?? lastError;
     }
 
     // Nivel 2: variante :free de OpenRouter ($0)
-    const freeReply = await callOpenRouter(openRouterKey, OR_MODEL_FREE, systemInstruction, prompt);
-    if (freeReply) return { reply: freeReply };
+    const freeCall = (maxTokens) => callOpenRouter(openRouterKey, OR_MODEL_FREE, systemInstruction, prompt, maxTokens);
+    const freeResult = await freeCall(MAX_OUTPUT_TOKENS);
+    if (freeResult.reply && !isTruncated(freeResult.finishReason)) return { reply: freeResult.reply };
+    if (freeResult.reply) return retryTruncated(freeCall, freeResult);
+    lastError = freeResult.error ?? lastError;
 
     // Nivel 3: Gemini free como red de seguridad final (si la key esta configurada)
     if (apiKey) {
@@ -187,8 +242,10 @@ async function askAI(apiKey, openRouterKey, systemInstruction, prompt) {
 async function geminiWithShortRetries(apiKey, systemInstruction, prompt) {
   let lastError = "alta_demanda";
   for (const model of [GEMINI_MODEL, GEMINI_FALLBACK_MODEL]) {
-    const result = await callGemini(apiKey, model, systemInstruction, prompt);
-    if (result.reply) return result;
+    const call = (maxTokens) => callGemini(apiKey, model, systemInstruction, prompt, maxTokens);
+    const result = await call(MAX_OUTPUT_TOKENS);
+    if (result.reply && !isTruncated(result.finishReason)) return result;
+    if (result.reply) return retryTruncated(call, result);
     lastError = result.error ?? lastError;
     if (lastError === "cuota_agotada" || lastError === "key_invalida") break;
     await wait(900);
