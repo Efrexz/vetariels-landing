@@ -38,35 +38,32 @@ const servicesData = [
     id: "vacunacion",
     icon: Syringe,
     title: "Vacunación",
-    accent: "rose",
     description:
       "Ofrecemos esquemas completos de vacunación para proteger a tu mascota contra enfermedades prevenibles. Aplicamos protocolos actualizados para garantizar su salud y bienestar.",
     items: [
-      "Vacunas esenciales",
-      "Vacunas según estilo de vida",
-      "Recordatorios de refuerzo",
+      "Vacunas de base",
+      "Según etapa",
+      "Refuerzos",
     ],
   },
   {
     id: "cirugia",
     icon: BriefcaseMedical,
     title: "Cirugía",
-    accent: "sky",
     description:
       "Contamos con quirófano equipado con tecnología avanzada para cirugías rutinarias y de emergencia. Nuestro equipo médico garantiza procedimientos seguros y eficientes.",
     items: [
-      "Esterilización y castración",
-      "Cirugía de tejidos blandos",
-      "Cirugía ortopédica",
-      "Monitoreo anestésico",
-      "Cuidados postoperatorios",
+      "Esterilización",
+      "Tejidos blandos",
+      "Ortopedia",
+      "Anestesia",
+      "Postoperatorio",
     ],
   },
   {
     id: "consultas-especializadas",
     icon: Stethoscope,
     title: "Consultas Especializadas",
-    accent: "emerald",
     description:
       "Contamos con especialistas en distintas áreas de la medicina veterinaria para diagnosticar y tratar con precisión los casos que tu mascota necesita. Coordinamos la cita contigo y con el especialista de cada área.",
     items: [
@@ -82,42 +79,38 @@ const servicesData = [
     id: "hospitalizacion",
     icon: Hospital,
     title: "Hospitalización y Monitoreo",
-    accent: "orange",
     description:
       "Servicio de hospitalización en un ambiente seguro y controlado para mascotas que requieren cuidados continuos, recuperación postoperatoria o tratamiento intensivo.",
     items: [
-      "Monitoreo 24/7 de signos vitales",
-      "Fluidoterapia y medicamentos",
+      "Monitoreo 24/7",
+      "Fluidoterapia",
       "Manejo del dolor",
-      "Soporte nutricional especializado",
+      "Nutrición",
     ],
   },
   {
     id: "spa",
     icon: Dog,
     title: "Spa Canino/Felino",
-    accent: "purple",
     description:
       "Servicio integral de spa y grooming profesional para perros y gatos, enfocado en la higiene, salud y estética. Incluye técnicas especializadas y productos adaptados a cada raza.",
     items: [
       "Baños medicados",
-      "Cepillado y deslanado",
-      "Estilizado y corte según raza",
-      "Limpieza de oídos y almohadillas",
+      "Deslanado",
+      "Estilizado",
+      "Oídos",
     ],
   },
   {
     id: "laboratorio",
     icon: FlaskConical,
     title: "Laboratorio",
-    accent: "amber",
     description:
       "Contamos con laboratorio clínico veterinario para realizar análisis de sangre, orina, heces y pruebas rápidas. Detectamos infecciones, alteraciones metabólicas y otras condiciones con resultados confiables.",
     items: [
-      "Análisis de sangre",
-      "Análisis de orina y heces",
+      "Sangre",
+      "Orina y heces",
       "Pruebas rápidas",
-      "Resultados confiables en poco tiempo",
     ],
   },
 ];

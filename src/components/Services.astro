@@ -6,7 +6,7 @@ import servicesData from "@data/services";
 
 <section
   id="services"
-  class="bg-white py-20 lg:py-28"
+  class="bg-brand-tint py-20 lg:py-28"
   aria-labelledby="services-heading"
 >
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -33,7 +33,7 @@ import servicesData from "@data/services";
       aria-label="Servicios veterinarios disponibles"
     >
       {
-        servicesData.map((service) => (
+        servicesData.map((service, index) => (
           <div role="listitem" class="flex">
             <ServiceCard
               icon={service.icon}
@@ -43,7 +43,8 @@ import servicesData from "@data/services";
               isFeatured={service.isFeatured}
               imageUrl={service.imageUrl}
               tagline={service.tagline}
-              accent={service.accent}
+              tagline={service.tagline}
+              cardIndex={index}
             />
           </div>
         ))

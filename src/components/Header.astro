@@ -3,14 +3,14 @@ import { CalendarDays, Menu, Scissors, X } from "@lucide/astro";
 import navigationItems from "@data/navegationItems";
 
 const desktopNavLinkStyles =
-  "group relative rounded-md px-2 py-3 text-sm font-semibold text-brand-navy transition-colors hover:text-brand-orange";
+  "group relative rounded-md px-2 py-3 text-sm font-semibold text-white/85 transition-colors hover:text-white";
 const mobileNavLinkStyles =
-  "block rounded-lg px-4 py-3 text-sm font-semibold text-brand-navy transition-colors hover:bg-brand-surface hover:text-brand-orange";
+  "block rounded-lg px-4 py-3 text-sm font-semibold text-white/85 transition-colors hover:bg-white/10 hover:text-white";
 ---
 
 <header class="relative z-50">
   <nav
-    class="fixed inset-x-0 top-0 border-b border-slate-100/80 bg-white/95 shadow-[0_8px_30px_-24px_rgb(19_55_99_/_0.45)] backdrop-blur-md"
+    class="fixed inset-x-0 top-0 bg-gradient-to-r from-[#2B5AA0] via-[#23528E] to-[#1E3A6E] shadow-[0_8px_30px_-18px_rgb(12_44_85/0.7)]"
     role="navigation"
     aria-label="Navegación principal"
   >
@@ -22,10 +22,10 @@ const mobileNavLinkStyles =
           aria-label="Ir al inicio de Ariel's Clinic"
         >
           <img
-            src="/logo-png.png"
+            src="/logo-white.webp"
             alt="Ariel's Clinic Hospital Veterinario"
-            width="3820"
-            height="2396"
+            width="1301"
+            height="816"
             loading="eager"
             class="h-14 w-auto object-contain sm:h-16"
           />
@@ -64,7 +64,7 @@ const mobileNavLinkStyles =
             rel="noopener noreferrer"
             data-g-event="grooming_link"
             data-g-source="header"
-            class="inline-flex items-center gap-2 rounded-xl bg-brand-navy px-4 py-3 text-sm font-semibold text-white shadow-md shadow-sky-900/20 transition hover:-translate-y-0.5 hover:bg-brand-blue hover:shadow-lg focus-visible:outline-brand-orange"
+            class="inline-flex items-center gap-2 rounded-xl bg-brand-blue px-4 py-3 text-sm font-semibold text-white shadow-md shadow-sky-950/30 transition hover:-translate-y-0.5 hover:bg-[#5BA1E0] hover:shadow-lg focus-visible:outline-brand-orange"
             aria-label="Agendar un servicio de grooming en la página de agenda de Ariel's Clinic (se abre en una pestaña nueva)"
           >
             <Scissors aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
@@ -82,7 +82,7 @@ const mobileNavLinkStyles =
 
         <button
           id="mobile-menu-button"
-          class="rounded-lg p-2 text-brand-navy transition hover:bg-brand-surface hover:text-brand-orange lg:hidden"
+          class="rounded-lg p-2 text-white transition hover:bg-white/10 hover:text-white lg:hidden"
           aria-controls="mobile-menu"
           aria-expanded="false"
           aria-label="Abrir menú principal"
@@ -94,7 +94,14 @@ const mobileNavLinkStyles =
       </div>
     </div>
 
-    <div class="hidden border-t border-slate-100 bg-white lg:hidden" id="mobile-menu">
+    <!-- Franja degradada de marca: borde inferior del navbar -->
+    <div
+      class="h-1 bg-gradient-to-r from-brand-orange via-[#FFB25E] to-brand-orange sm:h-1.5"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="hidden border-t border-white/10 bg-[#1E3A6E] lg:hidden" id="mobile-menu">
       <div class="mx-auto max-w-7xl px-4 pb-5 pt-3 sm:px-6">
         <ul class="space-y-1" role="menu" aria-label="Menú de navegación móvil">
           {
@@ -134,7 +141,7 @@ const mobileNavLinkStyles =
           rel="noopener noreferrer"
           data-g-event="grooming_link"
           data-g-source="menu_movil"
-          class="mt-3 hidden items-center justify-center gap-2 rounded-xl bg-brand-navy px-5 py-3 text-sm font-semibold text-white shadow-md shadow-sky-900/20 transition hover:bg-brand-blue sm:flex lg:hidden"
+          class="mt-3 hidden items-center justify-center gap-2 rounded-xl bg-brand-blue px-5 py-3 text-sm font-semibold text-white shadow-md shadow-sky-950/30 transition hover:bg-[#5BA1E0] sm:flex lg:hidden"
           aria-label="Agendar un servicio de grooming en la página de agenda de Ariel's Clinic (se abre en una pestaña nueva)"
         >
           <Scissors aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />

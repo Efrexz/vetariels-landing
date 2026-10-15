@@ -10,7 +10,8 @@ export default {
         brand: {
           navy: "#1E3A6E",
           orange: "#F5821F",
-          surface: "#F4F6FA",
+          surface: "#E9F0FA",
+          tint: "#EDF3FC",
           mist: "#EAF1F8",
           ink: "#24364B",
           sky: "#A9CCEA",

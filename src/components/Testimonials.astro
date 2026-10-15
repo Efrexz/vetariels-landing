@@ -55,8 +55,8 @@ const averageRating = (
       >
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {
-            testimonialsData.map((testimonial) => (
-              <TestimonialCard {...testimonial} />
+            testimonialsData.map((testimonial, index) => (
+              <TestimonialCard {...testimonial} cardIndex={index} />
             ))
           }
         </div>

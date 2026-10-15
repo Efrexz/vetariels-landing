@@ -2,12 +2,13 @@
 import StarIcon from "@assets/icons/star.svg";
 import ExternalLinkIcon from "@assets/icons/externalLink.svg";
 
-const { authorName, rating, quote, petInfo, reviewUrl } = Astro.props;
+const { authorName, rating, quote, petInfo, reviewUrl, cardIndex = 0 } = Astro.props;
 
 // Obtenemos las estrellas según la calificación
 const stars = Array(Math.round(rating)).fill(0); // [0, 0, 0, 0, 0]
 
 const initial = authorName.charAt(0).toUpperCase();
+const cardBg = cardIndex % 2 === 1 ? "border border-brand-sky/50 bg-brand-sky/35" : "border border-slate-200/70 bg-white";
 ---
 
 <a
@@ -18,7 +19,7 @@ const initial = authorName.charAt(0).toUpperCase();
   aria-label={`Leer la reseña de ${authorName} en Google Maps`}
 >
   <figure
-    class="relative bg-white rounded-2xl p-8 shadow-card h-full flex flex-col"
+    class={`relative ${cardBg} rounded-2xl p-8 shadow-card h-full flex flex-col`}
     itemscope
     itemtype="https://schema.org/Review"
   >

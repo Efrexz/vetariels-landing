@@ -1,18 +1,15 @@
 ---
-import { Check } from "@lucide/astro";
+const { icon: Icon, title, description, items = [], isFeatured = false, imageUrl, tagline, cardIndex = 0 } = Astro.props;
 
-const { icon: Icon, title, description, items = [], isFeatured = false, imageUrl, tagline, accent: accentKey = "orange" } = Astro.props;
+// Acentos de la marca que rotan entre cards estándar: azul → naranja → verde
+const accentStyles = [
+  { iconBg: "bg-brand-blue/10", iconText: "text-brand-blue", chip: "bg-brand-blue" },
+  { iconBg: "bg-brand-orange/10", iconText: "text-brand-orange", chip: "bg-brand-orange" },
+  { iconBg: "bg-brand-green/10", iconText: "text-brand-green", chip: "bg-brand-green" },
+];
 
-const accentStyles = {
-  rose: { iconBg: "bg-rose-100", iconText: "text-rose-500", chip: "bg-rose-500" },
-  sky: { iconBg: "bg-sky-100", iconText: "text-sky-600", chip: "bg-sky-500" },
-  emerald: { iconBg: "bg-emerald-100", iconText: "text-emerald-600", chip: "bg-emerald-500" },
-  orange: { iconBg: "bg-orange-100", iconText: "text-orange-500", chip: "bg-orange-500" },
-  purple: { iconBg: "bg-purple-100", iconText: "text-purple-500", chip: "bg-purple-500" },
-  amber: { iconBg: "bg-amber-100", iconText: "text-amber-500", chip: "bg-amber-500" },
-};
-
-const accent = accentStyles[accentKey] ?? accentStyles.orange;
+// Las cards destacadas (foto) mantienen su estilo; las estándar rotan la paleta
+const accent = isFeatured ? accentStyles[0] : accentStyles[((cardIndex >= 3 ? cardIndex - 3 : cardIndex) % 3 + 3) % 3];
 ---
 
 {
@@ -63,18 +60,12 @@ const accent = accentStyles[accentKey] ?? accentStyles.orange;
 
       {
         items.length > 0 && (
-          <div class="mt-auto border-t border-slate-100 pt-4">
-            <p class="mb-3 text-xs font-bold text-brand-navy">Incluye:</p>
-            <ul class="grid grid-cols-1 gap-x-3 gap-y-2 sm:grid-cols-2">
+          <div class="mt-auto min-h-36 rounded-2xl bg-brand-mist px-3 py-4 sm:px-4">
+            <p class="mb-2.5 text-xs font-bold text-brand-navy">Incluye:</p>
+            <ul class="flex flex-wrap gap-1.5">
               {items.map((item) => (
-                <li class="flex items-start gap-2 text-xs leading-5 text-brand-ink/80">
-                  <span
-                    class={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${accent.chip}`}
-                    aria-hidden="true"
-                  >
-                    <Check class="h-2.5 w-2.5 text-white" stroke-width={3.5} />
-                  </span>
-                  <span>{item}</span>
+                <li class="flex items-center rounded-full bg-white px-2.5 py-1 text-[11px] font-medium leading-none text-brand-ink/85">
+                  {item}
                 </li>
               ))}
             </ul>
