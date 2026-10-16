@@ -9,47 +9,87 @@
     {
       "titulo": "Ecografías",
       "descripcion": "Ofrecemos estudios ecográficos abdominales y gestacionales para evaluar órganos internos y monitorear embarazos. Método no invasivo, ideal para detectar alteraciones en tiempo real sin causar molestias.",
+      "nota": "",
       "incluye": []
     },
     {
       "titulo": "Radiografías",
       "descripcion": "Realizamos estudios radiológicos digitales para el diagnóstico preciso de fracturas, cuerpos extraños, enfermedades articulares y otros problemas internos. Tecnología moderna para imágenes claras y rápidas.",
+      "nota": "",
       "incluye": []
     },
     {
       "titulo": "Emergencias 24/7",
       "descripcion": "Atención veterinaria de emergencias disponible 24/7 para situaciones críticas. Nuestro equipo está preparado para actuar con rapidez y precisión cuando más lo necesitas.",
+      "nota": "",
       "incluye": []
     },
     {
       "titulo": "Vacunación",
       "descripcion": "Ofrecemos esquemas completos de vacunación para proteger a tu mascota contra enfermedades prevenibles. Aplicamos protocolos actualizados para garantizar su salud y bienestar.",
-      "incluye": []
+      "nota": "Esquemas completos según etapa y calendario.",
+      "incluye": [
+        "Vacunas base",
+        "Según etapa",
+        "Refuerzos"
+      ]
     },
     {
       "titulo": "Cirugía",
       "descripcion": "Contamos con quirófano equipado con tecnología avanzada para cirugías rutinarias y de emergencia. Nuestro equipo médico garantiza procedimientos seguros y eficientes.",
-      "incluye": []
+      "nota": "Anestesia y monitoreo durante el procedimiento.",
+      "incluye": [
+        "Esterilización",
+        "Tejidos blandos",
+        "Ortopedia",
+        "Anestesia",
+        "Postoperatorio"
+      ]
     },
     {
       "titulo": "Consultas Especializadas",
       "descripcion": "Contamos con especialistas en distintas áreas de la medicina veterinaria para diagnosticar y tratar con precisión los casos que tu mascota necesita. Coordinamos la cita contigo y con el especialista de cada área.",
-      "incluye": []
+      "nota": "Cita coordinada con el especialista del área.",
+      "incluye": [
+        "Dermatología",
+        "Cardiología",
+        "Neurología",
+        "Oncología",
+        "Odontología",
+        "Neumología"
+      ]
     },
     {
       "titulo": "Hospitalización y Monitoreo",
       "descripcion": "Servicio de hospitalización en un ambiente seguro y controlado para mascotas que requieren cuidados continuos, recuperación postoperatoria o tratamiento intensivo.",
-      "incluye": []
+      "nota": "Atención continua con monitoreo permanente.",
+      "incluye": [
+        "Monitoreo 24/7",
+        "Fluidoterapia",
+        "Analgesia",
+        "Nutrición"
+      ]
     },
     {
       "titulo": "Spa Canino/Felino",
       "descripcion": "Servicio integral de spa y grooming profesional para perros y gatos, enfocado en la higiene, salud y estética. Incluye técnicas especializadas y productos adaptados a cada raza.",
-      "incluye": []
+      "nota": "Productos adaptados a su piel y raza.",
+      "incluye": [
+        "Baño medicado",
+        "Deslanado",
+        "Estilizado",
+        "Oídos"
+      ]
     },
     {
       "titulo": "Laboratorio",
       "descripcion": "Contamos con laboratorio clínico veterinario para realizar análisis de sangre, orina, heces y pruebas rápidas. Detectamos infecciones, alteraciones metabólicas y otras condiciones con resultados confiables.",
-      "incluye": []
+      "nota": "Resultados confiables para el diagnóstico.",
+      "incluye": [
+        "Sangre",
+        "Orina y heces",
+        "Pruebas rápidas"
+      ]
     }
   ],
   "sedes": [
@@ -146,7 +186,7 @@
     "consultasEspecializadas": "Contamos con consultas especializadas en dermatología, cardiología, neurología, oncología, odontología (profilaxis, extracciones, cirugía oral) y neumología. Son de pago previo y el día y hora se coordinan con el especialista según su disponibilidad. Se agendan por WhatsApp.",
     "internamiento": "El internamiento se realiza en la sede San Miguel con monitoreo 24/7. Si la mascota está en San Martín de Porres o Los Olivos, la clínica se encarga del traslado del paciente.",
     "pagos": "Aceptamos todos los medios de pago (efectivo, tarjeta, Yape, Plin, transferencia). En promociones y campañas el pago suele ser con efectivo, Yape, Plin o transferencia (igual pueden consultar en counter). Con tarjeta de crédito se requiere presentar el DNI del titular y que esté presente al momento del pago.",
-    "grooming": "Servicio de baño y corte. Costo según peso de la mascota y tipo de pelaje (incluye si tiene motas o no); se confirma al momento de llegar con la mascota. Por WhatsApp se puede pedir un costo aproximado. Dos formas de agendar: acercarse a la clínica (por orden de llegada, recomendado a partir de las 9 AM cuando inicia el área de grooming) o coordinar con la movilidad desde la página de agenda (https://agenda-ariels.vercel.app/?utm_source=vetariel-landing), donde el costo de la movilidad depende de la dirección y se confirma al completar la agenda (la dirección llega al counter). Cite el botón 'Agenda grooming' en la parte superior derecha de la página.",
+    "grooming": "Servicio de baño y corte. Costo según peso de la mascota y tipo de pelaje (incluye si tiene motas o no); se confirma al momento de llegar con la mascota. Por WhatsApp se puede pedir un costo aproximado. Dos formas de agendar: acercarse a la clínica (por orden de llegada, recomendado a partir de las 9 AM cuando inicia el área de grooming) o coordinar con la movilidad desde la página de agenda (https://agenda-ariels-nu.vercel.app/?utm_source=vetariel-landing), donde el costo de la movilidad depende de la dirección y se confirma al completar la agenda (la dirección llega al counter). Cite el botón 'Agenda grooming' en la parte superior derecha de la página.",
     "redesSociales": {
       "instagram": "@arielsclinichospital",
       "facebook": "Ariels Clinic HV",

@@ -40,8 +40,9 @@ const servicesData = [
     title: "Vacunación",
     description:
       "Ofrecemos esquemas completos de vacunación para proteger a tu mascota contra enfermedades prevenibles. Aplicamos protocolos actualizados para garantizar su salud y bienestar.",
+    nota: "Esquemas completos según etapa y calendario.",
     items: [
-      "Vacunas de base",
+      "Vacunas base",
       "Según etapa",
       "Refuerzos",
     ],
@@ -52,6 +53,7 @@ const servicesData = [
     title: "Cirugía",
     description:
       "Contamos con quirófano equipado con tecnología avanzada para cirugías rutinarias y de emergencia. Nuestro equipo médico garantiza procedimientos seguros y eficientes.",
+    nota: "Anestesia y monitoreo durante el procedimiento.",
     items: [
       "Esterilización",
       "Tejidos blandos",
@@ -66,6 +68,7 @@ const servicesData = [
     title: "Consultas Especializadas",
     description:
       "Contamos con especialistas en distintas áreas de la medicina veterinaria para diagnosticar y tratar con precisión los casos que tu mascota necesita. Coordinamos la cita contigo y con el especialista de cada área.",
+    nota: "Cita coordinada con el especialista del área.",
     items: [
       "Dermatología",
       "Cardiología",
@@ -81,10 +84,11 @@ const servicesData = [
     title: "Hospitalización y Monitoreo",
     description:
       "Servicio de hospitalización en un ambiente seguro y controlado para mascotas que requieren cuidados continuos, recuperación postoperatoria o tratamiento intensivo.",
+    nota: "Atención continua con monitoreo permanente.",
     items: [
       "Monitoreo 24/7",
       "Fluidoterapia",
-      "Manejo del dolor",
+      "Analgesia",
       "Nutrición",
     ],
   },
@@ -94,8 +98,9 @@ const servicesData = [
     title: "Spa Canino/Felino",
     description:
       "Servicio integral de spa y grooming profesional para perros y gatos, enfocado en la higiene, salud y estética. Incluye técnicas especializadas y productos adaptados a cada raza.",
+    nota: "Productos adaptados a su piel y raza.",
     items: [
-      "Baños medicados",
+      "Baño medicado",
       "Deslanado",
       "Estilizado",
       "Oídos",
@@ -107,6 +112,7 @@ const servicesData = [
     title: "Laboratorio",
     description:
       "Contamos con laboratorio clínico veterinario para realizar análisis de sangre, orina, heces y pruebas rápidas. Detectamos infecciones, alteraciones metabólicas y otras condiciones con resultados confiables.",
+    nota: "Resultados confiables para el diagnóstico.",
     items: [
       "Sangre",
       "Orina y heces",

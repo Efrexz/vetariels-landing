@@ -23,6 +23,7 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 public/images/styles
+referencia.png
 
 # agent skills (config local)
 .agents/

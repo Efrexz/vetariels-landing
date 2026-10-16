@@ -12,24 +12,6 @@ const averageRating = (
 ---
 
 <section id="testimonials" class="py-20 lg:py-28 bg-brand-surface">
-  <!--  SCRIPT DE SCHEMA AGGREGATE RATING (JSON-LD) -->
-  <script
-    type="application/ld+json"
-    set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "AggregateRating",
-      itemReviewed: {
-        "@type": "Organization",
-        name: "Ariel's Clinic",
-        url: import.meta.env.PUBLIC_SITE_URL ?? "https://vetariels-landing.vercel.app",
-      },
-      ratingValue: averageRating,
-      reviewCount: totalReviews,
-      bestRating: "5",
-      worstRating: "1",
-    })}
-  />
-
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <header class="mx-auto mb-14 max-w-2xl text-center">
       <Quote

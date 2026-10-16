@@ -4,16 +4,19 @@ import locations from "../src/data/locations.js";
 import promotionsModule from "../src/data/promotions.js";
 import faqs from "../src/data/faqs.js";
 
-// services.js importa iconos TS de lucide (no cargable en Node puro) -> parseo textual
+// services.js importa iconos TS de lucide (no cargable en Node puro) -> parseo textual por bloque:
+// cada servicio es un objeto `{ ... }` sin llaves anidadas; filtramos los que traen `id:`
 const servicesRaw = await readFile("src/data/services.js", "utf8");
-const services = [...servicesRaw.matchAll(/title:\s*"([^"]+)"[\s\S]*?description:\s*"([^"]+)"[\s\S]*?(?:items:\s*\[([^\]]*)\])?/g)]
-  .map((m) => ({
-    titulo: m[1],
-    descripcion: m[2],
-    incluye: m[3]
-      ? [...m[3].matchAll(/"([^"]+)"/g)].map((i) => i[1])
-      : [],
-  }));
+const services = [...servicesRaw.matchAll(/\{[^{}]*\}/gs)]
+  .map((m) => m[0])
+  .filter((block) => /id:\s*"/.test(block))
+  .map((block) => ({
+    titulo: block.match(/title:\s*"([^"]+)"/)?.[1] ?? "",
+    descripcion: block.match(/description:\s*"([\s\S]*?)"/)?.[1] ?? "",
+    nota: block.match(/nota:\s*"([^"]+)"/)?.[1] ?? "",
+    incluye: [...(block.match(/items:\s*\[([\s\S]*?)\]/)?.[1] ?? "").matchAll(/"([^"]+)"/g)].map((i) => i[1]),
+  }))
+  .filter((service) => service.titulo);
 
 // Información operativa solo para el asistente (no se muestra en la web)
 const informacion = {
@@ -33,7 +36,7 @@ const informacion = {
   pagos:
     "Aceptamos todos los medios de pago (efectivo, tarjeta, Yape, Plin, transferencia). En promociones y campañas el pago suele ser con efectivo, Yape, Plin o transferencia (igual pueden consultar en counter). Con tarjeta de crédito se requiere presentar el DNI del titular y que esté presente al momento del pago.",
   grooming:
-    "Servicio de baño y corte. Costo según peso de la mascota y tipo de pelaje (incluye si tiene motas o no); se confirma al momento de llegar con la mascota. Por WhatsApp se puede pedir un costo aproximado. Dos formas de agendar: acercarse a la clínica (por orden de llegada, recomendado a partir de las 9 AM cuando inicia el área de grooming) o coordinar con la movilidad desde la página de agenda (https://agenda-ariels.vercel.app/?utm_source=vetariel-landing), donde el costo de la movilidad depende de la dirección y se confirma al completar la agenda (la dirección llega al counter). Cite el botón 'Agenda grooming' en la parte superior derecha de la página.",
+    "Servicio de baño y corte. Costo según peso de la mascota y tipo de pelaje (incluye si tiene motas o no); se confirma al momento de llegar con la mascota. Por WhatsApp se puede pedir un costo aproximado. Dos formas de agendar: acercarse a la clínica (por orden de llegada, recomendado a partir de las 9 AM cuando inicia el área de grooming) o coordinar con la movilidad desde la página de agenda (https://agenda-ariels-nu.vercel.app/?utm_source=vetariel-landing), donde el costo de la movilidad depende de la dirección y se confirma al completar la agenda (la dirección llega al counter). Cite el botón 'Agenda grooming' en la parte superior derecha de la página.",
   redesSociales: {
     instagram: "@arielsclinichospital",
     facebook: "Ariels Clinic HV",
