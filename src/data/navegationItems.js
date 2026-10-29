@@ -1,6 +1,6 @@
 import HomeIcon from "@assets/icons/home.svg";
 import TagIcon from "@assets/icons/tag.svg";
-import UsersIcon from "@assets/icons/users.svg";
+// import UsersIcon from "@assets/icons/users.svg";
 import LocationIcon from "@assets/icons/location.svg";
 import StarIcon from "@assets/icons/star.svg";
 
@@ -23,12 +23,13 @@ const navigationItems = [
     icon: TagIcon,
     ariaLabel: "Ver servicios veterinarios ofrecidos",
   },
-  {
-    href: "#doctors",
-    label: "Nuestros Doctores",
-    icon: UsersIcon,
-    ariaLabel: "Conocer a nuestro equipo de veterinarios",
-  },
+  // TODO: Reactivar al volver la sección de doctores (src/pages/index.astro)
+  // {
+  //   href: "#doctors",
+  //   label: "Nuestros Doctores",
+  //   icon: UsersIcon,
+  //   ariaLabel: "Conocer a nuestro equipo de veterinarios",
+  // },
   {
     href: "#locations",
     label: "Ubicaciones",
