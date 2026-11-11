@@ -61,7 +61,7 @@ npm run dev
 ## ✅ Pendientes / TODO
 
 - [ ] **🔴 Pendiente (no olvidar):** cuando la página esté online y al público, activar **Upstash Redis** en Vercel (Storage → Create Database → Upstash → conectar al proyecto → redeploy). Ver detalle en la sección del chatbot arriba. Sin esto, el límite del chat funciona "en memoria" (menos fiable contra abuso). *Aplazado voluntariamente mientras la página no es pública.*
-- [ ] Fase 3: actualizar la política de privacidad (Formspree + proveedor de IA + uso del contacto para promos por WhatsApp) y aviso en el chat.
+- [x] ~~Fase 3: actualizar la política de privacidad (Formspree + proveedor de IA + uso del contacto para promos por WhatsApp) y aviso en el chat.~~ ✅ Hecho (2026-11-11).
 - [ ] Fase 4: actualizar Astro/dependencias (incluye avisos de `npm audit`) con pruebas del chat y de la página.
 - [ ] Mejoras UX aplazadas: alternativa visible si el mapa falla, contraste de colores de marca, navegación desde la página de privacidad, conflicto entre los botones flotantes, contenido visible sin JavaScript.
 - [ ] Verificar con la clínica horarios, teléfonos, precios y datos de contacto vigentes.
