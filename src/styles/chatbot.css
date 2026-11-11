@@ -1,0 +1,160 @@
+/* Estilos del asistente Cata.
+   Las burbujas/filas/huellas se crean por JS en runtime (sin data-astro-cid),
+   por eso estos estilos NO pueden ser scoped: viven en un CSS global importado
+   desde src/components/Chatbot.astro.
+   (Antes vivían en un <style is:global> del componente; tras la migración a
+   Astro 7 ese bloque dejaba de incluirse en el build, así que se extrajo a un
+   archivo real, que es independiente del bundler.)
+   Clases chat-* exclusivas de este componente. */
+
+.chatbot-panel {
+  transform: translateX(12px) scale(0.98);
+  opacity: 0;
+  visibility: hidden;
+  transform-origin: bottom right;
+  transition:
+    opacity 220ms ease-out,
+    transform 220ms ease-out,
+    visibility 220ms ease-out;
+}
+.chatbot-panel.chat-open {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  visibility: visible;
+}
+
+.chat-fab-chip {
+  animation: chat-chip-in 200ms ease-out;
+}
+@keyframes chat-chip-in {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Burbuja de invitación (teaser) */
+.chatbot-teaser {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition:
+    opacity 260ms ease-out,
+    transform 260ms ease-out,
+    visibility 260ms ease-out;
+  pointer-events: none;
+}
+.chatbot-teaser.chat-teaser-on {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.chatbot-teaser::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  bottom: -5px;
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  border-right: 1px solid #eaf1f8;
+  border-bottom: 1px solid #eaf1f8;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+.chatbot-msgs {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(30 58 110 / 0.25) transparent;
+}
+.chatbot-msgs::-webkit-scrollbar {
+  width: 5px;
+}
+.chatbot-msgs::-webkit-scrollbar-thumb {
+  background: rgb(30 58 110 / 0.25);
+  border-radius: 999px;
+}
+
+.chat-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+.chat-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgb(12 44 85 / 0.2);
+}
+.chat-bubble-user,
+.chat-bubble-bot {
+  overflow-wrap: anywhere;
+  box-shadow: 0 1px 2px rgb(12 44 85 / 0.06);
+  animation: chat-bubble-in 220ms ease-out;
+}
+.chat-bubble-user {
+  background: #1e3a6e;
+  color: #fff;
+  border-radius: 1rem 1rem 0.25rem 1rem;
+}
+.chat-bubble-bot {
+  position: relative;
+  background: #fff;
+  color: #24364b;
+  border-radius: 0.25rem 1rem 1rem 1rem;
+  border: 1px solid rgb(2 8 23 / 0.06);
+  border-left: 3px solid #f5821f;
+}
+@keyframes chat-bubble-in {
+  from { transform: translateY(6px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.chat-typing {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.chat-typing .paw {
+  animation: chat-paw-bounce 1.25s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+  transform-origin: bottom center;
+}
+.chat-typing .paw:nth-child(2) { animation-delay: 0.14s; }
+.chat-typing .paw:nth-child(3) { animation-delay: 0.28s; }
+@keyframes chat-paw-bounce {
+  0%, 100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.85; }
+  25% { transform: translateY(-7px) scale(1.18) rotate(-10deg); opacity: 1; }
+  45% { transform: translateY(1px) scale(0.92) rotate(0deg); opacity: 0.95; }
+  62% { transform: translateY(-5px) scale(1.12) rotate(8deg); opacity: 1; }
+}
+
+@media (max-width: 640px) {
+  .chatbot-panel {
+    right: 0;
+    bottom: 3.5rem;
+    width: calc(100vw - 4.5rem);
+    height: 30rem;
+    transform: translateY(12px) scale(0.98);
+    transform-origin: bottom center;
+  }
+  .chatbot-panel.chat-open {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chatbot-panel,
+  .chat-bubble-user,
+  .chat-bubble-bot,
+  .chat-fab-chip,
+  .chat-typing .paw,
+  .animate-ping,
+  .animate-pulse,
+  .bot-fab-img {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}

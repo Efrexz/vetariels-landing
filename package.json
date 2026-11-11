@@ -2,10 +2,14 @@
   "name": "vetarielpage",
   "type": "module",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "test": "node --test tests/*.test.js",
     "astro": "astro",
     "assets:generate": "node scripts/generate-og.mjs",
     "qr:generate": "node scripts/generate-qr.mjs",
@@ -14,13 +18,13 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
-    "@astrojs/tailwind": "^6.0.2",
-    "@lucide/astro": "^1.34.0",
-    "astro": "^5.9.3",
+    "@lucide/astro": "^1.72.0",
+    "astro": "^7.3.8",
     "embla-carousel": "^8.6.0",
     "tailwindcss": "^3.4.3"
   },
   "devDependencies": {
+    "autoprefixer": "^10.6.2",
     "qrcode": "^1.5.4",
     "tailwindcss-animate": "^1.0.7"
   }

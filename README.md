@@ -18,9 +18,9 @@ Creé esta landing page con el fin de ayudar a la veterinaria Ariels Clinic a ex
 
 ## Tecnologías utilizadas
 
-- **Astro**
-- **Tailwind CSS**
-- **JavaScript**
+- **Astro 7** (actualizado desde Astro 5 el 2026-11-11; corrige avisos de seguridad de `npm audit` — hoy: 0 vulnerabilidades)
+- **Tailwind CSS 3** vía PostCSS (`postcss.config.mjs`; la integración `@astrojs/tailwind` quedó obsoleta con Astro 7)
+- **JavaScript** · Pruebas con el runner nativo de Node: `npm test` (16 pruebas del chat y de promociones)
 
 ## 🚀 Demo en vivo
 
@@ -62,7 +62,7 @@ npm run dev
 
 - [ ] **🔴 Pendiente (no olvidar):** cuando la página esté online y al público, activar **Upstash Redis** en Vercel (Storage → Create Database → Upstash → conectar al proyecto → redeploy). Ver detalle en la sección del chatbot arriba. Sin esto, el límite del chat funciona "en memoria" (menos fiable contra abuso). *Aplazado voluntariamente mientras la página no es pública.*
 - [x] ~~Fase 3: actualizar la política de privacidad (Formspree + proveedor de IA + uso del contacto para promos por WhatsApp) y aviso en el chat.~~ ✅ Hecho (2026-11-11).
-- [ ] Fase 4: actualizar Astro/dependencias (incluye avisos de `npm audit`) con pruebas del chat y de la página.
+- [x] ~~Fase 4: actualizar Astro/dependencias (incluye avisos de `npm audit`) con pruebas del chat y de la página.~~ ✅ Hecho (2026-11-11): Astro 5→7.3.8, 0 vulnerabilidades, Tailwind vía PostCSS, 16 pruebas (`npm test`).
 - [ ] Mejoras UX aplazadas: alternativa visible si el mapa falla, contraste de colores de marca, navegación desde la página de privacidad, conflicto entre los botones flotantes, contenido visible sin JavaScript.
 - [ ] Verificar con la clínica horarios, teléfonos, precios y datos de contacto vigentes.
 

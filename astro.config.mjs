@@ -1,13 +1,15 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
+// Tailwind v3 se carga vía PostCSS (postcss.config.mjs). La integración
+// @astrojs/tailwind quedó obsoleta: no soporta Astro 7.
+// El diseño no cambia: tailwind.config.mjs y las clases siguen igual.
 
 const site =
   process.env.PUBLIC_SITE_URL ?? "https://vetariels-landing.vercel.app";
 
 export default defineConfig({
   site,
-  integrations: [tailwind(), sitemap()],
+  integrations: [sitemap()],
   vite: {
     resolve: {
       alias: {
