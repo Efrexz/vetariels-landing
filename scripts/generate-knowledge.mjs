@@ -1,7 +1,7 @@
 import { mkdir, writeFile, readFile } from "node:fs/promises";
 import locations from "../src/data/locations.js";
 // promotions.js es data plana, cargable en Node
-import promotionsModule from "../src/data/promotions.js";
+import promotionsModule, { isVigente } from "../src/data/promotions.js";
 import faqs from "../src/data/faqs.js";
 
 // services.js importa iconos TS de lucide (no cargable en Node puro) -> parseo textual por bloque:
@@ -46,8 +46,8 @@ const informacion = {
 };
 
 // Solo promociones vigentes (por dateISO) llegan al asistente
-const hoyISO = new Date().toISOString().slice(0, 10);
-const promosVigentes = promotionsModule.filter((p) => !p.dateISO || p.dateISO >= hoyISO);
+const hoyISO = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Lima" }).format(new Date());
+const promosVigentes = promotionsModule.filter((p) => isVigente(p, hoyISO));
 const promocionesVencidas = promotionsModule.length - promosVigentes.length;
 
 const precioPromo = (p) =>
@@ -77,6 +77,9 @@ const knowledge = {
     precios: precioPromo(p),
     vigenteHasta: p.expirationDate ?? "consultar con la clínica",
     sedes: p.sedes ?? "todas",
+    // dateISO se incluye para que api/chat.js pueda volver a filtrar en cada
+    // consulta (la copia knowledge.json puede quedar desactualizada)
+    ...(p.dateISO ? { dateISO: p.dateISO } : {}),
   })),
   informacion,
   faqs: faqs.map((f) => ({ pregunta: f.question, respuesta: f.answer })),

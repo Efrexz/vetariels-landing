@@ -4,6 +4,11 @@
 //   - `dateISO` + `expirationDate`: vigencia; el knowledge del chatbot filtra promos
 //     expiradas automáticamente (npm run knowledge:generate).
 //   - Respaldo para el chatbot: api/knowledge.json se regenera con `npm run knowledge:generate`
+// Una promoción está vigente si no declara fecha o si su dateISO (YYYY-MM-DD)
+// aún no pasó. Comparar strings ISO evita problemas de zona horaria; el caller
+// decide qué "hoy" usar (en Lima: ver Promotions.astro / api/chat.js).
+export const isVigente = (promo, hoyISO) => !promo.dateISO || promo.dateISO >= hoyISO;
+
 const promotions = [
   {
     id: "bienestar-senior",

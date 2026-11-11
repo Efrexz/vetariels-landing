@@ -5,15 +5,26 @@ import {
   ChevronLeft,
   ChevronRight,
   MapPin,
+  PawPrint,
   Sparkles,
 } from "@lucide/astro";
 import Modal from "@components/ui/Modal.astro";
-import promotions from "@data/promotions";
+import promotions, { isVigente } from "@data/promotions";
+import { FORMSPREE_NEWSLETTER_URL } from "@data/config";
 
+// Fecha actual en la zona horaria de la clínica (Lima), formato YYYY-MM-DD
+const hoyISO = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "America/Lima",
+}).format(new Date());
+// Solo promociones vigentes: las vencidas se ocultan solas al generar la
+// página. El script del navegador repite el chequeo por si el último
+// despliegue es anterior al vencimiento de alguna campaña.
 const visiblePromotions = promotions.filter(
   (promotion, index, allPromotions) =>
-    allPromotions.findIndex((item) => item.id === promotion.id) === index
+    allPromotions.findIndex((item) => item.id === promotion.id) === index &&
+    isVigente(promotion, hoyISO)
 );
+const hayPromos = visiblePromotions.length > 0;
 ---
 
 <section
@@ -41,108 +52,225 @@ const visiblePromotions = promotions.filter(
       </p>
     </header>
 
-        <div class="embla relative mt-12">
-      <div class="embla__viewport overflow-hidden rounded-[2rem]">
-        <div class="embla__container -ml-4 flex sm:-ml-5">
-          {
-            visiblePromotions.map((promo, index) => {
-              const modalId = `promo-modal-${promo.id}`;
-              return (
-                <div class="embla__slide min-w-0 flex-[0_0_88%] pl-4 sm:flex-[0_0_54%] sm:pl-5 lg:flex-[0_0_33.333%]">
-                  <article class="group promo-slide-content h-full opacity-0 translate-y-4 transition-all duration-500 ease-out">
-                    <figure class="flex h-full flex-col overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white shadow-card transition duration-500 group-hover:-translate-y-1 group-hover:shadow-xl">
-                      <div class="relative aspect-[2/3] overflow-hidden">
-                        <img
-                          src={promo.image}
-                          alt={`Afiche de la promoción: ${promo.title}`}
-                          width="1086"
-                          height="1448"
-                          loading={index === 0 ? "eager" : "lazy"}
-                          class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
-                        />
-                        {
-                          promo.expirationDate && (
-                            <span class="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-brand-navy/90 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-white shadow-sm backdrop-blur-sm">
-                              <CalendarClock
-                                aria-hidden="true"
-                                class="h-3 w-3"
-                                stroke-width="2"
-                              />
-                              Vigente hasta el {promo.expirationDate}
-                            </span>
-                          )
-                        }
-                        {
-                          promo.sedes && promo.sedes !== "todas" && (
-                            <span class="absolute left-4 top-12 inline-flex items-center gap-1.5 rounded-full bg-brand-orange/95 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-white shadow-sm backdrop-blur-sm">
-                              <MapPin
-                                aria-hidden="true"
-                                class="h-3 w-3"
-                                stroke-width="2"
-                              />
-                              Solo sede {Array.isArray(promo.sedes) ? promo.sedes.join(" y ") : promo.sedes}
-                            </span>
-                          )
-                        }
-                      </div>
-                      <figcaption class="flex flex-col gap-4 p-5 sm:p-6">
-                        <div>
-                          <p class="min-h-10 text-xs font-semibold uppercase tracking-[0.16em] text-brand-orange">
-                            {promo.subtitle}
-                          </p>
-                          <h3 class="mt-2 text-lg font-bold leading-tight text-brand-navy">
-                            {promo.title}
-                          </h3>
-                        </div>
-                        <button
-                          type="button"
-                          onclick={`document.getElementById('${modalId}').showModal()`}
-                          class="inline-flex items-center justify-center gap-2 self-start rounded-full bg-brand-mist px-5 py-2.5 text-sm font-semibold text-brand-navy transition duration-300 hover:bg-brand-orange hover:text-white focus-visible:outline-brand-orange"
-                          aria-label={`Ver detalles de ${promo.title}`}
-                        >
-                          Ver detalles
-                          <ArrowUpRight
-                            aria-hidden="true"
-                            class="h-4 w-4"
-                            stroke-width="2"
+    {
+      hayPromos && (
+        <div class="embla relative mt-12" data-promo-carousel>
+          <div class="embla__viewport overflow-hidden rounded-[2rem]">
+            <div class="embla__container -ml-4 flex sm:-ml-5">
+              {visiblePromotions.map((promo, index) => {
+                const modalId = `promo-modal-${promo.id}`;
+                return (
+                  <div
+                    class="embla__slide min-w-0 flex-[0_0_88%] pl-4 sm:flex-[0_0_54%] sm:pl-5 lg:flex-[0_0_33.333%]"
+                    data-promo-expires-iso={promo.dateISO}
+                  >
+                    <article class="group promo-slide-content h-full opacity-0 translate-y-4 transition-all duration-500 ease-out">
+                      <figure class="flex h-full flex-col overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white shadow-card transition duration-500 group-hover:-translate-y-1 group-hover:shadow-xl">
+                        <div class="relative aspect-[2/3] overflow-hidden">
+                          <img
+                            src={promo.image}
+                            alt={`Afiche de la promoción: ${promo.title}`}
+                            width="1086"
+                            height="1448"
+                            loading={index === 0 ? "eager" : "lazy"}
+                            class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
                           />
-                        </button>
-                      </figcaption>
-                    </figure>
-                  </article>
-                  <Modal modalId={modalId}>
-                    <h3
-                      class="mb-4 text-center text-2xl font-bold text-brand-navy"
-                    >
-                      {promo.title}
-                    </h3>
-                    <img
-                      src={promo.image}
-                      alt={`Promoción de ${promo.title}`}
-                      class="w-full rounded-xl"
-                    />
-                  </Modal>
-                </div>
-              );
-            })
-          }
-        </div>
-      </div>
+                          {
+                            promo.expirationDate && (
+                              <span class="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-brand-navy/90 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-white shadow-sm backdrop-blur-sm">
+                                <CalendarClock
+                                  aria-hidden="true"
+                                  class="h-3 w-3"
+                                  stroke-width="2"
+                                />
+                                Vigente hasta el {promo.expirationDate}
+                              </span>
+                            )
+                          }
+                          {
+                            promo.sedes && promo.sedes !== "todas" && (
+                              <span class="absolute left-4 top-12 inline-flex items-center gap-1.5 rounded-full bg-brand-orange/95 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-white shadow-sm backdrop-blur-sm">
+                                <MapPin
+                                  aria-hidden="true"
+                                  class="h-3 w-3"
+                                  stroke-width="2"
+                                />
+                                Solo sede {Array.isArray(promo.sedes) ? promo.sedes.join(" y ") : promo.sedes}
+                              </span>
+                            )
+                          }
+                        </div>
+                        <figcaption class="flex flex-col gap-4 p-5 sm:p-6">
+                          <div>
+                            <p class="min-h-10 text-xs font-semibold uppercase tracking-[0.16em] text-brand-orange">
+                              {promo.subtitle}
+                            </p>
+                            <h3 class="mt-2 text-lg font-bold leading-tight text-brand-navy">
+                              {promo.title}
+                            </h3>
+                          </div>
+                          <button
+                            type="button"
+                            onclick={`document.getElementById('${modalId}').showModal()`}
+                            class="inline-flex items-center justify-center gap-2 self-start rounded-full bg-brand-mist px-5 py-2.5 text-sm font-semibold text-brand-navy transition duration-300 hover:bg-brand-orange hover:text-white focus-visible:outline-brand-orange"
+                            aria-label={`Ver detalles de ${promo.title}`}
+                          >
+                            Ver detalles
+                            <ArrowUpRight
+                              aria-hidden="true"
+                              class="h-4 w-4"
+                              stroke-width="2"
+                            />
+                          </button>
+                        </figcaption>
+                      </figure>
+                    </article>
+                    <Modal modalId={modalId}>
+                      <h3
+                        class="mb-4 text-center text-2xl font-bold text-brand-navy"
+                      >
+                        {promo.title}
+                      </h3>
+                      <img
+                        src={promo.image}
+                        alt={`Promoción de ${promo.title}`}
+                        class="w-full rounded-xl"
+                      />
+                    </Modal>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
 
-      <button
-        type="button"
-        class="embla__prev absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-brand-navy shadow-lg transition hover:bg-brand-orange hover:text-white disabled:cursor-not-allowed disabled:opacity-30 sm:-left-5"
-        aria-label="Promoción anterior"
+          <button
+            type="button"
+            class="embla__prev absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-brand-navy shadow-lg transition hover:bg-brand-orange hover:text-white disabled:cursor-not-allowed disabled:opacity-30 sm:-left-5"
+            aria-label="Promoción anterior"
+          >
+            <ChevronLeft aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
+          </button>
+          <button
+            type="button"
+            class="embla__next absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-brand-navy shadow-lg transition hover:bg-brand-orange hover:text-white disabled:cursor-not-allowed disabled:opacity-30 sm:-right-5"
+            aria-label="Siguiente promoción"
+          >
+            <ChevronRight aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
+          </button>
+        </div>
+      )
+    }
+
+    <!-- Estado vacío: sin campañas vigentes, se ofrece avisar al lanzar una nueva -->
+    <div
+      data-promo-empty
+      class:list={[
+        "mx-auto mt-12 max-w-2xl rounded-[2rem] border border-brand-navy/10 bg-white p-8 text-center shadow-card sm:p-12",
+        hayPromos && "hidden",
+      ]}
+    >
+      <PawPrint
+        aria-hidden="true"
+        class="mx-auto h-10 w-10 text-brand-orange"
+        stroke-width={1.8}
+      />
+      <h3 class="mt-4 text-2xl font-bold tracking-[-0.02em] text-brand-navy">
+        Por ahora no hay promociones activas
+      </h3>
+      <p class="mx-auto mt-3 max-w-md text-base leading-7 text-brand-ink/75">
+        Estamos preparando las próximas campañas. Déjanos tu correo o WhatsApp
+        y te avisamos apenas lancemos una nueva promoción.
+      </p>
+
+      <form
+        id="promo-alert-form"
+        action={FORMSPREE_NEWSLETTER_URL}
+        method="POST"
+        class="mx-auto mt-7 max-w-md text-left"
       >
-        <ChevronLeft aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
-      </button>
-      <button
-        type="button"
-        class="embla__next absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-brand-navy shadow-lg transition hover:bg-brand-orange hover:text-white disabled:cursor-not-allowed disabled:opacity-30 sm:-right-5"
-        aria-label="Siguiente promoción"
-      >
-        <ChevronRight aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
-      </button>
+        <!-- Permite saber, en el panel de Formspree, cuánta gente llegó desde aquí -->
+        <input type="hidden" name="origen" value="Aviso de promociones (web)" />
+        <input
+          type="hidden"
+          name="metodo_de_contacto"
+          value="Correo Electrónico"
+          data-promo-alert-metodo
+        />
+        <div data-promo-alert-fields>
+          <div
+            class="mb-3 flex w-fit rounded-full border border-brand-navy/15 bg-brand-mist p-1"
+          >
+            <button
+              type="button"
+              data-promo-alert-method="email"
+              class="promo-alert-method flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold transition-all duration-300"
+            >
+              Correo
+            </button>
+            <button
+              type="button"
+              data-promo-alert-method="phone"
+              class="promo-alert-method flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold transition-all duration-300"
+            >
+              WhatsApp
+            </button>
+          </div>
+
+          <div class="flex flex-col gap-2.5 sm:flex-row">
+            <label class="sr-only" for="promo-alert-input">
+              Tu correo o número de WhatsApp
+            </label>
+            <input
+              id="promo-alert-input"
+              data-promo-alert-input
+              name="contacto_del_usuario"
+              type="email"
+              placeholder="tu@correo.com"
+              class="w-full flex-1 rounded-xl border border-brand-navy/15 bg-white px-5 py-3.5 text-sm text-brand-ink placeholder-brand-ink/40 transition focus:border-brand-orange focus:outline-none focus:ring-2 focus:ring-brand-orange/50"
+              required
+            />
+            <button
+              type="submit"
+              class="whitespace-nowrap rounded-xl bg-brand-orange px-6 py-3.5 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:bg-orange-600 focus-visible:outline-brand-orange"
+            >
+              Avisarme
+            </button>
+          </div>
+
+          <p
+            data-promo-alert-error
+            class="mt-3 hidden text-sm text-red-600"
+            role="alert"
+          ></p>
+        </div>
+
+        <div data-promo-alert-success class="hidden">
+          <p
+            class="flex items-center justify-center gap-3 rounded-xl border border-brand-green/40 bg-brand-green/10 px-5 py-4 text-sm text-brand-green"
+          >
+            <span
+              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-green text-white"
+              aria-hidden="true"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-4 w-4"
+                aria-hidden="true"
+              ><path d="M20 6 9 17l-5-5"></path></svg>
+            </span>
+            <span>
+              <strong class="block font-semibold">¡Listo, te avisaremos! 🐾</strong>
+              Apenas lancemos una promoción te escribimos.
+            </span>
+          </p>
+        </div>
+      </form>
     </div>
   </div>
 </section>
@@ -153,15 +281,33 @@ const visiblePromotions = promotions.filter(
   const initializePromotions = () => {
     const promotionSection = document.getElementById("promotions");
     if (!promotionSection || promotionSection.dataset.initialized === "true") return;
+    promotionSection.dataset.initialized = "true";
 
+    // --- Vigencia en el navegador: cubre despliegues anteriores al vencimiento ---
+    const hoyISO = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Lima" }).format(new Date());
+    const slides = Array.from(promotionSection.querySelectorAll("[data-promo-expires-iso]"));
+    const expiradas = slides.filter(
+      (slide) => slide.dataset.promoExpiresIso && slide.dataset.promoExpiresIso < hoyISO
+    );
+    expiradas.forEach((slide) => slide.remove());
+
+    const emptyState = promotionSection.querySelector("[data-promo-empty]");
+    const carouselWrap = promotionSection.querySelector("[data-promo-carousel]");
+    const quedanSlides = slides.length - expiradas.length;
+    if (slides.length > 0 && quedanSlides === 0) {
+      carouselWrap?.classList.add("hidden");
+      emptyState?.classList.remove("hidden");
+    }
+
+    // --- Animación de entrada ---
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.remove("opacity-0", "translate-y-8");
 
-            const slides = entry.target.querySelectorAll(".promo-slide-content");
-            slides.forEach((slide, index) => {
+            const contenidos = entry.target.querySelectorAll(".promo-slide-content");
+            contenidos.forEach((slide, index) => {
               window.setTimeout(
                 () => slide.classList.remove("opacity-0", "translate-y-4"),
                 120 * index
@@ -177,6 +323,9 @@ const visiblePromotions = promotions.filter(
 
     observer.observe(promotionSection);
 
+    // --- Carrusel (solo si quedan promociones visibles) ---
+    if (quedanSlides === 0) return;
+
     const emblaNode = promotionSection.querySelector(".embla");
     const viewportNode = emblaNode?.querySelector(".embla__viewport");
     const prevBtn = emblaNode?.querySelector(".embla__prev");
@@ -184,11 +333,12 @@ const visiblePromotions = promotions.filter(
 
     if (!viewportNode || !prevBtn || !nextBtn) return;
 
-    promotionSection.dataset.initialized = "true";
     const emblaApi = EmblaCarousel(viewportNode, {
       loop: false,
       align: "start",
     });
+    // Recalcular medidas si el navegador descartó slides vencidas
+    if (expiradas.length > 0) emblaApi.reInit();
 
     const updateButtons = () => {
       prevBtn.disabled = !emblaApi.canScrollPrev();
@@ -200,6 +350,75 @@ const visiblePromotions = promotions.filter(
     emblaApi.on("select", updateButtons);
     emblaApi.on("init", updateButtons);
   };
+
+  // --- Mini formulario de aviso de promociones (correo / WhatsApp) ---
+  const initPromoAlertForm = () => {
+    const form = document.getElementById("promo-alert-form");
+    if (!form) return;
+
+    const input = form.querySelector("[data-promo-alert-input]");
+    const metodoInput = form.querySelector("[data-promo-alert-metodo]");
+    const fields = form.querySelector("[data-promo-alert-fields]");
+    const errorEl = form.querySelector("[data-promo-alert-error]");
+    const successEl = form.querySelector("[data-promo-alert-success]");
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const methodBtns = form.querySelectorAll("[data-promo-alert-method]");
+
+    const ACTIVE = ["bg-brand-orange", "text-white"];
+    const INACTIVE = ["text-brand-ink/60"];
+
+    const setMethod = (method) => {
+      const esEmail = method === "email";
+      if (!input) return;
+      input.type = esEmail ? "email" : "tel";
+      input.placeholder = esEmail ? "tu@correo.com" : "+51 999 999 999";
+      if (metodoInput) metodoInput.value = esEmail ? "Correo Electrónico" : "WhatsApp";
+      methodBtns.forEach((btn) => {
+        const activo = btn.dataset.promoAlertMethod === method;
+        ACTIVE.forEach((clase) => btn.classList.toggle(clase, activo));
+        INACTIVE.forEach((clase) => btn.classList.toggle(clase, !activo));
+      });
+      input.value = "";
+    };
+
+    methodBtns.forEach((btn) => {
+      btn.addEventListener("click", () => setMethod(btn.dataset.promoAlertMethod));
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!submitBtn) return;
+
+      const textoOriginal = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enviando...";
+      errorEl?.classList.add("hidden");
+
+      try {
+        const response = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        });
+        if (!response.ok) throw new Error(`Formspree respondió ${response.status}`);
+
+        fields?.classList.add("hidden");
+        successEl?.classList.remove("hidden");
+      } catch {
+        if (errorEl) {
+          errorEl.textContent =
+            "No pudimos registrar tu contacto. Inténtalo de nuevo en unos minutos o escríbenos por WhatsApp 🐾";
+          errorEl.classList.remove("hidden");
+        }
+        submitBtn.disabled = false;
+        submitBtn.textContent = textoOriginal;
+      }
+    });
+
+    setMethod("email");
+  };
+
+  initPromoAlertForm();
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initializePromotions, { once: true });

@@ -58,6 +58,14 @@ npm run dev
 - 💬 **Chat en vivo:** Implementar un chat para soporte y consultas rápidas.
 - 🖼️ **Galería de casos de éxito/pacientes:** Mostrar fotos de mascotas y testimonios.
 
+## ✅ Pendientes / TODO
+
+- [ ] **🔴 Pendiente (no olvidar):** cuando la página esté online y al público, activar **Upstash Redis** en Vercel (Storage → Create Database → Upstash → conectar al proyecto → redeploy). Ver detalle en la sección del chatbot arriba. Sin esto, el límite del chat funciona "en memoria" (menos fiable contra abuso). *Aplazado voluntariamente mientras la página no es pública.*
+- [ ] Fase 3: actualizar la política de privacidad (Formspree + proveedor de IA + uso del contacto para promos por WhatsApp) y aviso en el chat.
+- [ ] Fase 4: actualizar Astro/dependencias (incluye avisos de `npm audit`) con pruebas del chat y de la página.
+- [ ] Mejoras UX aplazadas: alternativa visible si el mapa falla, contraste de colores de marca, navegación desde la página de privacidad, conflicto entre los botones flotantes, contenido visible sin JavaScript.
+- [ ] Verificar con la clínica horarios, teléfonos, precios y datos de contacto vigentes.
+
 ## 📣 Marketing y difusión
 
 - **QR de campañas:** `public/qr/ariels-clinic-promos.png` (para redes/WhatsApp) y `.svg` (para imprimir). Apunta a la página con las promociones vigentes (`/#promotions`), así que el QR impreso nunca caduca: la página siempre muestra lo actual. Si cambia el dominio, regenera con `npm run qr:generate`.
@@ -75,14 +83,15 @@ npm run dev
 
 ## 🤖 Asistente virtual (chatbot)
 
-Asistente con Gemini API (free tier: ~1.500 consultas/día, suficiente para el tráfico esperado). Respuestas limitadas a información de la clínica; ante dudas médicas deriva a WhatsApp o emergencias 24/7.
+Asistente con OpenRouter (modelo DeepSeek Flash prepagado). Respuestas limitadas a información de la clínica; ante dudas médicas deriva a WhatsApp o emergencias 24/7.
 
 - **Frontend:** `src/components/Chatbot.astro` (botón flotante junto al de WhatsApp).
-- **Backend:** `api/chat.js` (serverless de Vercel) — la API key NUNCA está en el frontend.- **Conocimiento:** `api/knowledge.json` — se regenera con `npm run knowledge:generate` desde los datos de la página (servicios, sedes, promociones, FAQs). Al actualizar promociones, regenéralo.
-- **Configuración en Vercel:** crear la API key en [aistudio.google.com](https://aistudio.google.com) y agregar la variable de entorno `GEMINI_API_KEY` (modelo gratuito `gemini-3.8-flash` por defecto; verificable en el panel "Rate limits" de AI Studio). Sin key, el endpoint responde 503 y el chat siempre sugiere WhatsApp. **No enlaces facturación al proyecto de Gemini y no habrá cargos posibles.**
-- **Protecciones incluidas:** respuestas cortas (max 3 frases, `maxOutputTokens` 320) para ahorrar tokens, 12 mensajes/hora por IP, historial corto por petición. Cada caso (demanda, cuota, key inválida) tiene su propio mensaje en el frontend.
-- **Proveedores en cadena** (`api/chat.js`): con `OPENROUTER_API_KEY` configurada → principal DeepSeek V4 Flash pagado en OpenRouter (fluido, ~$0.15/mes en uso normal; fallback interno a la variante `:free` de $0), y Gemini free queda como red de seguridad final. Sin key de OpenRouter → cadena original Gemini-first. En cualquier caso, si nada responde, el chat dirige a WhatsApp.
-- **Configuración:** `OPENROUTER_API_KEY` y `GEMINI_API_KEY` en `.env` (local / Vercel). Regenerar conocimiento con `npm run knowledge:generate` al cambiar servicios/promociones/FAQs.
+- **Backend:** `api/chat.js` (serverless de Vercel) — la API key NUNCA está en el frontend. Cadena: OpenRouter pagado (2 intentos) → variante `:free` de OpenRouter → WhatsApp. **Gemini fue retirado** (sus cuotas free generaban más errores que respaldo).
+- **Conocimiento:** `api/knowledge.json` — se regenera con `npm run knowledge:generate` desde los datos de la página (servicios, sedes, promociones, FAQs). Las promociones vencidas se filtran automáticamente **en la web y en cada consulta del chat** (campo `dateISO`), aunque la copia esté desactualizada.
+- **Configuración en Vercel:** `OPENROUTER_API_KEY` en las variables de entorno. Sin key, el endpoint responde 503 y el chat siempre sugiere WhatsApp. **La key es prepagada (sin recarga automática): techo de gasto duro.**
+- **Límite de solicitudes (Upstash):** crear en Vercel → tu proyecto → **Storage** → *Create Database* → **Upstash Redis** y conectarlo al proyecto; Vercel agrega solo `UPSTASH_REDIS_REST_URL` y `UPSTASH_REDIS_REST_TOKEN`. Con esto el límite es real y distribuido: ~10 mensajes/hora por IP (`MAX_REQUESTS_PER_HOUR`) y tope global diario de 100 consultas (`CHAT_DAILY_LIMIT`) para proteger el presupuesto. **Sin Upstash el límite funciona "en memoria"** (menos fiable contra bots: cada instancia serverless cuenta por separado).
+- **Otras protecciones:** presupuesto total de respuesta de 18 s (el navegador cancela a los 25 s), timeout por llamada de 8 s, `sede` validada contra lista cerrada (texto libre del usuario nunca entra al prompt), historial validado (payloads malformados no tumban el endpoint), respuestas cortas (`maxOutputTokens` 700), 12→10 mensajes/hora por IP, historial corto por petición. Cada caso (demanda, cuota, key inválida) tiene su propio mensaje en el frontend.
+- **Configuración opcional:** `OPENROUTER_MODEL_PAID` y `OPENROUTER_MODEL_FREE` para cambiar de modelo sin tocar código. Al cambiar servicios/promociones/FAQs, regenerar conocimiento con `npm run knowledge:generate`.
 
 ## Contacto
 

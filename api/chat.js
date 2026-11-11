@@ -1,30 +1,61 @@
 // Vercel Serverless Function: asistente de Ariel's Clinic.
 // Cadena de proveedores (claves SOLO por variables de entorno, nunca en el frontend):
-//   Con OPENROUTER_API_KEY: OpenRouter DeepSeek V4 Flash (principal) -> Gemini free (respaldo) -> WhatsApp
-//   Sin OPENROUTER_API_KEY: Gemini free (3 reintentos + alias) -> OpenRouter (si existiera) -> WhatsApp
-// Respuestas cortas (<=3 frases) y maxOutputTokens moderado para ahorrar tokens y cuanto antes responder.
+//   OpenRouter pagado (2 intentos rápidos) -> OpenRouter variante :free -> WhatsApp
+//   (Gemini fue retirado de la cadena: quedaba como respaldo pero sus cuotas free
+//    generaban más errores que respaldo. Reincorporarlo = añadir su cliente aquí.)
+// Límite de solicitudes:
+//   - Recomendado: Upstash Redis (distribuido entre instancias). Se activa solo
+//     configurando UPSTASH_REDIS_REST_URL y UPSTASH_REDIS_REST_TOKEN (la
+//     integración de Vercel Marketplace las agrega automáticamente).
+//   - Fallback: contador en memoria por instancia (solo disuade abuso básico).
+// Respuestas cortas (<=3 frases) y presupuesto total de respuesta acotado para
+// no dejar al usuario esperando más que el timeout del navegador (~25 s).
 
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-const GEMINI_MODEL = process.env.GEMINI_MODEL ?? "gemini-3.8-flash";
-const GEMINI_FALLBACK_MODEL = process.env.GEMINI_FALLBACK_MODEL ?? "gemini-flash-latest";
 const OR_MODEL_PAID = process.env.OPENROUTER_MODEL_PAID ?? "deepseek/deepseek-v4-flash-0731";
 const OR_MODEL_FREE = process.env.OPENROUTER_MODEL_FREE ?? "deepseek/deepseek-v4-flash-0731:free";
 const MAX_TURNS = 6; // turnos de historial enviados por request (ahorra cuota)
 const MAX_QUESTION_CHARS = 500;
-const MAX_REQUESTS_PER_HOUR = 12;
+const MAX_REQUESTS_PER_HOUR = Number(process.env.MAX_REQUESTS_PER_HOUR) || 10; // por persona/IP
+const GLOBAL_DAILY_LIMIT = Number(process.env.CHAT_DAILY_LIMIT) || 100; // tope global diario (protege el presupuesto)
 // Respuestas cortas por reglas del prompt; el cap es cinturón antitruncado
 // (los modelos con razonamiento interno podrían gastar parte del output)
 const MAX_OUTPUT_TOKENS = Number(process.env.MAX_OUTPUT_TOKENS) || 700;
 // Reintento único con techo mayor si el proveedor cortó por longitud
 const RETRY_OUTPUT_TOKENS = MAX_OUTPUT_TOKENS * 2;
-const REQUEST_TIMEOUT_MS = 20000; // timeout por llamada a proveedor
+const REQUEST_TIMEOUT_MS = Number(process.env.REQUEST_TIMEOUT_MS) || 8000; // por llamada a proveedor
+// Presupuesto total de la respuesta: ninguna cadena de reintentos lo supera
+const RESPONSE_BUDGET_MS = Number(process.env.RESPONSE_BUDGET_MS) || 18000;
 
-// Rate limit simple en memoria (por instancia serverless; suficiente para disuadir abuso)
+// ---- Límite de solicitudes ----
+
+// Upstash REST (sin dependencias): https://docs.upstash.com/redis/features/restapi
+const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
+const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+const upstashReady = Boolean(upstashUrl && upstashToken);
+
+async function upstashPipeline(commands) {
+  const response = await fetch(`${upstashUrl}/pipeline`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${upstashToken}` },
+    body: JSON.stringify(commands),
+    signal: AbortSignal.timeout(3000),
+  });
+  if (!response.ok) throw new Error(`Upstash respondió ${response.status}`);
+  const data = await response.json().catch(() => null);
+  if (!Array.isArray(data)) throw new Error("Upstash: respuesta inesperada");
+  return data.map((item) => (item && item.result !== undefined ? item.result : null));
+}
+
+const hourBucket = () => Math.floor(Date.now() / 3600000);
+const dayBucket = () => Math.floor(Date.now() / 86400000);
+
+// Límite en memoria (por instancia serverless; solo disuade abuso básico)
 const rateBucket = new Map();
 
-function isRateLimited(ip) {
+function isRateLimitedInMemory(ip) {
   const now = Date.now();
   const HOUR = 60 * 60 * 1000;
   const list = (rateBucket.get(ip) ?? []).filter((t) => now - t < HOUR);
@@ -35,6 +66,30 @@ function isRateLimited(ip) {
   list.push(now);
   rateBucket.set(ip, list);
   return false;
+}
+
+// Devuelve null si puede continuar, o el motivo ("limite_mensajes" | "limite_global").
+// Claves por ventana de tiempo (hora/día UTC): expiran solas, sin jobs de limpieza.
+async function checkRateLimit(ip) {
+  if (upstashReady) {
+    try {
+      const hourKey = `cata:ip:${ip}:${hourBucket()}`;
+      const dayKey = `cata:total:${dayBucket()}`;
+      const [ipCount, , totalCount] = await upstashPipeline([
+        ["incr", hourKey],
+        ["expire", hourKey, "7200"],
+        ["incr", dayKey],
+        ["expire", dayKey, "172800"],
+      ]);
+      if (Number(totalCount) > GLOBAL_DAILY_LIMIT) return "limite_global";
+      if (Number(ipCount) > MAX_REQUESTS_PER_HOUR) return "limite_mensajes";
+      return null;
+    } catch (err) {
+      // Upstash caído/lento: mejor degradar al límite en memoria que tumbar el chat
+      console.error("Rate limit Upstash no disponible, usando memoria:", err?.message);
+    }
+  }
+  return isRateLimitedInMemory(ip) ? "limite_mensajes" : null;
 }
 
 const SAFETY_RULES = `REGLAS ESTRICTAS (incumplir cualquiera es un error grave):
@@ -63,99 +118,18 @@ async function loadKnowledge() {
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// AbortController nuevo por llamada (serverless: cada request tiene su propio estado)
-function timeoutSignal() {
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-  return { signal: controller.signal, clear: () => clearTimeout(id) };
-}
-
 const isTruncated = (finishReason) =>
   finishReason === "length" || finishReason === "MAX_TOKENS";
 
-// Filtra el conocimiento por la sede elegida (promos por sede cuando exista el campo,
-// sedes siempre con la elegida al frente para dar prioridad)
-function filterKnowledgeBySede(knowledge, sede) {
-  const sedeKey = sede.toLowerCase();
-  const filtered = {
-    ...knowledge,
-    sedes: (knowledge.sedes ?? []).filter(
-      (s) =>
-        s.nombre.toLowerCase().includes(sedeKey) ||
-        s.distrito.toLowerCase().includes(sedeKey)
-    ),
-    promociones: (knowledge.promociones ?? []).filter(
-      (p) => !p.sedes || p.sedes === "todas" || p.sedes.toLowerCase().includes(sedeKey)
-    ),
-  };
-  return JSON.stringify(filtered);
-}
-
-async function callGemini(apiKey, model, systemInstruction, prompt, maxTokens = MAX_OUTPUT_TOKENS) {
-  const { signal, clear } = timeoutSignal();
-  try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // Obligatorio: las keys de Google (AIza y AQ.) se autentican por header
-          "x-goog-api-key": apiKey,
-        },
-        signal,
-        body: JSON.stringify({
-          systemInstruction: { parts: [{ text: systemInstruction }] },
-          contents: [{ role: "user", parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: maxTokens,
-          },
-        }),
-      }
-    );
-
-    const data = await response.json().catch(() => ({}));
-
-    if (response.status === 429) {
-      return { error: "cuota_agotada" };
-    }
-    if (response.status === 404) {
-      console.error("Modelo Gemini no disponible:", model, "(actualiza GEMINI_MODEL)");
-      return { error: "modelo_no_disponible" };
-    }
-    if (!response.ok) {
-      const errMessage = data?.error?.message ?? "";
-      if (response.status === 400 && /API key not valid|API_KEY_INVALID/i.test(errMessage)) {
-        console.error("GEMINI_API_KEY invalida - revisar configuracion");
-        return { error: "key_invalida" };
-      }
-      console.error(`Gemini error ${response.status} (${model})`, JSON.stringify(data?.error ?? data).slice(0, 300));
-      return { error: textoError(response.status) };
-    }
-
-    const text = data?.candidates?.[0]?.content?.parts?.map((p) => p.text ?? "").join("").trim() ?? "";
-    const finishReason = data?.candidates?.[0]?.finishReason ?? null;
-    return { reply: text || null, finishReason };
-  } catch (err) {
-    if (err?.name === "AbortError") {
-      console.error("Gemini timeout", model, REQUEST_TIMEOUT_MS, "ms");
-      return { error: "proveedor_lento" };
-    }
-    throw err;
-  } finally {
-    clear();
-  }
-}
-
 function textoError(status) {
+  if (status === 429) return "cuota_agotada";
   if (status === 503) return "alta_demanda";
-  if (status >= 500) return "some_error";
   return "some_error";
 }
 
-async function callOpenRouter(apiKey, model, systemInstruction, prompt, maxTokens = MAX_OUTPUT_TOKENS) {
-  const { signal, clear } = timeoutSignal();
+async function callOpenRouter(apiKey, model, systemInstruction, prompt, maxTokens, timeoutMs) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
@@ -163,7 +137,7 @@ async function callOpenRouter(apiKey, model, systemInstruction, prompt, maxToken
         "Content-Type": "application/json",
         "Authorization": `Bearer ${apiKey}`,
       },
-      signal,
+      signal: controller.signal,
       body: JSON.stringify({
         model,
         messages: [
@@ -177,6 +151,10 @@ async function callOpenRouter(apiKey, model, systemInstruction, prompt, maxToken
 
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        console.error("OPENROUTER_API_KEY invalida o sin permisos - revisar configuracion");
+        return { error: "key_invalida" };
+      }
       console.error(`OpenRouter error (${model})`, response.status, JSON.stringify(data?.error ?? data).slice(0, 300));
       return { error: textoError(response.status) };
     }
@@ -184,73 +162,40 @@ async function callOpenRouter(apiKey, model, systemInstruction, prompt, maxToken
     const finishReason = data?.choices?.[0]?.finish_reason ?? null;
     return { reply: text || null, finishReason };
   } catch (err) {
+    // Timeout o fallo de red: errores TRATABLES (no se relanzan) para que la
+    // cadena pueda continuar con el siguiente modelo/nivel
     if (err?.name === "AbortError") {
-      console.error("OpenRouter timeout", model, REQUEST_TIMEOUT_MS, "ms");
-      return { error: "proveedor_lento" };
+      console.error("OpenRouter timeout", model, `${timeoutMs}ms`);
+    } else {
+      console.error("OpenRouter fallo de red", model, err?.message);
     }
-    throw err;
+    return { error: "proveedor_lento" };
   } finally {
-    clear();
+    clearTimeout(timeoutId);
   }
 }
 
-// Reintento unico con techo mayor si el modelo corto por longitud.
-// Si el reintento tambien corta, entregamos la mejor respuesta disponible (best-effort).
-async function retryTruncated(call, firstResult) {
-  const retried = await call(RETRY_OUTPUT_TOKENS);
-  if (retried.reply) return { reply: retried.reply };
-  return { reply: firstResult.reply };
-}
-
-// Encuentra una respuesta recorriendo los niveles configurados.
-// Devuelve {reply} o {error} con el error mas relevante para el frontend.
-async function askAI(apiKey, openRouterKey, systemInstruction, prompt) {
-  let lastError = "alta_demanda";
-
-  if (openRouterKey) {
-    // Principal: DeepSeek V4 Flash pagado (estable, sin limite diario) - 2 intentos rapidos
-    const paidCall = (maxTokens) => callOpenRouter(openRouterKey, OR_MODEL_PAID, systemInstruction, prompt, maxTokens);
-    for (const [attempt, delay] of [[0, 0], [1, 500]]) {
-      if (delay) await wait(delay);
-      const result = await paidCall(MAX_OUTPUT_TOKENS);
-      if (result.reply && !isTruncated(result.finishReason)) return { reply: result.reply };
-      if (result.reply) return retryTruncated(paidCall, result);
-      console.error(`OpenRouter intento ${attempt + 1}/2 con ${OR_MODEL_PAID} sin respuesta (${result.error ?? "sin respuesta"})`);
-      lastError = result.error ?? lastError;
-    }
-
-    // Nivel 2: variante :free de OpenRouter ($0)
-    const freeCall = (maxTokens) => callOpenRouter(openRouterKey, OR_MODEL_FREE, systemInstruction, prompt, maxTokens);
-    const freeResult = await freeCall(MAX_OUTPUT_TOKENS);
-    if (freeResult.reply && !isTruncated(freeResult.finishReason)) return { reply: freeResult.reply };
-    if (freeResult.reply) return retryTruncated(freeCall, freeResult);
-    lastError = freeResult.error ?? lastError;
-
-    // Nivel 3: Gemini free como red de seguridad final (si la key esta configurada)
-    if (apiKey) {
-      const geminiResult = await geminiWithShortRetries(apiKey, systemInstruction, prompt);
-      if (geminiResult.reply) return geminiResult;
-      lastError = geminiResult.error ?? lastError;
-    }
-    return { error: lastError };
-  }
-
-  // Sin OpenRouter: cadena original Gemini-first
-  return geminiWithShortRetries(apiKey, systemInstruction, prompt);
-}
-
-async function geminiWithShortRetries(apiKey, systemInstruction, prompt) {
-  let lastError = "alta_demanda";
-  for (const model of [GEMINI_MODEL, GEMINI_FALLBACK_MODEL]) {
-    const call = (maxTokens) => callGemini(apiKey, model, systemInstruction, prompt, maxTokens);
-    const result = await call(MAX_OUTPUT_TOKENS);
-    if (result.reply && !isTruncated(result.finishReason)) return result;
-    if (result.reply) return retryTruncated(call, result);
-    lastError = result.error ?? lastError;
-    if (lastError === "cuota_agotada" || lastError === "key_invalida") break;
-    await wait(900);
-  }
-  return { error: lastError };
+// Filtra el conocimiento por la sede elegida (promos por sede cuando exista el campo,
+// sedes siempre con la elegida al frente para dar prioridad)
+function filterKnowledgeBySede(knowledge, sede) {
+  const sedeKey = sede.toLowerCase();
+  const filtered = {
+    ...knowledge,
+    sedes: (knowledge.sedes ?? []).filter(
+      (s) =>
+        s.nombre.toLowerCase().includes(sedeKey) ||
+        s.distrito.toLowerCase().includes(sedeKey)
+    ),
+    promociones: (knowledge.promociones ?? []).filter(
+      (p) => {
+        if (!p.sedes || p.sedes === "todas") return true;
+        // `sedes` puede llegar como string o lista; normalizar antes de comparar
+        const sedeTexto = Array.isArray(p.sedes) ? p.sedes.join(" ") : String(p.sedes);
+        return sedeTexto.toLowerCase().includes(sedeKey);
+      }
+    ),
+  };
+  return JSON.stringify(filtered);
 }
 
 export default async function handler(req, res) {
@@ -258,15 +203,21 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Método no permitido" });
   }
 
-  const geminiKey = process.env.GEMINI_API_KEY;
   const openRouterKey = process.env.OPENROUTER_API_KEY;
-  if (!geminiKey && !openRouterKey) {
+  if (!openRouterKey) {
     return res.status(503).json({ error: "chat_no_disponible", fallback: "whatsapp" });
   }
 
   const ip = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() ?? "anon";
-  if (isRateLimited(ip)) {
-    return res.status(429).json({ error: "limite_mensajes", fallback: "whatsapp" });
+  let limitReason = null;
+  try {
+    limitReason = await checkRateLimit(ip);
+  } catch (err) {
+    // Fallar abierto: el chat funciona aunque el límite no pueda evaluarse
+    console.error("Rate limit error:", err?.message);
+  }
+  if (limitReason) {
+    return res.status(429).json({ error: limitReason, fallback: "whatsapp" });
   }
 
   let body;
@@ -275,10 +226,34 @@ export default async function handler(req, res) {
   } catch {
     return res.status(400).json({ error: "cuerpo_invalido" });
   }
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return res.status(400).json({ error: "cuerpo_invalido" });
+  }
 
-  const history = Array.isArray(body?.history) ? body.history.slice(-MAX_TURNS) : [];
-  const question = String(body?.question ?? "").trim().slice(0, MAX_QUESTION_CHARS);
-  const sede = String(body?.sede ?? "").trim().slice(0, 60);
+  const question =
+    typeof body.question === "string"
+      ? body.question.trim().slice(0, MAX_QUESTION_CHARS)
+      : "";
+  // Historial: solo turnos con la forma esperada; payloads malformados no
+  // tumban el handler (antes, un null en el historial lanzaba excepción)
+  const history = Array.isArray(body.history)
+    ? body.history
+        .filter(
+          (t) =>
+            t &&
+            typeof t === "object" &&
+            !Array.isArray(t) &&
+            (t.role === "user" || t.role === "bot") &&
+            typeof t.text === "string"
+        )
+        .slice(-MAX_TURNS)
+    : [];
+  // La pregunta actual va aparte; si el cliente también la mandó en el
+  // historial se elimina el duplicado (antes viajaba dos veces al modelo)
+  const lastTurn = history[history.length - 1];
+  if (lastTurn && lastTurn.role === "user" && lastTurn.text === question) {
+    history.pop();
+  }
   if (!question) {
     return res.status(400).json({ error: "falta_pregunta" });
   }
@@ -288,6 +263,32 @@ export default async function handler(req, res) {
     knowledge = await loadKnowledge();
   } catch {
     return res.status(500).json({ error: "error_interno" });
+  }
+
+  // Vigencia real al momento de la consulta: la copia knowledge.json puede
+  // quedar desactualizada si no se regeneró tras vencer una campaña
+  const hoyISO = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Lima",
+  }).format(new Date());
+  knowledge = {
+    ...knowledge,
+    promociones: (knowledge.promociones ?? []).filter(
+      (p) => !p.dateISO || p.dateISO >= hoyISO
+    ),
+  };
+
+  // Sede: lista cerrada tomada del propio conocimiento. El texto libre del
+  // cliente NUNCA entra en la instrucción de sistema (evita manipular el prompt)
+  let sede = "";
+  const sedeRaw = typeof body.sede === "string" ? body.sede.trim().slice(0, 60) : "";
+  if (sedeRaw && Array.isArray(knowledge.sedes)) {
+    const match = knowledge.sedes.find(
+      (s) =>
+        s &&
+        typeof s.nombre === "string" &&
+        s.nombre.toLowerCase() === sedeRaw.toLowerCase()
+    );
+    if (match) sede = match.nombre;
   }
 
   const systemInstruction = `Eres Cata, la asistente virtual oficial de ${knowledge.clinica.nombre}, hospital veterinario de ${knowledge.clinica.ciudad}, fundado en ${knowledge.clinica.desde}. Tu misión: informar sobre la clínica, ayudar con dudas generales de mascotas y convertir interesados en citas por WhatsApp.
@@ -301,29 +302,70 @@ ${sede ? filterKnowledgeBySede(knowledge, sede) : JSON.stringify(knowledge)}`;
 
   // Historial se pasa como contexto en el prompt (compatible con todos los modelos)
   const conversation = history
-    .filter((t) => t.role === "user" || t.role === "bot")
-    .map((t) => `${t.role === "user" ? "Usuario" : "Asistente"}: ${String(t.text).slice(0, 500)}`)
+    .map((t) => `${t.role === "user" ? "Usuario" : "Asistente"}: ${t.text.slice(0, 500)}`)
     .join("\n");
 
   const prompt = `${conversation ? `CONVERSACIÓN PREVIA:\n${conversation}\n\n` : ""}PREGUNTA NUEVA DEL USUARIO: ${question}`;
 
-  try {
-    const { reply, error } = await askAI(geminiKey, openRouterKey, systemInstruction, prompt);
+  // Presupuesto total de respuesta: nunca excede lo que espera el navegador
+  const deadline = Date.now() + RESPONSE_BUDGET_MS;
+  let reply = null;
+  let lastError = "alta_demanda";
 
-    if (error === "cuota_agotada") {
-      return res.status(429).json({ error: "cuota_agotada", fallback: "whatsapp" });
-    }
-    if (error === "key_invalida") {
-      return res.status(500).json({ error: "key_invalida", fallback: "whatsapp" });
-    }
-    if (!reply) {
-      console.error("Chat handler: sin respuesta,", error);
-      return res.status(503).json({ error: "alta_demanda", fallback: "whatsapp" });
-    }
+  for (const [model, attempts] of [
+    [OR_MODEL_PAID, 2],
+    [OR_MODEL_FREE, 1],
+  ]) {
+    for (let attempt = 0; attempt < attempts; attempt++) {
+      const remainingMs = deadline - Date.now();
+      if (remainingMs < 2000) break;
 
-    return res.status(200).json({ reply });
-  } catch (err) {
-    console.error("Chat handler:", err.message);
-    return res.status(502).json({ error: "error_ia", fallback: "whatsapp" });
+      const result = await callOpenRouter(
+        openRouterKey,
+        model,
+        systemInstruction,
+        prompt,
+        MAX_OUTPUT_TOKENS,
+        Math.min(REQUEST_TIMEOUT_MS, remainingMs)
+      );
+
+      if (result.reply && !isTruncated(result.finishReason)) {
+        reply = result.reply;
+        break;
+      }
+      if (result.reply) {
+        // Cortado por longitud: reintento único con techo mayor (best-effort;
+        // si también corta, se entrega la mejor respuesta disponible)
+        const remainingRetry = deadline - Date.now();
+        if (remainingRetry >= 2000) {
+          const retried = await callOpenRouter(
+            openRouterKey,
+            model,
+            systemInstruction,
+            prompt,
+            RETRY_OUTPUT_TOKENS,
+            Math.min(REQUEST_TIMEOUT_MS, remainingRetry)
+          );
+          reply = retried.reply ?? result.reply;
+        } else {
+          reply = result.reply;
+        }
+        break;
+      }
+
+      lastError = result.error ?? lastError;
+      if (lastError === "key_invalida") break; // la misma key no se arregla con otro modelo
+      if (attempt === 0 && attempts > 1) await wait(500);
+    }
+    if (reply || lastError === "key_invalida") break;
+    if (deadline - Date.now() < 2000) break;
   }
+
+  if (reply) {
+    return res.status(200).json({ reply });
+  }
+
+  console.error("Chat handler: sin respuesta,", lastError);
+  const status = lastError === "cuota_agotada" ? 429 : 503;
+  return res.status(status).json({ error: lastError, fallback: "whatsapp" });
 }

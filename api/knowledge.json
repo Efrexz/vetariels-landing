@@ -118,63 +118,7 @@
       "emergencias247": false
     }
   ],
-  "promociones": [
-    {
-      "titulo": "Bienestar Senior",
-      "detalle": "Check-up geriátrico a partir de los 7 años",
-      "incluye": [
-        "Hemograma",
-        "Perfil hepático y renal",
-        "Radiografía de tórax o electrocardiograma",
-        "Medición de glucosa y presión arterial",
-        "TFAS y AFAST",
-        "Urianálisis"
-      ],
-      "condiciones": [
-        "Dirigido a mascotas a partir de los 7 años.",
-        "El paquete es válido pasando una consulta.",
-        "La consulta médica no está incluida en el paquete."
-      ],
-      "precios": "Precio Promocional: Antes S/640.00, Ahora S/399.00",
-      "vigenteHasta": "31 de Octubre, 2026",
-      "sedes": "todas"
-    },
-    {
-      "titulo": "Bienestar Integral",
-      "detalle": "Perfil general de salud para perros y gatos",
-      "incluye": [
-        "Hemograma",
-        "Bioquímica sanguínea básica",
-        "Urianálisis",
-        "TFAS y AFAST"
-      ],
-      "condiciones": [
-        "El paquete es válido pasando una consulta.",
-        "La consulta médica no está incluida en el paquete."
-      ],
-      "precios": "Precio Promocional: Antes S/420.00, Ahora S/220.00",
-      "vigenteHasta": "31 de Octubre, 2026",
-      "sedes": "todas"
-    },
-    {
-      "titulo": "Primeros Pasitos",
-      "detalle": "Kit de bienvenida para gatitos y perritos desde los 2 meses",
-      "incluye": [
-        "Consulta médica",
-        "Hemograma",
-        "Examen coproparasitológico completo",
-        "3 días de desparasitación (se aplica después del resultado del examen)",
-        "Primera vacuna (cuádruple o triple felina)",
-        "Churu para gatito o perrito"
-      ],
-      "condiciones": [
-        "Dirigido a cachorros a partir de los 2 meses."
-      ],
-      "precios": "Precio Promocional: Antes S/290.00, Ahora S/169.00",
-      "vigenteHasta": "31 de Octubre, 2026",
-      "sedes": "todas"
-    }
-  ],
+  "promociones": [],
   "informacion": {
     "especies": "Atendemos perros y gatos.",
     "atencion": "Toda la atención es por orden de llegada. Para baños/grooming se recomienda acercarse a partir de las 9 AM, cuando inicia el área de grooming.",
