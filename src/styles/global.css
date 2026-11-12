@@ -17,8 +17,30 @@ body {
 }
 
 :focus-visible {
-  outline: 3px solid #f5821f;
+  outline: 3px solid #c2410c; /* brand-orange-deep: el F5821F no llega a 3:1 sobre blanco */
   outline-offset: 3px;
+}
+
+/* Contenido que se anima al entrar en pantalla:
+   visible por defecto (páginas sin JavaScript); la animación solo se
+   activa cuando el documento tiene JavaScript (html.js, ver Layout). */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 650ms ease,
+    transform 650ms ease;
+}
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* Elevación de flotantes (WhatsApp / Cata): el abierto va arriba, el otro abajo */

@@ -7,7 +7,8 @@ import doctors from "@data/doctors";
 <section
   id="doctors"
   aria-labelledby="doctors-title"
-  class="relative overflow-hidden bg-brand-surface bg-no-repeat py-20 lg:py-28 opacity-0 translate-y-8 transition-all duration-700 ease-out"
+  class="relative overflow-hidden bg-brand-surface bg-no-repeat py-20 lg:py-28"
+  data-reveal
 >
   <!-- Fondo decorativo de marca, espejado para variar respecto a Hero/Promociones -->
   <div
@@ -20,14 +21,14 @@ import doctors from "@data/doctors";
     <header class="mx-auto mb-14 max-w-2xl text-center">
       <Stethoscope
         aria-hidden="true"
-        class="mx-auto mb-3 h-9 w-9 text-brand-orange"
+        class="mx-auto mb-3 h-9 w-9 text-brand-orange-deep"
         stroke-width={1.8}
       />
       <h2
         id="doctors-title"
         class="text-3xl font-bold tracking-[-0.03em] text-brand-navy sm:text-4xl"
       >
-        Conoce a Nuestros <span class="text-brand-orange">Veterinarios</span>
+        Conoce a Nuestros <span class="text-brand-orange-deep">Veterinarios</span>
       </h2>
       <p class="mt-4 text-base leading-7 text-brand-ink/75 sm:text-lg">
         Comprometidos con brindar atención experta y cercana a tus mascotas.
@@ -40,7 +41,7 @@ import doctors from "@data/doctors";
           {
             doctors.map((doctor, index) => (
               <div class="embla__slide flex flex-[0_0_90%] pl-3 first:pl-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] lg:pl-5">
-                <div class="doctor-slide-content w-full opacity-0 translate-y-4 transition-all duration-500 ease-out">
+                <div data-reveal class="doctor-slide-content w-full">
                   <DoctorCard
                     name={doctor.name}
                     specialty={doctor.specialty}
@@ -82,14 +83,14 @@ import doctors from "@data/doctors";
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.remove("opacity-0", "translate-y-8");
+            entry.target.classList.add("is-visible");
 
             const slides = entry.target.querySelectorAll(
                 ".doctor-slide-content"
               );
             slides.forEach((slide, index) => {
               window.setTimeout(
-                () => slide.classList.remove("opacity-0", "translate-y-4"),
+                () => slide.classList.add("is-visible"),
                 120 * index
               );
             });

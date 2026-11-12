@@ -61,7 +61,7 @@ const suggestedQuestions = [
       href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
       target="_blank"
       rel="noopener noreferrer"
-      class="flex items-center justify-center gap-1.5 border-b border-slate-100 bg-brand-green/5 px-3 py-1.5 text-[11px] font-semibold text-brand-green transition hover:bg-brand-green/10"
+      class="flex items-center justify-center gap-1.5 border-b border-slate-100 bg-brand-green/5 px-3 py-1.5 text-[11px] font-semibold text-brand-green-deep transition hover:bg-brand-green/10"
       data-g-event="whatsapp_click"
       data-g-source="chatbot_barra"
     >
@@ -85,7 +85,7 @@ const suggestedQuestions = [
           <button
             type="button"
             data-sede-chip={s}
-            class="rounded-full border border-brand-navy/15 bg-white px-3 py-1.5 text-left text-xs font-medium text-brand-navy transition duration-200 hover:border-brand-orange hover:bg-brand-mist/60 hover:text-brand-orange active:scale-[0.98]"
+            class="rounded-full border border-brand-navy/15 bg-white px-3 py-1.5 text-left text-xs font-medium text-brand-navy transition duration-200 hover:border-brand-orange hover:bg-brand-mist/60 hover:text-brand-orange-deep active:scale-[0.98]"
           >
             📍 Sede {s}
           </button>
@@ -97,7 +97,7 @@ const suggestedQuestions = [
             <button
               type="button"
               data-chat-suggestion
-              class="rounded-full border border-brand-navy/15 bg-white px-3 py-1.5 text-left text-xs font-medium text-brand-navy transition duration-200 hover:border-brand-orange hover:bg-brand-mist/60 hover:text-brand-orange active:scale-[0.98]"
+              class="rounded-full border border-brand-navy/15 bg-white px-3 py-1.5 text-left text-xs font-medium text-brand-navy transition duration-200 hover:border-brand-orange hover:bg-brand-mist/60 hover:text-brand-orange-deep active:scale-[0.98]"
             >
               {q}
             </button>
@@ -175,7 +175,7 @@ const suggestedQuestions = [
     <button
       id="chatbot-teaser-link"
       type="button"
-      class="block cursor-pointer whitespace-nowrap rounded-xl rounded-br-sm border border-brand-mist bg-white px-3.5 py-2 text-[13px] font-bold text-brand-navy shadow-card transition hover:shadow-lg hover:text-brand-orange"
+      class="block cursor-pointer whitespace-nowrap rounded-xl rounded-br-sm border border-brand-mist bg-white px-3.5 py-2 text-[13px] font-bold text-brand-navy shadow-card transition hover:shadow-lg hover:text-brand-orange-deep"
     >
       ¿Te ayudo? 🐾
     </button>
@@ -465,8 +465,10 @@ const suggestedQuestions = [
     }
   });
 
-  // El otro flotante abrió: me bajo (mi contenedor); su cierre me restaura
-  document.addEventListener("floater-action", (event) => {
+  // El otro flotante abrió: me bajo (mi contenedor); su cierre me restaura.
+  // El evento se emite en window (ver FloatingButton), así que aquí también
+  // se escucha en window (document nunca lo recibía).
+  window.addEventListener("floater-action", (event) => {
     const { source, action } = event.detail ?? {};
     if (source === "whatsapp") {
       if (action === "open") {

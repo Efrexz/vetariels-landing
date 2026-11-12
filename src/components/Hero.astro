@@ -14,7 +14,7 @@ import heroSlides from "@data/heroSlides";
       <div class="max-w-2xl">
         <div
           data-hero-reveal
-          class="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-brand-orange"
+          class="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-brand-orange-deep"
         >
           <span class="h-2 w-2 rounded-full bg-brand-orange"></span>
           Hospital veterinario en Lima
@@ -26,7 +26,7 @@ import heroSlides from "@data/heroSlides";
           class="max-w-2xl text-5xl font-bold leading-[1.08] tracking-[-0.04em] text-brand-navy sm:text-6xl lg:text-[4rem]"
         >
           <span class="block">Medicina veterinaria</span>
-          <span class="mt-1 block text-brand-orange">
+          <span class="mt-1 block text-brand-orange-deep">
             con propósito
             <PawPrint
               aria-hidden="true"
@@ -157,7 +157,7 @@ import heroSlides from "@data/heroSlides";
           href="#locations"
           class="hero-chip absolute -right-4 top-6 z-20 sm:-right-6 lg:-right-8"
         >
-          <span class="hero-chip-icon bg-orange-50 text-brand-orange">
+          <span class="hero-chip-icon bg-orange-50 text-brand-orange-deep">
             <Clock3 aria-hidden="true" class="h-5 w-5" stroke-width="2" />
           </span>
           <span>
@@ -171,7 +171,7 @@ import heroSlides from "@data/heroSlides";
           href="#testimonials"
           class="hero-chip absolute -left-4 bottom-10 z-20 sm:-left-6 lg:-left-8"
         >
-          <span class="hidden hero-chip-icon bg-orange-50 text-brand-orange sm:flex">
+          <span class="hidden hero-chip-icon bg-orange-50 text-brand-orange-deep sm:flex">
             <Star aria-hidden="true" class="h-5 w-5" stroke-width="2" />
           </span>
           <span>
@@ -216,7 +216,7 @@ import heroSlides from "@data/heroSlides";
         </div>
 
         <div class="flex items-center gap-4 border-t border-slate-100 px-5 py-5 sm:border-t-0 sm:px-7 lg:border-r">
-          <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-50 text-brand-orange">
+          <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-50 text-brand-orange-deep">
             <PawPrint aria-hidden="true" class="h-6 w-6" stroke-width="1.8" />
           </span>
           <span>
@@ -236,7 +236,7 @@ import heroSlides from "@data/heroSlides";
         </div>
 
         <div class="flex items-center gap-4 border-t border-slate-100 px-5 py-5 sm:px-7 lg:border-t-0">
-          <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-50 text-brand-orange">
+          <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-50 text-brand-orange-deep">
             <Heart aria-hidden="true" class="h-6 w-6" stroke-width="1.8" />
           </span>
           <span>
@@ -395,7 +395,9 @@ import heroSlides from "@data/heroSlides";
     border-radius: 9999px;
   }
 
-  [data-hero-reveal] {
+  /* Revelado al cargar: solo con JavaScript disponible (html.js, ver
+     global.css / Layout). Sin JS el contenido es visible de fábrica. */
+  html.js [data-hero-reveal] {
     opacity: 0;
     transform: translateY(18px);
     transition:
@@ -403,7 +405,7 @@ import heroSlides from "@data/heroSlides";
       transform 650ms ease;
   }
 
-  [data-hero-reveal].is-visible {
+  html.js [data-hero-reveal].is-visible {
     opacity: 1;
     transform: translateY(0);
   }
@@ -448,11 +450,11 @@ import heroSlides from "@data/heroSlides";
     .hero-slide,
     .hero-dot,
     .hero-chip,
-    [data-hero-reveal] {
+    html.js [data-hero-reveal] {
       transition: none;
     }
 
-    [data-hero-reveal] {
+    html.js [data-hero-reveal] {
       opacity: 1;
       transform: none;
     }

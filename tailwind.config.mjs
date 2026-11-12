@@ -9,14 +9,17 @@ export default {
       colors: {
         brand: {
           navy: "#1E3A6E",
-          orange: "#F5821F",
+          // deep: variantes más oscuras para TEXTO sobre fondos claros
+          // (el naranja/verde/azul de marca no llegan a 4.5:1 de contraste).
+          // bright: naranja claro para textos/acento sobre fondo navy.
+          orange: { DEFAULT: "#F5821F", deep: "#C2410C", bright: "#FFB25E" },
+          green: { DEFAULT: "#3E9B6C", deep: "#276749" },
+          blue: { DEFAULT: "#4A90D9", deep: "#2B6CB0" },
           surface: "#E9F0FA",
           tint: "#EDF3FC",
           mist: "#EAF1F8",
           ink: "#24364B",
           sky: "#A9CCEA",
-          blue: "#4A90D9",
-          green: "#3E9B6C",
         },
       },
       fontFamily: {

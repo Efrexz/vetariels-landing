@@ -74,6 +74,10 @@ const localBusinessSchema = {
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <!-- Marca el documento como "con JS" lo antes posible: los estilos de
+         animación (html.js [data-reveal]) solo se activan si esto corre, de
+         modo que sin JavaScript TODO el contenido es visible de fábrica. -->
+    <script is:inline>document.documentElement.classList.add("js");</script>
     <meta
       name="description"
       content={description}

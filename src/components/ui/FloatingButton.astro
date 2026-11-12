@@ -52,7 +52,7 @@ const emergenciaSede = sedes.find((s) => s.horario247) ?? sedes[0];
               class:list={[panelLink, "border border-transparent hover:border-transparent"]}
               aria-label={`Contactar con la sede de ${sede.nombre} por WhatsApp`}
             >
-              <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-green/10 text-brand-green transition-transform duration-200 group-hover:scale-105">
+              <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-green/10 text-brand-green-deep transition-transform duration-200 group-hover:scale-105">
                 <MapPin aria-hidden="true" class="h-4.5 w-4.5" stroke-width="1.8" />
               </span>
               <span class="min-w-0 flex-1">
@@ -64,7 +64,7 @@ const emergenciaSede = sedes.find((s) => s.horario247) ?? sedes[0];
               </span>
               <ChevronRight
                 aria-hidden="true"
-                class="wa-arrow h-4 w-4 -translate-x-1 text-brand-orange opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100"
+                class="wa-arrow h-4 w-4 -translate-x-1 text-brand-orange-deep opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100"
               />
             </a>
           </li>
@@ -192,8 +192,9 @@ const emergenciaSede = sedes.find((s) => s.horario247) ?? sedes[0];
       }
     });
 
-    // Abrir/levantar el otro flotante me baja a mí; su cierre me restaura
-    document.addEventListener("floater-action", (event) => {
+    // Abrir/levantar el otro flotante me baja a mí; su cierre me restaura.
+    // El evento se emite en window (dispatchEvent), aquí también en window.
+    window.addEventListener("floater-action", (event) => {
       const { source, action } = event.detail ?? {};
       if (source === "cata") {
         if (action === "open") container.classList.add("floater-dimmed");

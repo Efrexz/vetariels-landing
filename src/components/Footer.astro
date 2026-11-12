@@ -59,13 +59,13 @@ const currentYear = new Date().getFullYear();
     <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
       <div class="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <div id="newsletter">
-          <p class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-orange">
+          <p class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-orange-bright">
             <Sparkles aria-hidden="true" class="h-4 w-4" stroke-width="2" />
             Boletín veterinario
           </p>
           <h2 class="mt-3 text-2xl font-bold leading-tight tracking-[-0.02em] text-white sm:text-3xl">
             Consejos y promociones
-            <span class="text-brand-orange">para tu mascota</span>
+            <span class="text-brand-orange-bright">para tu mascota</span>
           </h2>
           <p class="mt-3 max-w-lg text-sm leading-6 text-white/70">
             Elige cómo prefieres recibirlas: promociones exclusivas, consejos de
@@ -125,15 +125,15 @@ const currentYear = new Date().getFullYear();
               class="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-1.5 text-xs text-white/60 sm:justify-start"
             >
               <li class="flex items-center gap-1.5">
-                <span aria-hidden="true" class="text-brand-orange">✓</span>
+                <span aria-hidden="true" class="text-brand-orange-bright">✓</span>
                 Promociones exclusivas
               </li>
               <li class="flex items-center gap-1.5">
-                <span aria-hidden="true" class="text-brand-orange">✓</span>
+                <span aria-hidden="true" class="text-brand-orange-bright">✓</span>
                 Consejos de cuidado
               </li>
               <li class="flex items-center gap-1.5">
-                <span aria-hidden="true" class="text-brand-orange">✓</span>
+                <span aria-hidden="true" class="text-brand-orange-bright">✓</span>
                 Sin spam
               </li>
             </ul>
@@ -217,7 +217,7 @@ const currentYear = new Date().getFullYear();
               <li>
                 <a
                   href={link.href}
-                  class="text-sm text-white/60 transition-colors duration-300 hover:text-brand-orange"
+                  class="text-sm text-white/60 transition-colors duration-300 hover:text-brand-orange-bright"
                 >
                   {link.label}
                 </a>
@@ -237,7 +237,7 @@ const currentYear = new Date().getFullYear();
               <li>
                 <a
                   href="/#services"
-                  class="text-sm text-white/60 transition-colors duration-300 hover:text-brand-orange"
+                  class="text-sm text-white/60 transition-colors duration-300 hover:text-brand-orange-bright"
                 >
                   {service}
                 </a>
@@ -256,7 +256,7 @@ const currentYear = new Date().getFullYear();
             locations.map((loc) => (
               <li>
                 <strong class="flex items-center gap-2 text-sm font-semibold text-white">
-                  <MapPin aria-hidden="true" class="h-4 w-4 text-brand-orange" stroke-width="1.8" />
+                  <MapPin aria-hidden="true" class="h-4 w-4 text-brand-orange-bright" stroke-width="1.8" />
                   Sede {loc.name}
                 </strong>
                 <div class="mt-1.5 space-y-1 text-xs leading-5 text-white/60">
@@ -284,7 +284,7 @@ const currentYear = new Date().getFullYear();
         © {currentYear} Ariel's Clinic. Todos los derechos reservados.
       </p>
       <a
-        class="text-xs text-white/50 transition-colors duration-300 hover:text-brand-orange"
+        class="text-xs text-white/50 transition-colors duration-300 hover:text-brand-orange-bright"
         href="/politica-de-privacidad"
       >
         Política de Privacidad
