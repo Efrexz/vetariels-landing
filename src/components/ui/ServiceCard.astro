@@ -5,9 +5,9 @@ const { icon: Icon, title, description, items = [], isFeatured = false, imageUrl
 
 // Acentos de la marca que rotan entre cards estándar: azul → naranja → verde
 const accentStyles = [
-  { iconBg: "bg-brand-blue/10", iconText: "text-brand-blue-deep", chip: "bg-brand-blue" },
-  { iconBg: "bg-brand-orange/10", iconText: "text-brand-orange-vivid", chip: "bg-brand-orange" },
-  { iconBg: "bg-brand-green/10", iconText: "text-brand-green-deep", chip: "bg-brand-green" },
+  { iconBg: "bg-brand-blue/10", iconText: "text-brand-blue-deep", chip: "bg-brand-blue-deep" },
+  { iconBg: "bg-brand-orange/10", iconText: "text-brand-orange-vivid", chip: "bg-brand-orange-vivid" },
+  { iconBg: "bg-brand-green/10", iconText: "text-brand-green-deep", chip: "bg-brand-green-deep" },
 ];
 
 // Las cards destacadas (foto) mantienen su estilo; las estándar rotan la paleta
@@ -16,32 +16,34 @@ const accent = isFeatured ? accentStyles[0] : accentStyles[((cardIndex >= 3 ? ca
 
 {
   isFeatured ? (
-    <article class="group relative h-80 w-full overflow-hidden rounded-2xl shadow-card transition duration-500 hover:-translate-y-1 hover:shadow-hero">
-      <img
-        src={imageUrl}
-        alt={`Imagen de ${title}`}
-        class="absolute inset-0 h-full w-full object-cover transition-all duration-500 ease-in-out group-hover:scale-110"
-        loading="lazy"
-      />
-
-      <div class="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/40 to-transparent transition-all duration-500 group-hover:via-brand-navy/65 group-hover:to-brand-navy/30" />
-
-      <div class="pointer-events-none absolute inset-x-6 bottom-44 z-10 translate-y-4 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
-        <p class="text-xs leading-5 text-white/90 line-clamp-6 [text-shadow:0_1px_2px_rgb(0_0_0/0.35)]">
-          {description}
-        </p>
-      </div>
-
-      <div class="relative z-10 flex h-full flex-col justify-end p-6 text-white">
-        <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-brand-navy ring-4 ring-white/25 transition-transform duration-500 ease-out group-hover:scale-110">
+    <article
+      class="group flex h-full w-full flex-col items-center text-center"
+      tabindex="0"
+      aria-label={`${title}: ${tagline ?? ""}`}
+    >
+      <!-- Círculo con foto: icono centrado y degradado navy para legibilidad -->
+      <div class="relative aspect-square w-full max-w-[260px] shrink-0 overflow-hidden rounded-full shadow-card transition duration-500 group-hover:-translate-y-1 group-hover:shadow-hero sm:max-w-[290px]">
+        <img
+          src={imageUrl}
+          alt={`Imagen de ${title}`}
+          class="absolute inset-0 h-full w-full object-cover transition-all duration-500 ease-in-out group-hover:scale-110"
+          loading="lazy"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/40 via-35% to-transparent" />
+        <div class="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/30 backdrop-blur-md transition-transform duration-500 ease-out group-hover:scale-110">
           <Icon class="h-7 w-7 text-white" stroke-width={1.8} aria-hidden="true" />
         </div>
-        <h3 class="text-xl font-bold tracking-[-0.02em]">{title}</h3>
-        <div class="mt-2 flex items-center gap-2">
-          <span class="h-0.5 w-5 rounded-full bg-brand-orange" aria-hidden="true" />
-          {tagline && <p class="text-sm text-white/85">{tagline}</p>}
+        <div class="absolute inset-x-0 bottom-5 px-5">
+          <h3 class="text-xl font-bold tracking-[-0.02em] text-white">{title}</h3>
+          {tagline && <p class="mt-1 text-sm text-white/85">{tagline}</p>}
         </div>
       </div>
+
+      <!-- Descripción bajo el círculo: completa en móvil; en desktop compacta
+           (3 líneas) y se expande suavemente al pasar el mouse o enfocar -->
+      <p class="service-desc mt-4 max-w-[290px] text-sm leading-6 text-brand-ink/75">
+        {description}
+      </p>
     </article>
   ) : (
     <article class="flex h-full flex-col rounded-2xl border border-slate-200/70 bg-white p-6 shadow-card transition duration-500 hover:-translate-y-1 hover:shadow-xl sm:p-7">
@@ -64,14 +66,14 @@ const accent = isFeatured ? accentStyles[0] : accentStyles[((cardIndex >= 3 ? ca
         items.length > 0 && (
           <div class="mt-auto rounded-2xl bg-brand-mist px-3 py-4 sm:px-4">
             <p class="text-xs font-bold text-brand-navy">Incluye:</p>
-            <ul class="mt-2.5 grid grid-cols-1 gap-x-2 gap-y-1.5 md:grid-cols-2 md:grid-rows-3 md:content-start md:gap-y-2">
+            <ul class="mt-2.5 grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-2 md:grid-rows-3 md:content-start">
               {items.map((item) => (
-                <li class="flex items-start gap-1.5 text-xs leading-5 text-brand-ink/80">
+                <li class="flex items-center gap-2 text-xs leading-5 text-brand-ink/80">
                   <span
-                    class={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${accent.chip}`}
+                    class={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${accent.chip} shadow-sm`}
                     aria-hidden="true"
                   >
-                    <Check class="h-2.5 w-2.5 text-white" stroke-width={3.5} />
+                    <Check class="h-3 w-3 text-white" stroke-width={3} />
                   </span>
                   <span>{item}</span>
                 </li>
@@ -88,3 +90,24 @@ const accent = isFeatured ? accentStyles[0] : accentStyles[((cardIndex >= 3 ? ca
     </article>
   )
 }
+
+<style>
+  /* Expansión progresiva de la descripción (solo desktop, donde hay hover).
+     En móvil se ve completa siempre: nadie pierde información. */
+  @media (min-width: 768px) {
+    .service-desc {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+      max-height: 4.75rem;
+      transition: max-height 450ms ease;
+    }
+    article:hover .service-desc,
+    article:focus .service-desc,
+    article:focus-within .service-desc {
+      -webkit-line-clamp: 99;
+      max-height: 14rem;
+    }
+  }
+</style>
