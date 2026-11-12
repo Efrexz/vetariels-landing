@@ -12,7 +12,7 @@ export default {
           // deep: variantes más oscuras para TEXTO sobre fondos claros
           // (el naranja/verde/azul de marca no llegan a 4.5:1 de contraste).
           // bright: naranja claro para textos/acento sobre fondo navy.
-          orange: { DEFAULT: "#F5821F", deep: "#C2410C", bright: "#FFB25E" },
+          orange: { DEFAULT: "#F5821F", deep: "#C2410C", bright: "#FFB25E", vivid: "#E1781D" },
           green: { DEFAULT: "#3E9B6C", deep: "#276749" },
           blue: { DEFAULT: "#4A90D9", deep: "#2B6CB0" },
           surface: "#E9F0FA",
