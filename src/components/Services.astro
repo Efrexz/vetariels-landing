@@ -2,6 +2,7 @@
 import { PawPrint } from "@lucide/astro";
 import ServiceCard from "@components/ui/ServiceCard.astro";
 import servicesData from "@data/services";
+import { AGENDA_CITA_MEDICA_URL, AGENDA_GROOMING_URL } from "@data/config";
 ---
 
 <section
@@ -45,6 +46,7 @@ import servicesData from "@data/services";
               tagline={service.tagline}
               nota={service.nota}
               cardIndex={index}
+              agendaUrl={service.agenda === "grooming" ? AGENDA_GROOMING_URL : AGENDA_CITA_MEDICA_URL}
             />
           </div>
         ))

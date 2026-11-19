@@ -1,7 +1,7 @@
 ---
-import { Check } from "@lucide/astro";
+import { Check, CalendarDays } from "@lucide/astro";
 
-const { icon: Icon, title, description, items = [], isFeatured = false, imageUrl, tagline, nota = "", cardIndex = 0 } = Astro.props;
+const { icon: Icon, title, description, items = [], isFeatured = false, imageUrl, tagline, nota = "", cardIndex = 0, agendaUrl } = Astro.props;
 
 // Acentos de la marca que rotan entre cards estándar: azul → naranja → verde
 const accentStyles = [
@@ -36,6 +36,18 @@ const accent = isFeatured ? accentStyles[0] : accentStyles[((cardIndex >= 3 ? ca
         <div class="absolute inset-x-0 bottom-5 px-5">
           <h3 class="text-xl font-bold tracking-[-0.02em] text-white">{title}</h3>
           {tagline && <p class="mt-1 text-sm text-white/85">{tagline}</p>}
+          <a
+            href={agendaUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-g-event="agenda_click"
+            data-g-source={`card_${title}`}
+            class="mt-2 flex items-center justify-center gap-1.5 rounded-full bg-brand-orange px-4 py-2 text-xs font-bold text-white shadow-lg shadow-orange-950/40 transition-all duration-300 hover:bg-orange-600 focus-visible:outline-brand-orange md:mt-0 md:max-h-0 md:overflow-hidden md:opacity-0 md:group-hover:mt-2 md:group-hover:max-h-16 md:group-hover:opacity-100 md:focus-visible:mt-2 md:focus-visible:max-h-16 md:focus-visible:opacity-100"
+            aria-label={`Agendar una cita de ${title} en la agenda online (se abre en una pestaña nueva)`}
+          >
+            <CalendarDays aria-hidden="true" class="h-3.5 w-3.5" stroke-width={2} />
+            Agenda tu cita
+          </a>
         </div>
       </div>
 
@@ -87,6 +99,19 @@ const accent = isFeatured ? accentStyles[0] : accentStyles[((cardIndex >= 3 ? ca
           </div>
         )
       }
+
+      <a
+        href={agendaUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-g-event="agenda_click"
+        data-g-source={`card_${title}`}
+        class="mt-4 inline-flex items-center justify-center gap-1.5 self-center rounded-full bg-brand-orange px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-orange-200 transition duration-300 hover:-translate-y-0.5 hover:bg-orange-600 focus-visible:outline-brand-orange md:translate-y-1.5 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:focus-visible:translate-y-0 md:focus-visible:opacity-100"
+        aria-label={`Agendar una cita de ${title} en la agenda online (se abre en una pestaña nueva)`}
+      >
+        <CalendarDays aria-hidden="true" class="h-4 w-4" stroke-width={1.8} />
+        Agenda tu cita
+      </a>
     </article>
   )
 }

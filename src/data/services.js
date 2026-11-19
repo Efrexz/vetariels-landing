@@ -1,8 +1,12 @@
+// `agenda`: destino del botón "Agenda tu cita" de cada tarjeta.
+//   "cita-medica" -> AGENDA_CITA_MEDICA_URL (consultas, laboratorio, rayos...)
+//   "grooming"    -> AGENDA_GROOMING_URL (baños/spa). Ver src/data/config.js
 import { ScanLine, Radiation, Siren, Stethoscope, Syringe, BriefcaseMedical, Hospital, Dog, FlaskConical } from "@lucide/astro";
 
 const servicesData = [
   {
     id: "ecografias",
+    agenda: "cita-medica",
     icon: ScanLine,
     title: "Ecografías",
     tagline: "Diagnóstico preciso",
@@ -14,6 +18,7 @@ const servicesData = [
   },
   {
     id: "radiografias",
+    agenda: "cita-medica",
     icon: Radiation,
     title: "Radiografías",
     tagline: "Imágenes que cuidan",
@@ -25,6 +30,7 @@ const servicesData = [
   },
   {
     id: "emergencias",
+    agenda: "cita-medica",
     icon: Siren,
     title: "Emergencias 24/7",
     tagline: "Atención inmediata 24/7",
@@ -36,6 +42,7 @@ const servicesData = [
   },
   {
     id: "vacunacion",
+    agenda: "cita-medica",
     icon: Syringe,
     title: "Vacunación",
     description:
@@ -49,6 +56,7 @@ const servicesData = [
   },
   {
     id: "cirugia",
+    agenda: "cita-medica",
     icon: BriefcaseMedical,
     title: "Cirugía",
     description:
@@ -64,6 +72,7 @@ const servicesData = [
   },
   {
     id: "consultas-especializadas",
+    agenda: "cita-medica",
     icon: Stethoscope,
     title: "Consultas Especializadas",
     description:
@@ -80,6 +89,7 @@ const servicesData = [
   },
   {
     id: "hospitalizacion",
+    agenda: "cita-medica",
     icon: Hospital,
     title: "Hospitalización y Monitoreo",
     description:
@@ -94,6 +104,7 @@ const servicesData = [
   },
   {
     id: "spa",
+    agenda: "grooming",
     icon: Dog,
     title: "Spa Canino/Felino",
     description:
@@ -108,6 +119,7 @@ const servicesData = [
   },
   {
     id: "laboratorio",
+    agenda: "cita-medica",
     icon: FlaskConical,
     title: "Laboratorio",
     description:

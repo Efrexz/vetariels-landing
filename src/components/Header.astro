@@ -1,6 +1,7 @@
 ---
 import { CalendarDays, Menu, Scissors, X } from "@lucide/astro";
 import navigationItems from "@data/navegationItems";
+import { AGENDA_CITA_MEDICA_URL, AGENDA_GROOMING_URL } from "@data/config";
 
 // El header se comparte con otras páginas (ej. /politica-de-privacidad):
 // los anclas a secciones deben apuntar a la home, no a la página actual.
@@ -63,7 +64,7 @@ const mobileNavLinkStyles =
 
         <div class="hidden items-center gap-3 lg:flex">
           <a
-            href="https://agenda-ariels-nu.vercel.app/?utm_source=vetariel-landing"
+            href={AGENDA_GROOMING_URL}
             target="_blank"
             rel="noopener noreferrer"
             data-g-event="grooming_link"
@@ -75,9 +76,13 @@ const mobileNavLinkStyles =
             Agenda grooming
           </a>
           <a
-            href={anchor("#locations")}
+            href={AGENDA_CITA_MEDICA_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-g-event="agenda_click"
+            data-g-source="header"
             class="inline-flex items-center gap-2 rounded-xl bg-brand-orange px-5 py-3 text-sm font-semibold text-white shadow-md shadow-orange-200 transition hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-lg focus-visible:outline-brand-orange"
-            aria-label="Agendar una cita en una de nuestras sedes"
+            aria-label="Agendar una cita médica en la agenda online de Ariel's Clinic (se abre en una pestaña nueva)"
           >
             <CalendarDays aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
             Agenda tu cita
@@ -130,16 +135,20 @@ const mobileNavLinkStyles =
         </ul>
 
         <a
-          href={anchor("#locations")}
+          href={AGENDA_CITA_MEDICA_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-g-event="agenda_click"
+          data-g-source="menu_movil"
           class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-brand-orange px-5 py-3 text-sm font-semibold text-white shadow-md shadow-orange-200 transition hover:bg-orange-600"
-          aria-label="Agendar una cita en una de nuestras sedes"
+          aria-label="Agendar una cita médica en la agenda online de Ariel's Clinic (se abre en una pestaña nueva)"
         >
           <CalendarDays aria-hidden="true" class="h-5 w-5" stroke-width="1.8" />
           Agenda tu cita
         </a>
 
         <a
-          href="https://agenda-ariels-nu.vercel.app/?utm_source=vetariel-landing"
+          href={AGENDA_GROOMING_URL}
           target="_blank"
           rel="noopener noreferrer"
           data-g-event="grooming_link"
