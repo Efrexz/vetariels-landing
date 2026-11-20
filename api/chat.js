@@ -102,6 +102,19 @@ const SAFETY_RULES = `REGLAS ESTRICTAS (incumplir cualquiera es un error grave):
 7. Responde en MAXIMO 3 frases cortas, cálida y precisa, en español peruano, con 1 emoji de mascota como máximo. Usa la información de Ariel's Clinic como fuente única.
 8. Si el usuario pide contacto humano o algo fuera de tu alcance, recomienda WhatsApp: es la mejor forma de agendar.`;
 
+// Personalidades de los asistentes: cambia el nombre y el tono, NUNCA las
+// reglas de seguridad ni el conocimiento (mismo cerebro, dos personajes)
+const PERSONALIDADES = {
+  cata: {
+    nombre: "Cata",
+    tono: "Personalidad: cálida, dulce y atenta; trato cercano y profesional.",
+  },
+  pedrito: {
+    nombre: "Pedrito",
+    tono: "Personalidad: juguetón y bromista, con humor ligero y coloquial (un chiste corto solo si encaja natural); igual de claro y preciso.",
+  },
+};
+
 const knowledgeCache = { value: null };
 
 async function loadKnowledge() {
@@ -258,6 +271,11 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "falta_pregunta" });
   }
 
+  // Asistente elegido: lista cerrada (cata | pedrito); cualquier otro valor
+  // cae en Cata. Texto libre del cliente NUNCA entra al prompt
+  const asistenteId = body.asistente === "pedrito" ? "pedrito" : "cata";
+  const persona = PERSONALIDADES[asistenteId];
+
   let knowledge;
   try {
     knowledge = await loadKnowledge();
@@ -291,7 +309,9 @@ export default async function handler(req, res) {
     if (match) sede = match.nombre;
   }
 
-  const systemInstruction = `Eres Cata, la asistente virtual oficial de ${knowledge.clinica.nombre}, hospital veterinario de ${knowledge.clinica.ciudad}, fundado en ${knowledge.clinica.desde}. Tu misión: informar sobre la clínica, ayudar con dudas generales de mascotas y convertir interesados en citas por WhatsApp.
+  const systemInstruction = `Eres ${persona.nombre}, asistente virtual oficial de ${knowledge.clinica.nombre}, hospital veterinario de ${knowledge.clinica.ciudad}, fundado en ${knowledge.clinica.desde}. Tu misión: informar sobre la clínica, ayudar con dudas generales de mascotas y convertir interesados en citas por WhatsApp.
+
+${persona.tono} Respondes en español peruano.
 
 ${sede ? `CONTEXTO DE SEDE: el usuario está consultando por la sede "${sede}". Prioriza esa sede en horarios, promociones y detalles. Si preguntan por otra sede, usa la información general incluida y aclara que los detalles varían por sede.` : "El usuario aún no eligió sede: si la pregunta depende de la sede (precios, promos, horarios específicos), recalca que varía por sede y pide aclararlo o derivar a WhatsApp."}
 

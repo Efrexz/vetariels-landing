@@ -20,18 +20,19 @@ const suggestedQuestions = [
     id="chatbot-panel"
     class="chatbot-panel absolute bottom-0 right-[4.25rem] z-[60] flex h-[30rem] w-96 max-w-[calc(100vw-6.5rem)] flex-col overflow-hidden rounded-2xl bg-white shadow-hero"
     role="dialog"
-    aria-label="Asistente virtual Cata de Ariel's Clinic"
+    aria-label="Asistente virtual de Ariel's Clinic"
   >
     <div class="flex items-center gap-3 bg-brand-navy px-4 py-3 text-white">
       <img
-        src="/images/pet/cata-avatar.webp"
-        alt="Cata, asistente virtual de Ariel's Clinic"
+        id="chatbot-avatar"
+        src="/images/pet/cata-cara.webp"
+        alt="Asistente virtual de Ariel's Clinic"
         width="56"
         height="56"
-        class="h-10 w-10 shrink-0 rounded-full ring-2 ring-white/25"
+        class="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-white/25"
       />
       <div class="min-w-0 flex-1">
-        <p class="flex items-center gap-1.5 text-sm font-bold leading-tight">
+        <p id="chatbot-nombre" class="flex items-center gap-1.5 text-sm font-bold leading-tight">
           Cata · Asistente
           <span class="relative flex h-2 w-2" aria-hidden="true">
             <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
@@ -47,6 +48,21 @@ const suggestedQuestions = [
           {sedes.map((s) => <option class="text-brand-navy" value={s}>{`Sede ${s}`}</option>)}
         </select>
       </div>
+      <button
+        id="chatbot-switch"
+        type="button"
+        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 transition hover:bg-white/20"
+        aria-label="Cambiar a Pedrito"
+      >
+        <img
+          id="chatbot-switch-img"
+          src="/images/pet/pedrito-cara.webp"
+          alt=""
+          width="28"
+          height="28"
+          class="h-7 w-7 rounded-full object-cover ring-1 ring-white/40"
+        />
+      </button>
       <button
         id="chatbot-close"
         type="button"
@@ -77,6 +93,45 @@ const suggestedQuestions = [
     </div>
 
     <div id="chatbot-suggestions" class="chatbot-suggestions flex flex-col gap-1.5 px-3 pb-2">
+      <div id="asistente-chips" class="hidden flex-col gap-1.5">
+        <p class="px-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-brand-ink/45">
+          ¿Qué asistente te atiende hoy?
+        </p>
+        <div class="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            data-asistente-chip="cata"
+            class="flex flex-col items-center gap-1 rounded-2xl border border-brand-navy/15 bg-white p-2.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-orange hover:shadow-lg active:scale-[0.98]"
+          >
+            <img
+              src="/images/pet/cata-completo.webp"
+              alt=""
+              width="100"
+              height="125"
+              loading="lazy"
+              class="h-20 w-auto object-contain"
+            />
+            <span class="text-sm font-bold text-brand-navy">Cata</span>
+            <span class="text-[10px] font-medium leading-tight text-brand-ink/60">Dulce y precisa</span>
+          </button>
+          <button
+            type="button"
+            data-asistente-chip="pedrito"
+            class="flex flex-col items-center gap-1 rounded-2xl border border-brand-navy/15 bg-white p-2.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-orange hover:shadow-lg active:scale-[0.98]"
+          >
+            <img
+              src="/images/pet/pedrito-completo.webp"
+              alt=""
+              width="100"
+              height="125"
+              loading="lazy"
+              class="h-20 w-auto object-contain"
+            />
+            <span class="text-sm font-bold text-brand-navy">Pedrito</span>
+            <span class="text-[10px] font-medium leading-tight text-brand-ink/60">El bromista del turno</span>
+          </button>
+        </div>
+      </div>
       <div id="sede-chips" class="hidden flex-col gap-1.5">
         <p class="px-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-brand-ink/45">
           ¿De qué sede necesitas información?
@@ -137,16 +192,17 @@ const suggestedQuestions = [
     id="chatbot-fab"
     type="button"
     class="group relative h-16 w-16 shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2"
-    aria-label="Abrir el asistente virtual Cata"
+    aria-label="Abrir el asistente virtual"
     aria-expanded="false"
     aria-haspopup="dialog"
   >
     <img
-      src="/images/pet/cata-fab.webp"
+      id="chatbot-fab-img"
+      src="/images/pet/cata-cara.webp"
       alt=""
-      width="96"
-      height="96"
-      class="bot-fab-img h-16 w-16 rounded-full ring-[3px] ring-white shadow-card transition-transform duration-300 ease-out group-hover:rotate-[-6deg] group-hover:scale-105"
+      width="192"
+      height="192"
+      class="bot-fab-img h-16 w-16 rounded-full object-cover ring-[3px] ring-white shadow-card transition-transform duration-300 ease-out group-hover:rotate-[-6deg] group-hover:scale-105"
     />
     <span
       id="chatbot-badge"
@@ -201,8 +257,60 @@ const suggestedQuestions = [
   const questionChipsWrap = document.getElementById("question-chips");
   const sedeSelect = document.getElementById("chatbot-sede");
   const badge = document.getElementById("chatbot-badge");
+  const asistenteChipsWrap = document.getElementById("asistente-chips");
+  const nombreEl = document.getElementById("chatbot-nombre");
+  const avatarEl = document.getElementById("chatbot-avatar");
+  const fabImg = document.getElementById("chatbot-fab-img");
+  const switchBtn = document.getElementById("chatbot-switch");
+  const switchImg = document.getElementById("chatbot-switch-img");
+
+  // ---- Asistentes: estado, persistencia diaria y aplicación visual ----
+  const hoyDia = () => new Date().toDateString();
+
+  function leerAsistenteGuardado() {
+    try {
+      const datos = JSON.parse(localStorage.getItem(ASISTENTE_KEY) || "null");
+      return datos && ASSISTANTES[datos.id] ? datos : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function aplicarAsistente(id) {
+    if (!ASSISTANTES[id]) return;
+    asistenteId = id;
+    try {
+      localStorage.setItem(ASISTENTE_KEY, JSON.stringify({ id, dia: hoyDia() }));
+    } catch (e) {
+      /* modo privacidad */
+    }
+    const a = ASSISTANTES[id];
+    const otroId = id === "cata" ? "pedrito" : "cata";
+    if (nombreEl) nombreEl.textContent = `${a.nombre} · Asistente`;
+    if (avatarEl) {
+      avatarEl.src = `/images/pet/${id}-cara.webp`;
+      avatarEl.alt = `${a.nombre}, asistente virtual de Ariel's Clinic`;
+    }
+    if (fabImg) fabImg.src = `/images/pet/${id}-cara.webp`;
+    if (switchBtn) switchBtn.setAttribute("aria-label", `Cambiar a ${otroId === "pedrito" ? "Pedrito" : "Cata"}`);
+    if (switchImg) switchImg.src = `/images/pet/${otroId}-cara.webp`;
+  }
 
   const STORAGE_KEY = "cata_sede";
+  const ASISTENTE_KEY = "cata_asistente_dia";
+  const ASSISTANTES = {
+    cata: {
+      nombre: "Cata",
+      saludo:
+        "¡Hola! 🐾 Soy Cata, tu asistente de Ariel's Clinic. ¿En qué te puedo ayudar hoy?",
+    },
+    pedrito: {
+      nombre: "Pedrito",
+      saludo:
+        "¡Guau, qué alegría! 🐾 Soy Pedrito, el asistente más pícaro de Ariel's Clinic. ¿Qué resolvemos hoy? 🦴",
+    },
+  };
+  let asistenteId = "cata";
   const history = [];
   let sede = "";
   let sedeAsked = false;
@@ -234,7 +342,7 @@ const suggestedQuestions = [
     const wap = document.createElement("div");
     wap.className = "chat-row self-start";
     const img = document.createElement("img");
-    img.src = "/images/pet/cata-mini.webp";
+    img.src = `/images/pet/${asistenteId}-cara.webp`;
     img.alt = "";
     img.setAttribute("aria-hidden", "true");
     img.width = 28;
@@ -269,7 +377,7 @@ const suggestedQuestions = [
   function showTyping() {
     const bubble = document.createElement("div");
     bubble.className = "chat-bubble-bot chat-typing px-4 py-3";
-    bubble.setAttribute("aria-label", "Cata está escribiendo");
+    bubble.setAttribute("aria-label", `${ASSISTANTES[asistenteId].nombre} está escribiendo`);
     bubble.innerHTML = `<span class="paw" aria-hidden="true">🐾</span><span class="paw" aria-hidden="true">🐾</span><span class="paw" aria-hidden="true">🐾</span>`;
     const row = botRow(bubble);
     scrollBottom();
@@ -282,6 +390,23 @@ const suggestedQuestions = [
       questionChipsWrap.classList.add("hidden");
     }
     if (sedeChipsWrap) sedeChipsWrap.classList.add("hidden");
+    if (asistenteChipsWrap) asistenteChipsWrap.classList.add("hidden");
+  }
+
+  function showAsistentePicker() {
+    if (asistenteChipsWrap) {
+      asistenteChipsWrap.classList.remove("hidden");
+      asistenteChipsWrap.classList.add("flex");
+    }
+    if (questionChipsWrap) questionChipsWrap.classList.add("hidden");
+    scrollBottom(true);
+  }
+
+  function hideAsistentePicker() {
+    if (asistenteChipsWrap) {
+      asistenteChipsWrap.classList.add("hidden");
+      asistenteChipsWrap.classList.remove("flex");
+    }
   }
 
   function showSedeQuestion() {
@@ -344,7 +469,7 @@ const suggestedQuestions = [
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: trimmed, history, sede }),
+        body: JSON.stringify({ question: trimmed, history, sede, asistente: asistenteId }),
         signal: controller.signal,
       });
       window.clearTimeout(timeoutId);
@@ -405,20 +530,29 @@ const suggestedQuestions = [
       } catch (e) {
         sede = "";
       }
-    if (!sede) {
-      // Volvió a "Todas las sedes": en la próxima pregunta puede reinciar la elección
-      sedeAsked = false;
-    }
-    if (!sedeAsked && sede) {
-      sedeAsked = true;
-    }
-    if (sedeSelect) sedeSelect.value = sede;
+      if (!sede) {
+        sedeAsked = false;
+      }
+      if (!sedeAsked && sede) {
+        sedeAsked = true;
+      }
+      if (sedeSelect) sedeSelect.value = sede;
 
-      if (sede) {
-        addBubble(`¡Hola! 🐾 Soy Cata, la asistente de Ariel's Clinic. Recuerda: te atiendo según la sede "${sede}" — puedes cambiarla arriba. ¿En qué te ayudo?`, "bot");
+      // Asistente del día: si ya eligió hoy, entra directo en personaje;
+      // si es un día nuevo (o nunca eligió), se muestra el selector
+      const guardado = leerAsistenteGuardado();
+      if (guardado && guardado.dia === hoyDia()) {
+        aplicarAsistente(guardado.id);
+        const a = ASSISTANTES[guardado.id];
+        if (sede) {
+          addBubble(`${a.saludo} Recuerda: te atiendo según la sede "${sede}" — puedes cambiarla arriba.`, "bot");
+        } else {
+          addBubble(a.saludo, "bot");
+          showSedeQuestion();
+        }
       } else {
-        addBubble("¡Hola! 🐾 Soy Cata, la asistente de Ariel's Clinic. Antes de empezar: ¿de qué sede necesitas información?", "bot");
-        showSedeQuestion();
+        addBubble("¡Hola! 🐾 Bienvenido a Ariel's Clinic. ¿Qué asistente te atiende hoy?", "bot");
+        showAsistentePicker();
       }
     }
 
@@ -541,6 +675,43 @@ const suggestedQuestions = [
   }
 
   sedeSelect.addEventListener("change", () => setSede(sedeSelect.value));
+
+  // ---- Selector de asistente (tarjetas del día nuevo) ----
+  asistenteChipsWrap.addEventListener("click", (event) => {
+    const chip = event.target.closest("[data-asistente-chip]");
+    if (!chip) return;
+    const id = chip.dataset.asistenteChip;
+    if (!ASSISTANTES[id]) return;
+
+    // Resaltar la tarjeta elegida un instante antes de entrar en personaje
+    asistenteChipsWrap.querySelectorAll("[data-asistente-chip]").forEach((c) => {
+      const elegido = c === chip;
+      c.classList.toggle("border-brand-orange", elegido);
+      c.classList.toggle("ring-2", elegido);
+      c.classList.toggle("ring-brand-orange", elegido);
+    });
+
+    window.setTimeout(() => {
+      hideAsistentePicker();
+      aplicarAsistente(id);
+      addBubble(ASSISTANTES[id].saludo, "bot");
+      if (!sede) {
+        showSedeQuestion();
+      } else {
+        questionChipsWrap?.classList.remove("hidden");
+        scrollBottom(true);
+      }
+    }, 450);
+  });
+
+  // ---- Cambio de asistente en medio de la conversación ----
+  switchBtn.addEventListener("click", () => {
+    const otroId = asistenteId === "cata" ? "pedrito" : "cata";
+    // La despedida sale con la carita del asistente que se va
+    addBubble(`¡Me despido con gusto! Ahora continúa mi colega ${ASSISTANTES[otroId].nombre} 🐾`, "bot");
+    aplicarAsistente(otroId);
+    addBubble(ASSISTANTES[otroId].saludo, "bot");
+  });
 
   sedeChipsWrap.addEventListener("click", (event) => {
     const chip = event.target.closest("[data-sede-chip]");
