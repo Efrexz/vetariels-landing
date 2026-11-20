@@ -95,12 +95,13 @@ async function checkRateLimit(ip) {
 const SAFETY_RULES = `REGLAS ESTRICTAS (incumplir cualquiera es un error grave):
 1. Solo respondes sobre Ariel's Clinic y temas de mascotas en GENERAL (cuidados básicos generales como higiene, alimentación comercial, importancia de vacunación), SIEMPRE basado en la información proporcionada.
 2. NUNCA das diagnósticos, dosis de medicación, tratamientos específicos, ni sustituyes una consulta veterinaria. Si preguntan algo médico específico (síntomas, heridas, intoxicación, medicinas caseras), responde con empatía que necesitas una consulta y recomienda agendar por WhatsApp o ir a la sede de emergencias si es grave.
-3. Ante cualquier urgencia vital (no respira, sangra mucho, convulsiona, ingirió veneno, golpe fuerte): indica contactar INMEDIATAMENTE la atención 24/7 de la Sede San Miguel (teléfono +51 954 599 221).
+3. Urgencias vitales (no respira, sangra mucho, convulsiona, ingirió veneno, golpe fuerte), preguntas sobre emergencias de madrugada o sobre atención 24/7: SOLO en esos casos indica la atención 24/7 de la Sede San Miguel (teléfono +51 954 599 221). Fuera de esos casos NUNCA des el teléfono de San Miguel.
 4. Si te preguntan por algo que no está en la información (precios exactos, disponibilidad de cupos, confirmación de promociones expiradas), dilo honestamente y deriva a WhatsApp.
 5. No pidas ni uses datos personales del usuario. No hables de política ni temas sensibles, ni respondas como otro asistente.
 6. No inventes horarios, teléfonos, promociones ni servicios que no estén en la información.
 7. Responde en MAXIMO 3 frases cortas, cálida y precisa, en español peruano, con 1 emoji de mascota como máximo. Usa la información de Ariel's Clinic como fuente única.
-8. Si el usuario pide contacto humano o algo fuera de tu alcance, recomienda WhatsApp: es la mejor forma de agendar.`;
+8. Si el usuario pide contacto humano o algo fuera de tu alcance, recomienda WhatsApp: es la mejor forma de agendar.
+9. Contactos y citas: el teléfono que menciones debe ser SIEMPRE el de la sede del usuario (la que eligió o la que está consultando). Si no hay sede elegida, pregunta cuál le queda cerca o muéstrale los datos por sede; NO uses por defecto el número de una sola sede.`;
 
 // Personalidades de los asistentes: cambia el nombre y el tono, NUNCA las
 // reglas de seguridad ni el conocimiento (mismo cerebro, dos personajes)
@@ -313,7 +314,7 @@ export default async function handler(req, res) {
 
 ${persona.tono} Respondes en español peruano.
 
-${sede ? `CONTEXTO DE SEDE: el usuario está consultando por la sede "${sede}". Prioriza esa sede en horarios, promociones y detalles. Si preguntan por otra sede, usa la información general incluida y aclara que los detalles varían por sede.` : "El usuario aún no eligió sede: si la pregunta depende de la sede (precios, promos, horarios específicos), recalca que varía por sede y pide aclararlo o derivar a WhatsApp."}
+${sede ? `CONTEXTO DE SEDE: el usuario está consultando por la sede "${sede}". USA EXCLUSIVAMENTE los datos de esta sede (teléfono, WhatsApp, horarios, promociones): NO menciones teléfonos ni datos de otras sedes. La única excepción es una emergencia real o una pregunta sobre atención 24/7 (Sede San Miguel, ver regla 3). Si preguntan por otra sede, aclara que los detalles varían y deriva a WhatsApp de la sede que consultan.` : "El usuario aún no eligió sede: si la pregunta depende de la sede (precios, promos, horarios, contacto), pregunta cuál le queda cerca o muestra los datos por sede; NO uses por defecto el teléfono de una sola sede (ver regla 9). La única excepción es una emergencia real o atención 24/7 (Sede San Miguel)."}
 
 ${SAFETY_RULES}
 

@@ -191,6 +191,20 @@ test("sin campo asistente: atiende Cata por defecto", async () => {
   assert.ok(cuerpos[0].messages[0].content.includes("Cata"));
 });
 
+test("con sede seleccionada, el conocimiento solo incluye esa sede (sin teléfonos ajenos)", async () => {
+  const { default: handler } = await importarHandler();
+  await llamar(handler, { question: "hola", sede: "Los Olivos" });
+  const system = cuerpos[0].messages[0].content;
+  assert.ok(system.includes('"Los Olivos"'), "la sede elegida debe estar en el contexto");
+  assert.ok(!system.includes('"San Miguel"'), "otras sedes no deben aparecer como datos (solo la regla de emergencias, que no las entrecomilla)");
+});
+
+test("knowledge.json no tiene teléfono 'principal' (evita que siempre salga San Miguel)", async () => {
+  delete process.env.KNOWLEDGE_JSON;
+  const k = JSON.parse(await fs.readFile(new URL("../api/knowledge.json", import.meta.url), "utf8"));
+  assert.ok(!k.clinica.whatsappPrincipal, "el teléfono principal fue retirado; cada sede tiene el suyo");
+});
+
 test("knowledge.json real es JSON válido con sedes y promos vigentes", async () => {
   delete process.env.KNOWLEDGE_JSON;
   const k = JSON.parse(await fs.readFile(new URL("../api/knowledge.json", import.meta.url), "utf8"));

@@ -58,7 +58,8 @@ const knowledge = {
     nombre: "Ariel's Clinic - Hospital Veterinario",
     desde: 2003,
     ciudad: "Lima, Perú",
-    whatsappPrincipal: "+51 954 599 221",
+    // Sin teléfono "principal": cada sede tiene el suyo en `sedes`.
+    // Así el asistente usa siempre el de la sede del usuario (ver regla 9).
   },
   servicios: services,
   sedes: locations.map((l) => ({
